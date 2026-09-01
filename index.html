@@ -29,7 +29,7 @@
     --bad:#C0554F;
   }
   *{box-sizing:border-box;}
-  html,body{height:100%;}
+  html,body{height:100%; overflow-x:hidden; max-width:100%;}
   body{
     margin:0; background:var(--bg); color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -38,7 +38,7 @@
   #app{
     max-width:480px; margin:0 auto; min-height:100vh;
     display:flex; flex-direction:column; position:relative;
-    padding-bottom:76px;
+    padding-bottom:76px; overflow-x:hidden; width:100%;
   }
   .topbar{
     display:flex; align-items:center; justify-content:space-between;
@@ -84,10 +84,10 @@
   .explore-block-header.blkA{ color:var(--accent); }
   .explore-block-header.blkB{ color:var(--rest); }
   .explore-block-header.blkC{ color:var(--warn); }
-  .explore-ex{ display:flex; align-items:baseline; gap:8px; padding:7px 0; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .explore-ex{ display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; padding:7px 0; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.04); }
   .explore-ex .ex-num{ color:var(--text-dim); font-size:12px; min-width:18px; }
-  .explore-ex .ex-name{ flex:1; }
-  .explore-ex .ex-t{ color:var(--text-dim); font-size:12px; white-space:nowrap; }
+  .explore-ex .ex-name{ flex:1 1 auto; min-width:0; word-break:break-word; }
+  .explore-ex .ex-t{ color:var(--text-dim); font-size:12px; flex:1 0 100%; padding-left:26px; white-space:normal; word-break:break-word; }
   .error-text{ font-size:12px; color:var(--bad); margin:6px 0 0 0; }
 
   .btn{
@@ -351,8 +351,80 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.4.3";
+const APP_VERSION = "1.5.0";
 const APP_BUILD_DATE = "2026-09-01";
+
+/* ============================== GENERATOR PROMPT ============================== */
+const GENERATOR_PROMPT = `Actúa como un entrenador experto en diseño de programas de fuerza, hipertrofia, movilidad y acondicionamiento físico. Tu tarea es diseñar para mí un programa de entrenamiento personalizado y entregarlo como un archivo JSON en un formato específico, compatible con una app de seguimiento de entrenamientos.
+
+ANTES de generar nada, hazme preguntas (una a la vez o agrupadas, como prefieras) para reunir:
+- Mi objetivo principal (fuerza, hipertrofia, pérdida de grasa, salud general, rendimiento en un deporte, etc.) y si hay una prioridad secundaria.
+- Mi nivel de experiencia entrenando y mi edad aproximada, si es relevante para el diseño.
+- Cuántos días a la semana puedo entrenar, cuánto tiempo tengo disponible por sesión, y si prefiero días fijos, un intervalo tipo "cada N días", o que tú me recomiendes la distribución.
+- Todo el equipamiento del que dispongo: mancuernas (ajustables o fijas, y su rango de peso), barra y discos específicos disponibles, kettlebells, bandas elásticas, anillas de gimnasia, banco, barra de dominadas, o cualquier otra cosa. Sé específico con los pesos exactos que puedo combinar.
+- Lesiones, molestias, limitaciones físicas o zonas que deba cuidar.
+- Si quiero priorizar alguna métrica o ejercicio en particular (por ejemplo, dominadas, una marca de fuerza, movilidad de algo puntual).
+- Si prefiero un enfoque de bloques clásico (fuerza pesada, hipertrofia, potencia/condicionamiento) o algo distinto.
+
+Con esa información, diseña un programa completo de una semana (con la cantidad de sesiones que corresponda), aplicando buenas prácticas de programación (progresión, relación series/descanso adecuada al objetivo, superseries cuando tenga sentido para aprovechar el tiempo, técnica y seguridad ante todo).
+
+Cuando termines de reunir la información, entrega el programa ÚNICAMENTE como un archivo JSON válido (sin texto antes ni después, sin comentarios dentro del JSON), siguiendo EXACTAMENTE esta estructura:
+
+{
+  "label": "Nombre corto de esta semana o versión del programa",
+  "schedule": {
+    "recommendedMode": "interval" o "weekdays",
+    "recommendedIntervalDays": número (solo si recommendedMode es "interval"),
+    "recommendedWeekdays": [1,4] (solo si recommendedMode es "weekdays"; 1=Lunes...7=Domingo)
+  },
+  "days": [
+    {
+      "id": "identificador único del día, ej. dia1",
+      "label": "Nombre corto, ej. Día 1",
+      "subtitle": "Descripción de una línea de este día",
+      "exercises": [
+        {
+          "id": "identificador único DENTRO de este día, ej. d1a1",
+          "block": "P" (preparación), "A" (fuerza pesada), "B" (hipertrofia) o "C" (potencia/condicionamiento),
+          "name": "Nombre del ejercicio",
+          "sub": "Aclaración corta o null, ej. Excéntrico 3 segundos",
+          "description": "1-2 frases explicando cómo ejecutar el movimiento, en palabras completas, sin abreviaturas",
+          "equipment": "Qué implemento usar: Mancuernas, Barra, Kettlebell, Anillas, Banda elástica, Peso corporal, etc.",
+          "discConfig": "Configuración de discos en palabras completas si aplica, o null",
+          "series": número de series,
+          "repsTarget": "Texto del objetivo. Usa SOLO un número seguido de 's' (ej. '30s') para ejercicios de tiempo. Usa 'cada lado' en el texto (ej. '8 cada lado') para ejercicios unilaterales, donde se hace un lado y luego el otro como UNA sola serie. Cualquier otro formato (ej. '10', '8-10') se trata como repeticiones bilaterales normales.",
+          "repsNum": número (el objetivo numérico principal; para ejercicios de tiempo, los segundos),
+          "carga": número (0 si es peso corporal),
+          "unit": "Unidad junto al peso, en palabras completas, ej. 'kg cada mano' (no 'kg c/mano')",
+          "rest": segundos de descanso,
+          "restLabel": "Categoría del descanso, ej. Fuerza pesada / Hipertrofia / Potencia / Preparación",
+          "pair": "Un identificador compartido por EXACTAMENTE 2 ejercicios del mismo día para formar una superserie (se alternan sin descansar entre ellos, el descanso real ocurre al completar el par), o null si no forma superserie",
+          "tempoSeconds": número (solo ejercicios de repeticiones; segundos entre una repetición y la siguiente; usa valores más altos para tempos controlados/excéntricos y más bajos para movimientos explosivos),
+          "tempoMin": número opcional (rango de ritmo recomendado, mínimo),
+          "tempoMax": número opcional (rango de ritmo recomendado, máximo),
+          "keyMetric": true solo en el ejercicio que sea la métrica clave del programa (como máximo uno por programa), si no false,
+          "note": "Recordatorio breve o null",
+          "videoUrl": null
+        }
+      ]
+    }
+  ]
+}
+
+Reglas importantes: usa palabras completas en vez de abreviaturas de planilla en todos los campos de texto (por ejemplo "cada mano" en vez de "c/mano"). No dejes ningún campo obligatorio vacío. Deja "videoUrl" siempre en null, yo lo completo después. Antes de entregar el JSON final, revisa que sea válido y que cada "id" sea único donde corresponde.`;
+
+function copyGeneratorPrompt(){
+  try{
+    navigator.clipboard.writeText(GENERATOR_PROMPT).then(()=>{
+      state.promptCopied = true; render();
+      setTimeout(()=>{ state.promptCopied=false; render(); }, 3000);
+    }).catch(()=>{
+      state.promptCopied = 'error'; render();
+    });
+  }catch(e){
+    state.promptCopied = 'error'; render();
+  }
+}
 
 /* ============================== STORAGE ============================== */
 const HAS_NATIVE_STORAGE = typeof window.storage !== 'undefined';
@@ -453,8 +525,11 @@ function computeWeekdayOffsets(n, startWeekday){
   for(let i=0;i<n;i++){ offsets.push(((startWeekday-1) + Math.round(i*7/n)) % 7); }
   return offsets;
 }
+function programIdOf(program){
+  return Object.keys(PROGRAMS).find(k=>PROGRAMS[k]===program) || state.activeProgramId;
+}
 function getEffectiveScheduleConfig(program){
-  const cfg = state.scheduleConfig;
+  const cfg = getScheduleConfigFor(programIdOf(program));
   if(cfg.mode!=='program') return cfg;
   const rec = program.schedule;
   if(rec && rec.recommendedMode==='interval') return { mode:'interval', intervalDays: rec.recommendedIntervalDays||3 };
@@ -495,10 +570,10 @@ function getProjectedDayForDate(dateObj, program){
   if(idx===-1 || idx>=n) return null;
   return days[idx];
 }
-function setScheduleMode(mode){ state.scheduleConfig.mode=mode; persistScheduleConfig(); render(); }
-function setStartWeekday(v){ state.scheduleConfig.startWeekday=parseInt(v,10); persistScheduleConfig(); render(); }
-function setIntervalDays(v){ state.scheduleConfig.intervalDays=Math.max(1,parseInt(v,10)||1); persistScheduleConfig(); render(); }
-function persistScheduleConfig(){ storeSet('master46_schedule_config', state.scheduleConfig); }
+function setScheduleMode(mode){ getScheduleConfigFor(state.activeProgramId).mode=mode; persistScheduleConfig(); render(); }
+function setStartWeekday(v){ getScheduleConfigFor(state.activeProgramId).startWeekday=parseInt(v,10); persistScheduleConfig(); render(); }
+function setIntervalDays(v){ getScheduleConfigFor(state.activeProgramId).intervalDays=Math.max(1,parseInt(v,10)||1); persistScheduleConfig(); render(); }
+function persistScheduleConfig(){ storeSet('master46_schedule_configs', state.scheduleConfigs); }
 
 function changeCalendarMonth(delta){
   state.calendarMonth += delta;
@@ -735,8 +810,15 @@ let state = {
   calendarMonth: new Date().getMonth(),
   calendarYear: new Date().getFullYear(),
   selectedCalendarDate: null,
-  scheduleConfig: { mode:'weekday', startWeekday:1, intervalDays:3 }
+  scheduleConfigs: {}, // keyed by programId: { mode, startWeekday, intervalDays }
+  pendingDeleteId: null
 };
+function getScheduleConfigFor(programId){
+  if(!state.scheduleConfigs[programId]){
+    state.scheduleConfigs[programId] = { mode:'weekday', startWeekday:1, intervalDays:3 };
+  }
+  return state.scheduleConfigs[programId];
+}
 
 async function init(){
   state.history = await storeGet('master46_history') || [];
@@ -746,8 +828,8 @@ async function init(){
   if(storedActiveId && PROGRAMS[storedActiveId]) state.activeProgramId = storedActiveId;
   const storedSound = await storeGet('master46_sound_on');
   if(storedSound !== null) state.soundOn = storedSound;
-  const storedSchedule = await storeGet('master46_schedule_config');
-  if(storedSchedule) state.scheduleConfig = {...state.scheduleConfig, ...storedSchedule};
+  const storedSchedules = await storeGet('master46_schedule_configs');
+  if(storedSchedules) state.scheduleConfigs = storedSchedules;
   const active = await storeGet('master46_active_session');
   if(active) state.activeSession = active;
   render();
@@ -1543,6 +1625,7 @@ function renderSummary(){
       <span class="ex-row-main">
         <span class="block-dot ${blockTagClass(e.block)}"></span>
         <span class="name ${isCurrent?'current':''}">${e.name}</span>
+        ${e.videoUrl? `<a href="${e.videoUrl}" target="_blank" rel="noopener" class="explore-video-link" onclick="event.stopPropagation()">▶</a>` : ''}
         ${pairTag}
       </span>
       <span class="ex-row-sub">${e.repsTarget}${e.carga>0?' · '+e.carga+(e.unit?' '+e.unit:''):''}</span>
@@ -1685,6 +1768,10 @@ function renderSettings(){
     <p class="export-help">Compilado: ${APP_BUILD_DATE}</p>
     <button class="btn secondary" onclick="forceUpdate()">🔄 Buscar actualización</button>
 
+    ${renderSettingsProgramSection()}
+    ${renderScheduleSection()}
+    ${renderGeneratorPromptSection()}
+
     <div class="export-section">
       <div class="sect-label">EXPORTAR DATOS REALES</div>
       <p class="export-help">Descarga o copia este archivo y pégalo en el chat con Claude para armar la semana siguiente con tus datos reales de carga, reps y RPE.</p>
@@ -1695,15 +1782,52 @@ function renderSettings(){
       ${state.exportCopied==='ok' ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
       ${state.exportCopied==='error' ? `<div class="export-status error">No se pudo copiar. Prueba con "Descargar .json".</div>` : ''}
     </div>
-    ${renderScheduleSection()}
     ${renderImportSection()}
   </div>`;
 }
+function renderSettingsProgramSection(){
+  const ids = Object.keys(PROGRAMS);
+  const options = ids.map(id=>`<option value="${id}" ${id===state.activeProgramId?'selected':''}>${PROGRAMS[id].label}</option>`).join('');
+  const canDelete = state.activeProgramId !== 'default';
+  return `<div class="program-section">
+    <div class="sect-label">PROGRAMA</div>
+    <div class="program-row">
+      <select onchange="switchProgram(this.value)">${options}</select>
+      <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleProgramUpload(this)"/></label>
+    </div>
+    ${state.programUploadError?`<div class="error-text">${state.programUploadError}</div>`:''}
+    ${canDelete ? (
+      state.pendingDeleteId===state.activeProgramId
+        ? `<div class="schedule-sub" style="padding-left:0;">
+             <span>¿Eliminar "${getActiveProgram().label}"?</span>
+             <button class="btn small secondary" onclick="cancelDeleteProgram()">Cancelar</button>
+             <button class="btn small" style="background:var(--bad);" onclick="confirmDeleteProgram()">Sí, eliminar</button>
+           </div>`
+        : `<button class="explore-toggle" onclick="askDeleteProgram()">🗑 Eliminar este programa</button>`
+    ) : `<p class="export-help">El programa incorporado no se puede eliminar.</p>`}
+  </div>`;
+}
+function askDeleteProgram(){ state.pendingDeleteId = state.activeProgramId; render(); }
+function cancelDeleteProgram(){ state.pendingDeleteId = null; render(); }
+function confirmDeleteProgram(){
+  const id = state.pendingDeleteId;
+  if(!id || id==='default'){ state.pendingDeleteId=null; render(); return; }
+  delete PROGRAMS[id];
+  delete state.scheduleConfigs[id];
+  if(state.activeProgramId===id){
+    state.activeProgramId = 'default';
+    storeSet('master46_active_program_id','default');
+  }
+  storeSet('master46_programs', Object.fromEntries(Object.entries(PROGRAMS).filter(([k])=>k!=='default')));
+  storeSet('master46_schedule_configs', state.scheduleConfigs);
+  state.pendingDeleteId = null;
+  render();
+}
 function renderScheduleSection(){
-  const cfg = state.scheduleConfig;
+  const cfg = getScheduleConfigFor(state.activeProgramId);
   const program = getActiveProgram();
   return `<div class="program-section">
-    <div class="sect-label">DISTRIBUCIÓN DE SESIONES</div>
+    <div class="sect-label">DISTRIBUCIÓN DE SESIONES — ${program.label}</div>
     <label class="radio-row"><input type="radio" name="schedmode" value="weekday" ${cfg.mode==='weekday'?'checked':''} onchange="setScheduleMode('weekday')"> Días fijos de la semana</label>
     ${cfg.mode==='weekday' ? `<div class="schedule-sub">
       <span>Empezar en:</span>
@@ -1727,6 +1851,16 @@ function renderProgramRecommendationInfo(program){
   if(rec.recommendedMode==='interval') return `El programa recomienda entrenar cada ${rec.recommendedIntervalDays} días.`;
   if(rec.recommendedMode==='weekdays') return `El programa recomienda: ${rec.recommendedWeekdays.map(w=>WEEKDAY_NAMES[w-1]).join(', ')}.`;
   return '';
+}
+function renderGeneratorPromptSection(){
+  return `<div class="export-section">
+    <div class="sect-label">GENERAR UN PROGRAMA NUEVO CON IA</div>
+    <p class="export-help">Copia este prompt y pégalo en una conversación nueva con Claude, ChatGPT o la IA que prefieras. Te va a hacer preguntas sobre tus objetivos, tu equipamiento y tu disponibilidad, y al final te entrega un archivo .json listo para subir aquí.</p>
+    <button class="btn secondary small" onclick="copyGeneratorPrompt()">📋 Copiar prompt</button>
+    ${state.promptCopied===true ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
+    ${state.promptCopied==='error' ? `<div class="export-status error">No se pudo copiar automáticamente. Mantén presionado el texto de abajo para copiarlo a mano.</div>` : ''}
+    <textarea readonly rows="4" style="margin-top:10px; font-size:11px;" onclick="this.select()">${GENERATOR_PROMPT}</textarea>
+  </div>`;
 }
 function handleHistoryImport(input){
   const file = input.files[0];
@@ -1816,6 +1950,8 @@ window.downloadHistory=downloadHistory; window.copyHistoryToClipboard=copyHistor
 window.handleHistoryImport=handleHistoryImport;
 window.changeCalendarMonth=changeCalendarMonth; window.selectCalendarDate=selectCalendarDate;
 window.setScheduleMode=setScheduleMode; window.setStartWeekday=setStartWeekday; window.setIntervalDays=setIntervalDays;
+window.askDeleteProgram=askDeleteProgram; window.cancelDeleteProgram=cancelDeleteProgram; window.confirmDeleteProgram=confirmDeleteProgram;
+window.copyGeneratorPrompt=copyGeneratorPrompt;
 
 init();
 </script>
