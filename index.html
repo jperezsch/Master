@@ -351,13 +351,16 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.5.0";
+const APP_VERSION = "1.5.1";
 const APP_BUILD_DATE = "2026-09-01";
 
 /* ============================== GENERATOR PROMPT ============================== */
-const GENERATOR_PROMPT = `Actúa como un entrenador experto en diseño de programas de fuerza, hipertrofia, movilidad y acondicionamiento físico. Tu tarea es diseñar para mí un programa de entrenamiento personalizado y entregarlo como un archivo JSON en un formato específico, compatible con una app de seguimiento de entrenamientos.
+const GENERATOR_PROMPT = `Actúa como un entrenador experto en diseño de programas de fuerza, hipertrofia, movilidad y acondicionamiento físico. Tu tarea es diseñar para mí un programa de entrenamiento personalizado y entregarlo como un archivo JSON descargable, compatible con una app de seguimiento de entrenamientos.
 
-ANTES de generar nada, hazme preguntas (una a la vez o agrupadas, como prefieras) para reunir:
+CÓMO HACER LAS PREGUNTAS (muy importante):
+No me pidas toda la información de una sola vez en un solo mensaje largo. Hazme preguntas de a pocas por iteración (una o dos por turno), espera mi respuesta, y continúa según lo que te vaya contando. Adapta las siguientes preguntas según lo que yo mencione: si en alguna respuesta doy a entender algo relevante que no me preguntaste directamente (por ejemplo, menciono una lesión al hablar de otra cosa, o menciono que entreno en un lugar específico, o algo del equipamiento), tenlo en cuenta y ajusta tanto las preguntas siguientes como el programa final en consecuencia, aunque no estuviera en tu lista original.
+
+Reúne, a lo largo de la conversación:
 - Mi objetivo principal (fuerza, hipertrofia, pérdida de grasa, salud general, rendimiento en un deporte, etc.) y si hay una prioridad secundaria.
 - Mi nivel de experiencia entrenando y mi edad aproximada, si es relevante para el diseño.
 - Cuántos días a la semana puedo entrenar, cuánto tiempo tengo disponible por sesión, y si prefiero días fijos, un intervalo tipo "cada N días", o que tú me recomiendes la distribución.
@@ -368,7 +371,11 @@ ANTES de generar nada, hazme preguntas (una a la vez o agrupadas, como prefieras
 
 Con esa información, diseña un programa completo de una semana (con la cantidad de sesiones que corresponda), aplicando buenas prácticas de programación (progresión, relación series/descanso adecuada al objetivo, superseries cuando tenga sentido para aprovechar el tiempo, técnica y seguridad ante todo).
 
-Cuando termines de reunir la información, entrega el programa ÚNICAMENTE como un archivo JSON válido (sin texto antes ni después, sin comentarios dentro del JSON), siguiendo EXACTAMENTE esta estructura:
+VIDEOS DE TÉCNICA: para cada ejercicio, busca en musclewiki.com (en español si existe esa versión, si no en inglés) la página específica de ese ejercicio y agrega su URL exacta en el campo "videoUrl". Usa siempre el enlace directo a la ficha del ejercicio, nunca un enlace de búsqueda. Si después de buscar no encuentras una página que corresponda razonablemente bien a ese ejercicio, deja "videoUrl" en null; no inventes ni completes con una URL que no hayas verificado.
+
+FORMATO DE ENTREGA (muy importante): el resultado final debe quedar como un archivo .json descargable, no como un bloque de código para copiar y pegar. Yo solo necesito bajarlo a mi carpeta de descargas y subirlo directo a la app; no debo tener que copiar ni pegar código en ningún momento. Si tu entorno permite crear y ofrecer archivos para descargar,úsalo para entregarme el .json de esa forma. Si tu entorno no tiene esa función, dímelo explícitamente antes de terminar, y en ese caso sí entrégame el contenido en un bloque de código para que yo lo guarde manualmente en un archivo con extensión .json.
+
+Cuando termines de reunir la información y generes el programa, el archivo debe ser JSON válido (sin comentarios, sin comas colgantes) y seguir EXACTAMENTE esta estructura:
 
 {
   "label": "Nombre corto de esta semana o versión del programa",
@@ -385,33 +392,33 @@ Cuando termines de reunir la información, entrega el programa ÚNICAMENTE como 
       "exercises": [
         {
           "id": "identificador único DENTRO de este día, ej. d1a1",
-          "block": "P" (preparación), "A" (fuerza pesada), "B" (hipertrofia) o "C" (potencia/condicionamiento),
+          "block": "P" (preparación), "A" (fuerza pesada), "B" (hipertrofia) o "C" (potencia/condicionamiento) — exactamente una de estas 4 letras mayúsculas,
           "name": "Nombre del ejercicio",
           "sub": "Aclaración corta o null, ej. Excéntrico 3 segundos",
           "description": "1-2 frases explicando cómo ejecutar el movimiento, en palabras completas, sin abreviaturas",
           "equipment": "Qué implemento usar: Mancuernas, Barra, Kettlebell, Anillas, Banda elástica, Peso corporal, etc.",
           "discConfig": "Configuración de discos en palabras completas si aplica, o null",
-          "series": número de series,
+          "series": número entero de series,
           "repsTarget": "Texto del objetivo. Usa SOLO un número seguido de 's' (ej. '30s') para ejercicios de tiempo. Usa 'cada lado' en el texto (ej. '8 cada lado') para ejercicios unilaterales, donde se hace un lado y luego el otro como UNA sola serie. Cualquier otro formato (ej. '10', '8-10') se trata como repeticiones bilaterales normales.",
-          "repsNum": número (el objetivo numérico principal; para ejercicios de tiempo, los segundos),
-          "carga": número (0 si es peso corporal),
+          "repsNum": número entero (el objetivo numérico principal; para ejercicios de tiempo, los segundos; para ejercicios unilaterales, las repeticiones de UN SOLO lado, no la suma de ambos),
+          "carga": número, no texto (0 si es peso corporal),
           "unit": "Unidad junto al peso, en palabras completas, ej. 'kg cada mano' (no 'kg c/mano')",
-          "rest": segundos de descanso,
+          "rest": segundos de descanso (número entero),
           "restLabel": "Categoría del descanso, ej. Fuerza pesada / Hipertrofia / Potencia / Preparación",
-          "pair": "Un identificador compartido por EXACTAMENTE 2 ejercicios del mismo día para formar una superserie (se alternan sin descansar entre ellos, el descanso real ocurre al completar el par), o null si no forma superserie",
+          "pair": "Un identificador compartido por EXACTAMENTE 2 ejercicios del mismo día para formar una superserie (se alternan sin descansar entre ellos, el descanso real ocurre al completar el par), o null si no forma superserie. Nunca lo repitas en 3 o más ejercicios del mismo día.",
           "tempoSeconds": número (solo ejercicios de repeticiones; segundos entre una repetición y la siguiente; usa valores más altos para tempos controlados/excéntricos y más bajos para movimientos explosivos),
           "tempoMin": número opcional (rango de ritmo recomendado, mínimo),
           "tempoMax": número opcional (rango de ritmo recomendado, máximo),
-          "keyMetric": true solo en el ejercicio que sea la métrica clave del programa (como máximo uno por programa), si no false,
+          "keyMetric": true solo en UN ejercicio como máximo de todo el programa (la métrica clave), en el resto false,
           "note": "Recordatorio breve o null",
-          "videoUrl": null
+          "videoUrl": "URL directa verificada de musclewiki.com, o null si no encontraste una página que corresponda"
         }
       ]
     }
   ]
 }
 
-Reglas importantes: usa palabras completas en vez de abreviaturas de planilla en todos los campos de texto (por ejemplo "cada mano" en vez de "c/mano"). No dejes ningún campo obligatorio vacío. Deja "videoUrl" siempre en null, yo lo completo después. Antes de entregar el JSON final, revisa que sea válido y que cada "id" sea único donde corresponde.`;
+Reglas importantes: usa palabras completas en vez de abreviaturas de planilla en todos los campos de texto (por ejemplo "cada mano" en vez de "c/mano"). No dejes ningún campo obligatorio vacío. Todos los "id" de ejercicio deben ser únicos dentro de su día, y los "id" de día únicos dentro del programa. Los números deben ser números de JSON reales (12.5), nunca texto entre comillas ("12.5"). Antes de entregar el archivo, revisa que el JSON sea válido.`;
 
 function copyGeneratorPrompt(){
   try{
