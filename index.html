@@ -22,6 +22,8 @@
     --accent-dim:#5A2A1D;
     --rest:#3E7C74;
     --rest-dim:#1E3A36;
+    --pair:#6D5FA8;
+    --pair-dim:#2A2440;
     --warn:#D9A441;
     --good:#6FA97A;
     --bad:#C0554F;
@@ -156,8 +158,11 @@
   .active-hero{ text-align:center; margin:10px 0 14px 0; padding:22px 16px; background:var(--accent); border-radius:4px; }
   .active-hero.paused{ background:var(--surface-2); border:2px dashed var(--text-dim); }
   .active-hero.paused .h-label, .active-hero.paused .h-count, .active-hero.paused .h-detail, .active-hero.paused .h-weight{ color:var(--text); }
-  .switch-hero{ background:var(--rest); }
+  .switch-hero, .transition-hero{ background:var(--pair); }
   .active-controls{ display:flex; flex-direction:column; gap:2px; }
+  .nav-strip{ display:flex; gap:8px; margin-bottom:18px; }
+  .nav-strip button{ flex:1; background:var(--surface-2); border:1px solid var(--line); color:var(--text); padding:11px; border-radius:2px; font-size:17px; cursor:pointer; font-family:inherit; }
+  .nav-strip button:disabled{ opacity:.3; cursor:not-allowed; }
   .active-hero .h-label{ font-size:15px; letter-spacing:.08em; font-weight:800; color:#fff; opacity:.9; margin-bottom:14px; }
   .beat-ring{ width:16px; height:16px; border-radius:50%; background:#fff; margin:0 auto 14px auto; animation:beatpulse .5s ease-out; }
   @keyframes beatpulse{ 0%{ transform:scale(1.8); opacity:1; } 100%{ transform:scale(1); opacity:.75; } }
@@ -299,6 +304,8 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
+const APP_VERSION = "1.1.0";
+const APP_BUILD_DATE = "2026-09-01";
 
 /* ============================== STORAGE ============================== */
 const HAS_NATIVE_STORAGE = typeof window.storage !== 'undefined';
@@ -429,9 +436,16 @@ function playDoneChime(){
 /* Rest begins: calmer but still clearly audible. */
 function playRestStartTone(){ playTone(392,300,{type:'triangle', volume:0.45}); }
 /* Switch sides mid-set (unilateral exercises). */
+/* Switch sides mid-set (unilateral exercises), or hand off to the paired exercise
+   with no rest — same "keep going, one tap" family, same color, own sound each. */
 function playSideSwitchChime(){
   playTone(494,130,{type:'triangle', volume:0.5});
   playTone(494,130,{type:'triangle', volume:0.5, delay:0.18});
+}
+function playTransitionChime(){
+  playTone(587,120,{type:'triangle', volume:0.55});
+  playTone(440,120,{type:'triangle', volume:0.55, delay:0.14});
+  playTone(587,160,{type:'triangle', volume:0.55, delay:0.28});
 }
 /* Rest ends / go time: the strongest, most alarm-like signal in the app. */
 function playRestGoChime(){
@@ -742,23 +756,44 @@ function adjustTempo(delta){
   if(!state.setPaused) startRepInterval();
   render();
 }
-function markSetDone(){
-  if(state.setTimerHandle){ clearInterval(state.setTimerHandle); state.setTimerHandle=null; }
-  state.setPhase='logging'; state.setPaused=false;
-  playDoneChime();
-  notifyIfHidden('Serie completa', 'Anota cómo se sintió cuando vuelvas a la app');
-  render();
-}
-function chooseRpe(v){
-  state.draft.rpe = v;
-  confirmSet();
-}
-function confirmSet(){
+function isLastSetOfExercise(step){ return step.setIndex === step.totalSets; }
+function logCurrentSet(rpeValue){
   const step = currentStep();
   const ex = exByIdInSession(state.activeSession, step.exerciseId);
   const key = step.exerciseId+'-'+step.setIndex;
-  state.activeSession.logs[key] = {...state.draft, name: ex.name, keyMetric: !!ex.keyMetric};
+  state.activeSession.logs[key] = {...state.draft, rpe: rpeValue, name: ex.name, keyMetric: !!ex.keyMetric};
   persistActiveSession();
+}
+function markSetDone(){
+  if(state.setTimerHandle){ clearInterval(state.setTimerHandle); state.setTimerHandle=null; }
+  state.setPaused=false;
+  playDoneChime();
+  notifyIfHidden('Serie completa', 'Anota cómo se sintió cuando vuelvas a la app');
+  const step = currentStep();
+  if(isLastSetOfExercise(step)){
+    state.setPhase='logging'; // ask RPE once, at the end of the exercise
+  }else{
+    logCurrentSet(null);
+    proceedAfterSet();
+  }
+  render();
+}
+function chooseRpe(v){
+  const step = currentStep();
+  logCurrentSet(v);
+  // backfill: earlier sets of this same exercise (this session) share the same RPE
+  const exId = step.exerciseId;
+  Object.keys(state.activeSession.logs).forEach(key=>{
+    if(key.startsWith(exId+'-')){
+      const l = state.activeSession.logs[key];
+      if(l.rpe===null || l.rpe===undefined) l.rpe = v;
+    }
+  });
+  persistActiveSession();
+  proceedAfterSet();
+}
+function proceedAfterSet(){
+  const step = currentStep();
   if(step.restAfter){
     state.sessionSubview='rest';
     state.restRemaining = step.restSeconds;
@@ -766,8 +801,13 @@ function confirmSet(){
     playRestStartTone();
     runRestTimer();
   }else{
-    advanceStep();
+    state.setPhase='transition';
+    playTransitionChime();
   }
+  render();
+}
+function continueTransition(){
+  advanceStep();
   render();
 }
 function toggleRestPause(){
@@ -803,6 +843,31 @@ function skipRest(){
 }
 function adjustRest(delta){
   state.restRemaining = Math.max(0, state.restRemaining+delta);
+  render();
+}
+function clearAnyRunningTimers(){
+  if(state.setTimerHandle){ clearInterval(state.setTimerHandle); state.setTimerHandle=null; }
+  if(state.restTimerHandle){ clearInterval(state.restTimerHandle); state.restTimerHandle=null; }
+  state.setPaused=false; state.restPaused=false;
+}
+function stepBack(){
+  const s = state.activeSession;
+  if(!s || s.currentStepIndex<=0) return;
+  clearAnyRunningTimers();
+  s.currentStepIndex -= 1;
+  state.sessionSubview='exec';
+  loadDraftForCurrentStep();
+  persistActiveSession();
+  render();
+}
+function stepForward(){
+  const s = state.activeSession;
+  if(!s || s.currentStepIndex>=s.steps.length-1) return;
+  clearAnyRunningTimers();
+  s.currentStepIndex += 1;
+  state.sessionSubview='exec';
+  loadDraftForCurrentStep();
+  persistActiveSession();
   render();
 }
 function advanceStep(){
@@ -898,6 +963,7 @@ function render(){
   if(state.view==='home') html = renderHome();
   else if(state.view==='session') html = renderSession();
   else if(state.view==='progress') html = renderProgress();
+  else if(state.view==='settings') html = renderSettings();
   html += renderNav();
   app.innerHTML = html;
 }
@@ -906,11 +972,13 @@ function renderNav(){
     <button class="${state.view==='home'?'active':''}" onclick="goHome()"><span class="ic">🏠</span>Inicio</button>
     <button class="${state.view==='session'?'active':''}" ${!state.activeSession?'disabled':''} onclick="goSession()"><span class="ic">📋</span>Sesión</button>
     <button class="${state.view==='progress'?'active':''}" onclick="goProgress()"><span class="ic">📈</span>Progreso</button>
+    <button class="${state.view==='settings'?'active':''}" onclick="goSettings()"><span class="ic">⚙️</span>Ajustes</button>
   </div>`;
 }
 function goHome(){ state.view='home'; render(); }
 function goSession(){ if(state.activeSession){ state.view='session'; render(); } }
 function goProgress(){ state.view='progress'; render(); }
+function goSettings(){ state.view='settings'; render(); }
 
 function renderExploreDay(d){
   let lastBlock = null; let counter = 0;
@@ -1027,8 +1095,7 @@ function renderExec(){
   if(state.setPhase==='ready'){
     mainBlock = `
       <button class="start-btn confirm-btn" onclick="beginSet()">
-        <div class="sb-count">SERIE ${step.setIndex} DE ${step.totalSets}</div>
-        <div class="sb-label">Iniciar serie ▶</div>
+        <div class="sb-label">Iniciar serie ${step.setIndex} de ${step.totalSets} ▶</div>
       </button>`;
   } else if(state.setPhase==='switch'){
     mainBlock = `
@@ -1039,6 +1106,17 @@ function renderExec(){
       </div>
       <button class="start-btn confirm-btn" onclick="continueToOtherSide()">
         <div class="sb-label">Listo, continuar ▶</div>
+      </button>`;
+  } else if(state.setPhase==='transition'){
+    const nextStep = s.steps[s.currentStepIndex+1];
+    const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
+    mainBlock = `
+      <div class="active-hero transition-hero">
+        <div class="h-label">SIGUE SIN DESCANSO</div>
+        <div class="h-detail" style="font-size:22px; margin-top:6px;">${nextEx? nextEx.name : ''}</div>
+      </div>
+      <button class="start-btn confirm-btn" onclick="continueTransition()">
+        <div class="sb-label">Continuar ▶</div>
       </button>`;
   } else if(state.setPhase==='active'){
     const targetReps = state.draft.reps || ex.repsNum;
@@ -1072,7 +1150,6 @@ function renderExec(){
         <div class="h-weight">${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')} · Serie ${step.setIndex} de ${step.totalSets}</div>
       </div>
       <div class="active-controls">
-        <button class="btn secondary small" onclick="toggleSetPause()">${state.setPaused?'▶ Reanudar':'⏸ Pausar'}</button>
         <button class="finish-early" onclick="markSetDone()">Terminar ahora</button>
       </div>`;
   } else {
@@ -1084,16 +1161,27 @@ function renderExec(){
       </div>`;
   }
 
+  const canPause = state.setPhase==='active';
+  const navStrip = `<div class="nav-strip">
+      <button onclick="stepBack()" ${s.currentStepIndex<=0?'disabled':''}>⏮</button>
+      <button onclick="toggleSetPause()" ${canPause?'':'disabled'}>${state.setPaused?'▶':'⏸'}</button>
+      <button onclick="stepForward()" ${s.currentStepIndex>=s.steps.length-1?'disabled':''}>⏭</button>
+    </div>`;
+
   return `<div class="topbar">
       <h1>${s.dayLabel}</h1>
       <div style="display:flex; gap:4px;">${soundToggleButton()}<button class="btn ghost" onclick="viewSummary()">Resumen</button></div>
     </div>
   <div class="screen">
     ${renderProgressScale(s)}
+    ${navStrip}
 
     ${isNewExercise ? `<div class="new-exercise-flag">NUEVO EJERCICIO</div>` : ''}
     <div class="block-tag ${blockTagClass(ex.block)}">${blockLabel(ex.block)}</div>
     <h2 class="exercise-name">${ex.name}</h2>
+
+    ${mainBlock}
+
     ${ex.sub? `<span class="exercise-tag">${ex.sub}</span>` : ''}
     ${ex.description? `<p class="exercise-description">${ex.description}</p>` : ''}
     <div class="equip-chip">🏋 ${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
@@ -1105,8 +1193,6 @@ function renderExec(){
       <button class="adjust-toggle" onclick="toggleAdjust()">${state.adjustOpen?'Ocultar ajuste':'Ajustar carga o reps'}</button>
     </div>
     ${adjustBlock}` : ''}
-
-    ${mainBlock}
   </div>`;
 }
 /* Always-visible, larger progress scale shared by exec/rest/summary screens. */
@@ -1132,13 +1218,17 @@ function renderRest(){
   return `<div class="topbar"><h1>${s.dayLabel}</h1><div style="display:flex; gap:4px;">${soundToggleButton()}<button class="btn ghost" onclick="viewSummary()">Resumen</button></div></div>
   <div class="screen">
     ${renderProgressScale(s)}
+    <div class="nav-strip">
+      <button onclick="stepBack()" ${s.currentStepIndex<=0?'disabled':''}>⏮</button>
+      <button onclick="toggleRestPause()">${state.restPaused?'▶':'⏸'}</button>
+      <button onclick="stepForward()" ${s.currentStepIndex>=s.steps.length-1?'disabled':''}>⏭</button>
+    </div>
     <div class="rest-hero ${state.restPaused?'paused':''}">
       <div class="h-label">${state.restPaused?'DESCANSO · PAUSADO':'DESCANSO · '+prevStep.restLabel}</div>
       <div class="h-timer ${warnState?'warn':''}">${fmtTime(state.restRemaining)}</div>
     </div>
     <div class="rest-actions">
       <button class="btn secondary small" onclick="adjustRest(-15)">−15s</button>
-      <button class="btn secondary small" onclick="toggleRestPause()">${state.restPaused?'▶ Reanudar':'⏸ Pausar'}</button>
       <button class="btn secondary small" onclick="adjustRest(15)">+15s</button>
     </div>
     <button class="finish-early" onclick="skipRest()">Continuar ahora</button>
@@ -1166,8 +1256,8 @@ function renderSummary(){
     const isCurrent = currentStep() && currentStep().exerciseId===e.id;
     let statusTxt, statusCls;
     if(doneSets>=totalSets){ statusTxt='Hecho ✓'; statusCls='done'; }
-    else if(isCurrent || doneSets>0){ statusTxt=`${doneSets}/${totalSets}`; statusCls='current'; }
-    else { statusTxt=`${doneSets}/${totalSets}`; statusCls=''; }
+    else if(isCurrent || doneSets>0){ statusTxt=`Serie ${doneSets} de ${totalSets}`; statusCls='current'; }
+    else { statusTxt=`Serie ${doneSets} de ${totalSets}`; statusCls=''; }
     return `<button class="ex-row nav" onclick="jumpToExercise('${e.id}')">
       <span class="ex-row-main">
         <span class="block-dot ${blockTagClass(e.block)}"></span>
@@ -1232,7 +1322,6 @@ function renderProgress(){
     return `<div class="topbar"><h1>PROGRESO</h1></div>
     <div class="screen">
       <div class="empty-state">Aún no hay sesiones registradas.<br/>Completa tu primera sesión para ver el progreso aquí.</div>
-      ${renderImportSection()}
     </div>`;
   }
   const volPoints = h.map(r=>({x:fmtDate(r.date), y:r.totalVolume}));
@@ -1289,6 +1378,27 @@ function renderProgress(){
       </select>
       ${lineChart(loadPoints,{color:'#3E7C74', yFmt:v=>v+'kg'})}
     </div>` : ''}
+  </div>`;
+}
+function renderImportSection(){
+  return `<div class="export-section">
+    <div class="sect-label">IMPORTAR HISTORIAL</div>
+    <p class="export-help">Si vienes de otra dirección web (por ejemplo, migraste de Netlify a GitHub Pages), sube aquí el archivo que exportaste antes para seguir donde quedaste.</p>
+    <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleHistoryImport(this)"/></label>
+    ${state.importMessage ? `<div class="export-status ok">${state.importMessage}</div>` : ''}
+    ${state.importError ? `<div class="export-status error">${state.importError}</div>` : ''}
+  </div>`;
+}
+function forceUpdate(){
+  const url = window.location.href.split('?')[0] + '?v=' + Date.now();
+  window.location.href = url;
+}
+function renderSettings(){
+  return `<div class="topbar"><h1>AJUSTES</h1></div>
+  <div class="screen">
+    <div class="hero"><p class="eyebrow">Máster 46</p><h2>Versión ${APP_VERSION}</h2></div>
+    <p class="export-help">Compilado: ${APP_BUILD_DATE}</p>
+    <button class="btn secondary" onclick="forceUpdate()">🔄 Buscar actualización</button>
 
     <div class="export-section">
       <div class="sect-label">EXPORTAR DATOS REALES</div>
@@ -1301,15 +1411,6 @@ function renderProgress(){
       ${state.exportCopied==='error' ? `<div class="export-status error">No se pudo copiar. Prueba con "Descargar .json".</div>` : ''}
     </div>
     ${renderImportSection()}
-  </div>`;
-}
-function renderImportSection(){
-  return `<div class="export-section">
-    <div class="sect-label">IMPORTAR HISTORIAL</div>
-    <p class="export-help">Si vienes de otra dirección web (por ejemplo, migraste de Netlify a GitHub Pages), sube aquí el archivo que exportaste antes para seguir donde quedaste.</p>
-    <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleHistoryImport(this)"/></label>
-    ${state.importMessage ? `<div class="export-status ok">${state.importMessage}</div>` : ''}
-    ${state.importError ? `<div class="export-status error">${state.importError}</div>` : ''}
   </div>`;
 }
 function handleHistoryImport(input){
@@ -1385,12 +1486,13 @@ const RPE_OPTIONS = [
 
 /* expose functions used by inline handlers */
 window.startSession=startSession; window.resumeSession=resumeSession; window.discardSession=discardSession;
-window.goHome=goHome; window.goSession=goSession; window.goProgress=goProgress;
+window.goHome=goHome; window.goSession=goSession; window.goProgress=goProgress; window.goSettings=goSettings;
 window.adjustDraft=adjustDraft; window.toggleAdjust=toggleAdjust; window.beginSet=beginSet;
-window.markSetDone=markSetDone; window.chooseRpe=chooseRpe; window.confirmSet=confirmSet;
+window.markSetDone=markSetDone; window.chooseRpe=chooseRpe;
 window.adjustTempo=adjustTempo;
 window.toggleSetPause=toggleSetPause; window.toggleRestPause=toggleRestPause;
-window.continueToOtherSide=continueToOtherSide; window.jumpToExercise=jumpToExercise;
+window.continueToOtherSide=continueToOtherSide; window.continueTransition=continueTransition; window.jumpToExercise=jumpToExercise;
+window.stepBack=stepBack; window.stepForward=stepForward; window.forceUpdate=forceUpdate;
 window.skipRest=skipRest; window.adjustRest=adjustRest; window.viewSummary=viewSummary;
 window.backToExec=backToExec; window.finalizeSession=finalizeSession; window.state=state;
 window.handleProgramUpload=handleProgramUpload; window.switchProgram=switchProgram; window.toggleExplore=toggleExplore;
