@@ -131,8 +131,9 @@
   .exercise-description{ font-size:15px; color:#C7CBCE; line-height:1.55; margin:0 0 14px 0; }
   .equip-chip{ display:inline-block; font-size:14px; font-weight:700; color:var(--text); background:var(--surface-2); border:1px solid var(--line); padding:9px 13px; border-radius:4px; margin-bottom:12px; }
   .equip-chip .config{ font-weight:400; color:var(--text-dim); font-size:13px; }
-  .video-link{ display:inline-block; font-size:13px; color:var(--rest); text-decoration:underline; margin:0 0 14px 0; }
-  .explore-video-link{ color:var(--rest); text-decoration:none; font-size:12px; margin-left:4px; }
+  .video-link{ display:inline-flex; align-items:center; gap:6px; font-size:15px; font-weight:700; color:#fff; background:var(--rest); text-decoration:none; padding:11px 16px; border-radius:4px; margin:0 0 14px 0; }
+  .explore-video-link{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--rest); color:#fff; text-decoration:none; font-size:14px; margin-left:8px; vertical-align:middle; }
+  .video-link-inline{ display:block; width:100%; text-align:center; font-size:14px; font-weight:700; color:#fff; background:var(--rest); text-decoration:none; padding:12px; border-radius:4px; margin-bottom:10px; }
   .exercise-note-inline{ font-size:13px; color:var(--text-dim); font-style:italic; line-height:1.4; margin:0 0 14px 0; }
   .side-note{ font-size:13px; color:var(--rest); font-weight:700; margin:0 0 14px 0; }
 
@@ -350,7 +351,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.4.2";
+const APP_VERSION = "1.4.3";
 const APP_BUILD_DATE = "2026-09-01";
 
 /* ============================== STORAGE ============================== */
@@ -1408,6 +1409,7 @@ function renderExec(){
         <div class="h-weight">${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}</div>
       </div>
       <div class="active-controls">
+        ${ex.videoUrl ? `<a class="video-link-inline" href="${ex.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>` : ''}
         <button class="finish-early" onclick="markSetDone()">Terminar ahora</button>
       </div>`;
   } else {
