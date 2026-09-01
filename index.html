@@ -96,6 +96,8 @@
   }
   .btn.secondary{ background:transparent; color:var(--text); border:1px solid var(--line); }
   .btn.ghost{ background:transparent; color:var(--text-dim); border:none; text-decoration:underline; font-weight:400;}
+  .summary-link{ background:var(--surface-2); color:var(--text); border:1px solid var(--line); padding:9px 14px; font-weight:700; font-size:14px; border-radius:2px; cursor:pointer; font-family:inherit; }
+  .superserie-tag{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:.04em; color:var(--pair); border:1px solid var(--pair); padding:1px 6px; border-radius:2px; margin-left:6px; vertical-align:middle; }
   .btn.small{ padding:6px 10px; font-size:12px;}
   .btn:disabled{ opacity:.4; cursor:not-allowed; }
   .btn.block{ width:100%; padding:16px; font-size:16px; }
@@ -104,8 +106,17 @@
   .progress-line{ font-size:13px; color:var(--text-dim); margin-bottom:8px; }
   .progress-scale{ margin-bottom:20px; }
   .progress-scale-label{ font-size:15px; font-weight:700; color:var(--text); margin-bottom:8px; }
-  .progress-bar{ height:10px; background:var(--surface-2); border-radius:5px; overflow:hidden; }
-  .progress-bar .fill{ height:100%; background:var(--accent); border-radius:5px; transition:width .3s ease; }
+  .scale-track{ display:flex; gap:3px; }
+  .scale-seg{ flex:1; min-width:0; height:14px; border-radius:2px; border:2px solid var(--line); background:transparent; padding:0; cursor:pointer; }
+  .scale-seg.blkP{ border-color:var(--good); }
+  .scale-seg.blkA{ border-color:var(--accent); }
+  .scale-seg.blkB{ border-color:var(--rest); }
+  .scale-seg.blkC{ border-color:var(--warn); }
+  .scale-seg.done.blkP{ background:var(--good); }
+  .scale-seg.done.blkA{ background:var(--accent); }
+  .scale-seg.done.blkB{ background:var(--rest); }
+  .scale-seg.done.blkC{ background:var(--warn); }
+  .scale-seg.current{ height:20px; margin-top:-3px; outline:2px solid #fff; outline-offset:1px; }
 
   .new-exercise-flag{ display:inline-block; font-size:12px; font-weight:800; letter-spacing:.06em; color:#fff; background:var(--accent); padding:4px 10px; border-radius:2px; margin-bottom:12px; }
 
@@ -304,7 +315,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 const APP_BUILD_DATE = "2026-09-01";
 
 /* ============================== STORAGE ============================== */
@@ -1170,7 +1181,7 @@ function renderExec(){
 
   return `<div class="topbar">
       <h1>${s.dayLabel}</h1>
-      <div style="display:flex; gap:4px;">${soundToggleButton()}<button class="btn ghost" onclick="viewSummary()">Resumen</button></div>
+      <div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="viewSummary()">📋 Resumen</button></div>
     </div>
   <div class="screen">
     ${renderProgressScale(s)}
@@ -1180,6 +1191,8 @@ function renderExec(){
     <div class="block-tag ${blockTagClass(ex.block)}">${blockLabel(ex.block)}</div>
     <h2 class="exercise-name">${ex.name}</h2>
 
+    ${isNewExercise && step.pairedWith ? `<div class="pair-flag"><span class="pf-arrow">⚡</span><span class="pf-text">Es superserie: al terminar esta serie, <b>sigue directo con ${step.pairedWith}</b>, sin descanso.</span></div>` : ''}
+
     ${mainBlock}
 
     ${ex.sub? `<span class="exercise-tag">${ex.sub}</span>` : ''}
@@ -1187,7 +1200,6 @@ function renderExec(){
     <div class="equip-chip">🏋 ${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
     ${ex.note ? `<p class="exercise-note-inline">${ex.note}</p>` : ''}
     ${isPerSide(ex.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>` : ''}
-    ${step.pairedWith? `<div class="pair-flag"><span class="pf-arrow">➡</span><span class="pf-text">Sin descanso, <b>sigue directo con ${step.pairedWith}</b></span></div>` : ''}
 
     ${state.setPhase==='ready' ? `<div>
       <button class="adjust-toggle" onclick="toggleAdjust()">${state.adjustOpen?'Ocultar ajuste':'Ajustar carga o reps'}</button>
@@ -1201,9 +1213,18 @@ function renderProgressScale(s){
   const exIndex = s.currentStepIndex<s.steps.length
     ? s.exercisesSnapshot.findIndex(e=>e.id===s.steps[s.currentStepIndex].exerciseId)
     : s.exercisesSnapshot.length-1;
+  const currentExId = s.currentStepIndex<s.steps.length ? s.steps[s.currentStepIndex].exerciseId : null;
+  const segments = s.exercisesSnapshot.map(ex=>{
+    const exSteps = s.steps.filter(st=>st.exerciseId===ex.id);
+    const doneCount = exSteps.filter(st=>s.logs[st.exerciseId+'-'+st.setIndex]).length;
+    const isDone = exSteps.length>0 && doneCount>=exSteps.length;
+    const isCurrent = ex.id===currentExId;
+    const stateCls = isCurrent ? 'current' : (isDone ? 'done' : 'pending');
+    return `<button class="scale-seg ${blockTagClass(ex.block)} ${stateCls}" onclick="jumpToExercise('${ex.id}')" title="${ex.name}"></button>`;
+  }).join('');
   return `<div class="progress-scale">
     <div class="progress-scale-label">Ejercicio ${exIndex+1} de ${s.exercisesSnapshot.length} · ${pct}%</div>
-    <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
+    <div class="scale-track">${segments}</div>
   </div>`;
 }
 
@@ -1215,7 +1236,7 @@ function renderRest(){
   const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
   const nextCargaUnit = nextEx ? (nextEx.unit || 'kg') : '';
   const nextIsNewExercise = nextStep && nextStep.setIndex===1;
-  return `<div class="topbar"><h1>${s.dayLabel}</h1><div style="display:flex; gap:4px;">${soundToggleButton()}<button class="btn ghost" onclick="viewSummary()">Resumen</button></div></div>
+  return `<div class="topbar"><h1>${s.dayLabel}</h1><div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="viewSummary()">📋 Resumen</button></div></div>
   <div class="screen">
     ${renderProgressScale(s)}
     <div class="nav-strip">
@@ -1262,6 +1283,7 @@ function renderSummary(){
       <span class="ex-row-main">
         <span class="block-dot ${blockTagClass(e.block)}"></span>
         <span class="name ${isCurrent?'current':''}">${e.name}</span>
+        ${e.pair? `<span class="superserie-tag">⚡ superserie</span>` : ''}
       </span>
       <span class="ex-row-sub">${e.repsTarget}${e.carga>0?' · '+e.carga+(e.unit?' '+e.unit:''):''}</span>
       <span class="status ${statusCls}">${statusTxt}</span>
