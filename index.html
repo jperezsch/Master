@@ -132,6 +132,7 @@
   .equip-chip{ display:inline-block; font-size:14px; font-weight:700; color:var(--text); background:var(--surface-2); border:1px solid var(--line); padding:9px 13px; border-radius:4px; margin-bottom:12px; }
   .equip-chip .config{ font-weight:400; color:var(--text-dim); font-size:13px; }
   .video-link{ display:inline-block; font-size:13px; color:var(--rest); text-decoration:underline; margin:0 0 14px 0; }
+  .explore-video-link{ color:var(--rest); text-decoration:none; font-size:12px; margin-left:4px; }
   .exercise-note-inline{ font-size:13px; color:var(--text-dim); font-style:italic; line-height:1.4; margin:0 0 14px 0; }
   .side-note{ font-size:13px; color:var(--rest); font-weight:700; margin:0 0 14px 0; }
 
@@ -349,7 +350,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.4.1";
+const APP_VERSION = "1.4.2";
 const APP_BUILD_DATE = "2026-09-01";
 
 /* ============================== STORAGE ============================== */
@@ -1246,7 +1247,7 @@ function renderExploreDay(d){
       header = `<div class="explore-block-header ${blockTagClass(e.block)}">${blockLabel(e.block)}</div>`;
       lastBlock = e.block;
     }
-    return header + `<div class="explore-ex"><span class="ex-num">${counter}.</span><span class="ex-name">${e.name}</span><span class="ex-t">${e.repsTarget}${e.carga>0?' · '+e.carga+(e.unit?' '+e.unit:''):''}${e.equipment?' · '+e.equipment:''}${e.discConfig?' ('+e.discConfig+')':''}</span></div>`;
+    return header + `<div class="explore-ex"><span class="ex-num">${counter}.</span><span class="ex-name">${e.name}${e.videoUrl? ` <a href="${e.videoUrl}" target="_blank" rel="noopener" class="explore-video-link" onclick="event.stopPropagation()">▶</a>`:''}</span><span class="ex-t">${e.repsTarget}${e.carga>0?' · '+e.carga+(e.unit?' '+e.unit:''):''}${e.equipment?' · '+e.equipment:''}${e.discConfig?' ('+e.discConfig+')':''}</span></div>`;
   }).join('');
   return `<div class="explore-day"><div class="d-title">${d.label}${d.subtitle?' — '+d.subtitle:''}</div>${rows}</div>`;
 }
