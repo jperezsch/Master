@@ -131,6 +131,7 @@
   .exercise-description{ font-size:15px; color:#C7CBCE; line-height:1.55; margin:0 0 14px 0; }
   .equip-chip{ display:inline-block; font-size:14px; font-weight:700; color:var(--text); background:var(--surface-2); border:1px solid var(--line); padding:9px 13px; border-radius:4px; margin-bottom:12px; }
   .equip-chip .config{ font-weight:400; color:var(--text-dim); font-size:13px; }
+  .video-link{ display:inline-block; font-size:13px; color:var(--rest); text-decoration:underline; margin:0 0 14px 0; }
   .exercise-note-inline{ font-size:13px; color:var(--text-dim); font-style:italic; line-height:1.4; margin:0 0 14px 0; }
   .side-note{ font-size:13px; color:var(--rest); font-weight:700; margin:0 0 14px 0; }
 
@@ -209,15 +210,20 @@
   .ex-row.nav:active{ background:var(--surface-2); }
   .ex-row-main{ display:flex; align-items:center; gap:8px; flex:1 1 auto; min-width:60%; }
   .ex-row-sub{ font-size:12px; color:var(--text-dim); flex:1 0 100%; padding-left:18px; }
-  .block-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; background:var(--text-dim); }
-  .block-dot.blkP{ background:var(--good); }
-  .block-dot.blkA{ background:var(--accent); }
-  .block-dot.blkB{ background:var(--rest); }
-  .block-dot.blkC{ background:var(--warn); }
+  .block-dot{ width:11px; height:11px; border-radius:50%; flex-shrink:0; border:2px solid var(--text-dim); background:transparent; box-sizing:border-box; }
+  .block-dot.blkP{ border-color:var(--good); }
+  .block-dot.blkA{ border-color:var(--accent); }
+  .block-dot.blkB{ border-color:var(--rest); }
+  .block-dot.blkC{ border-color:var(--warn); }
+  .ex-row.done .block-dot.blkP{ background:var(--good); }
+  .ex-row.done .block-dot.blkA{ background:var(--accent); }
+  .ex-row.done .block-dot.blkB{ background:var(--rest); }
+  .ex-row.done .block-dot.blkC{ background:var(--warn); }
+  .ex-row.current .block-dot{ outline:2px solid #fff; outline-offset:1px; }
   .ex-row .name{ font-size:14px; color:var(--text); }
   .ex-row .name.current{ font-weight:700; }
   .ex-row .status{ font-size:12px; color:var(--text-dim); }
-  .ex-row .status.done{ color:var(--good); }
+  .ex-row .status.done{ color:var(--good); font-weight:700; }
   .ex-row .status.current{ color:var(--accent); font-weight:700; }
   .nav-hint{ font-size:12px; color:var(--text-dim); margin:16px 0 -4px 0; }
   .time-remaining{ background:var(--surface); border:1px solid var(--line); padding:16px; margin-bottom:16px; text-align:center; }
@@ -261,6 +267,34 @@
     font-family:inherit; font-size:12px;
   }
   .storage-note{ font-size:11px; color:var(--warn); background:var(--surface-2); padding:8px 10px; margin-bottom:14px; border-left:3px solid var(--warn); }
+
+  .cal-block{ margin-bottom:28px; }
+  .cal-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .cal-nav{ background:var(--surface-2); border:1px solid var(--line); color:var(--text); width:34px; height:34px; border-radius:2px; font-size:18px; cursor:pointer; font-family:inherit; }
+  .cal-title{ font-size:15px; font-weight:800; }
+  .cal-weekdays{ display:grid; grid-template-columns:repeat(7,1fr); text-align:center; font-size:11px; color:var(--text-dim); margin-bottom:4px; }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+  .cal-cell{ aspect-ratio:1; background:var(--surface); border:1px solid var(--line); border-radius:2px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-family:inherit; color:var(--text); padding:0; position:relative; }
+  .cal-cell.empty{ background:none; border:none; cursor:default; }
+  .cal-cell.today{ border-color:var(--accent); border-width:2px; }
+  .cal-cell.selected{ outline:2px solid #fff; outline-offset:1px; }
+  .cal-daynum{ font-size:12px; }
+  .cal-dot{ width:6px; height:6px; border-radius:50%; margin-top:3px; }
+  .cal-dot.done{ background:var(--good); }
+  .cal-dot.incomplete{ background:var(--warn); }
+  .cal-dot.projected{ background:transparent; border:1.5px solid var(--pair); }
+  .cal-legend{ display:flex; gap:14px; font-size:11px; color:var(--text-dim); margin-top:8px; flex-wrap:wrap; }
+  .cal-legend i{ display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; }
+  .cal-detail{ margin-top:14px; background:var(--surface); border:1px solid var(--line); padding:12px; border-radius:2px; }
+  .cal-detail-head{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+  .cal-detail-day{ font-weight:700; font-size:14px; flex:1; }
+  .cal-detail-status{ font-size:11px; color:var(--text-dim); }
+  .cal-detail-stats{ display:flex; gap:14px; font-size:12px; color:var(--text-dim); }
+  .cal-detail-notes{ font-size:12px; color:var(--text-dim); font-style:italic; margin-top:8px; }
+
+  .radio-row{ display:flex; align-items:center; gap:8px; font-size:14px; padding:8px 0; cursor:pointer; }
+  .schedule-sub{ display:flex; align-items:center; gap:8px; padding:4px 0 10px 26px; font-size:13px; color:var(--text-dim); }
+  .schedule-sub select, .schedule-sub input{ background:var(--surface-2); color:var(--text); border:1px solid var(--line); padding:5px 8px; font-family:inherit; font-size:13px; }
 
   .export-section{ margin-top:30px; padding-top:18px; border-top:1px solid var(--line); }
   .export-section .sect-label{ font-size:12px; color:var(--text-dim); letter-spacing:.04em; margin-bottom:8px; }
@@ -315,7 +349,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.3.0";
+const APP_VERSION = "1.4.0";
 const APP_BUILD_DATE = "2026-09-01";
 
 /* ============================== STORAGE ============================== */
@@ -402,6 +436,159 @@ function parseTargetSeconds(str){
 /* Unilateral exercises ("6 c/l" = 6 per side): both sides together count as ONE series. */
 function isPerSide(repsTarget){
   return /c\s*\/\s*l/i.test(String(repsTarget||'')) || /cada\s+lado/i.test(String(repsTarget||''));
+}
+
+/* ============================== SESSION DISTRIBUTION / CALENDAR ============================== */
+const WEEKDAY_NAMES = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+function localYMD(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function mondayFirstWeekday(dateObj){ return (dateObj.getDay()+6)%7; } // 0=Monday..6=Sunday
+function computeWeekdayOffsets(n, startWeekday){
+  // startWeekday: 1=Monday..7=Sunday. Spread n sessions evenly across the week from that anchor.
+  const offsets = [];
+  for(let i=0;i<n;i++){ offsets.push(((startWeekday-1) + Math.round(i*7/n)) % 7); }
+  return offsets;
+}
+function getEffectiveScheduleConfig(program){
+  const cfg = state.scheduleConfig;
+  if(cfg.mode!=='program') return cfg;
+  const rec = program.schedule;
+  if(rec && rec.recommendedMode==='interval') return { mode:'interval', intervalDays: rec.recommendedIntervalDays||3 };
+  if(rec && rec.recommendedMode==='weekdays' && Array.isArray(rec.recommendedWeekdays)){
+    return { mode:'weekday', explicitWeekdays: rec.recommendedWeekdays };
+  }
+  return { mode:'weekday', startWeekday:1 }; // program has no recommendation -> sensible default
+}
+function computeIntervalAnchor(program){
+  if(state.history.length>0){
+    const last = state.history[state.history.length-1];
+    return { date: new Date(last.date), lastDayIndex: program.days.findIndex(d=>d.id===last.day) };
+  }
+  return { date: new Date(), lastDayIndex: -1 };
+}
+function getProjectedDayForDate(dateObj, program){
+  const days = program.days;
+  const n = days.length;
+  if(n===0) return null;
+  const dStr = localYMD(dateObj);
+  const todayStr = localYMD(new Date());
+  if(dStr < todayStr) return null; // only project today and the future
+  const cfg = getEffectiveScheduleConfig(program);
+  if(cfg.mode==='interval'){
+    const {date:anchor, lastDayIndex} = computeIntervalAnchor(program);
+    const anchorMid = new Date(anchor.getFullYear(),anchor.getMonth(),anchor.getDate());
+    const targetMid = new Date(dateObj.getFullYear(),dateObj.getMonth(),dateObj.getDate());
+    const diffDays = Math.round((targetMid-anchorMid)/86400000);
+    if(diffDays<=0 || diffDays % cfg.intervalDays!==0) return null;
+    const k = diffDays/cfg.intervalDays;
+    const idx = ((lastDayIndex + k) % n + n) % n;
+    return days[idx];
+  }
+  // weekday mode (either user-chosen start day, or an explicit list recommended by the program)
+  const offsets = cfg.explicitWeekdays ? cfg.explicitWeekdays.map(w=>(w-1+7)%7) : computeWeekdayOffsets(n, cfg.startWeekday||1);
+  const wd = mondayFirstWeekday(dateObj);
+  const idx = offsets.indexOf(wd);
+  if(idx===-1 || idx>=n) return null;
+  return days[idx];
+}
+function setScheduleMode(mode){ state.scheduleConfig.mode=mode; persistScheduleConfig(); render(); }
+function setStartWeekday(v){ state.scheduleConfig.startWeekday=parseInt(v,10); persistScheduleConfig(); render(); }
+function setIntervalDays(v){ state.scheduleConfig.intervalDays=Math.max(1,parseInt(v,10)||1); persistScheduleConfig(); render(); }
+function persistScheduleConfig(){ storeSet('master46_schedule_config', state.scheduleConfig); }
+
+function changeCalendarMonth(delta){
+  state.calendarMonth += delta;
+  if(state.calendarMonth<0){ state.calendarMonth=11; state.calendarYear--; }
+  if(state.calendarMonth>11){ state.calendarMonth=0; state.calendarYear++; }
+  state.selectedCalendarDate=null;
+  render();
+}
+function selectCalendarDate(dateStr){
+  state.selectedCalendarDate = state.selectedCalendarDate===dateStr ? null : dateStr;
+  render();
+}
+function renderCalendar(){
+  const program = getActiveProgram();
+  const year=state.calendarYear, month=state.calendarMonth;
+  const first = new Date(year, month, 1);
+  const startOffset = mondayFirstWeekday(first);
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const todayStr = localYMD(new Date());
+
+  const byDate = {};
+  state.history.forEach(r=>{
+    const ds = localYMD(new Date(r.date));
+    if(!byDate[ds]) byDate[ds]=[];
+    byDate[ds].push(r);
+  });
+
+  const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  let cells = '';
+  for(let i=0;i<startOffset;i++) cells += `<div class="cal-cell empty"></div>`;
+  for(let d=1; d<=daysInMonth; d++){
+    const dateObj = new Date(year, month, d);
+    const dateStr = localYMD(dateObj);
+    const recs = byDate[dateStr]||[];
+    let dotCls = '';
+    if(recs.some(r=>r.status==='completed'||!r.status)) dotCls='done';
+    else if(recs.some(r=>r.status==='incomplete')) dotCls='incomplete';
+    const isToday = dateStr===todayStr;
+    const isSelected = state.selectedCalendarDate===dateStr;
+    const projected = dotCls ? null : getProjectedDayForDate(dateObj, program);
+    cells += `<button class="cal-cell ${isToday?'today':''} ${isSelected?'selected':''}" onclick="selectCalendarDate('${dateStr}')" title="${projected?projected.label:''}">
+      <span class="cal-daynum">${d}</span>
+      ${dotCls? `<span class="cal-dot ${dotCls}"></span>` : (projected? `<span class="cal-dot projected"></span>` : '')}
+    </button>`;
+  }
+
+  let detail = '';
+  if(state.selectedCalendarDate){
+    const recs = byDate[state.selectedCalendarDate];
+    if(recs){
+      detail = recs.map(r=>{
+        const statusLabel = r.status==='incomplete' ? 'Incompleta' : 'Completada';
+        const statusCls = r.status==='incomplete' ? 'incomplete' : 'done';
+        return `<div class="cal-detail">
+          <div class="cal-detail-head">
+            <span class="cal-dot ${statusCls}"></span>
+            <span class="cal-detail-day">${r.dayLabel||r.day}</span>
+            <span class="cal-detail-status">${statusLabel}</span>
+          </div>
+          <div class="cal-detail-stats">
+            <span>${(r.totalVolume||0).toLocaleString('es-CL')} kg</span>
+            <span>RPE ${r.avgRpe?r.avgRpe.toFixed(1):'—'}</span>
+            <span>${Math.round((r.durationSec||0)/60)} min</span>
+          </div>
+          ${r.notes? `<p class="cal-detail-notes">"${r.notes}"</p>`:''}
+        </div>`;
+      }).join('');
+    } else {
+      const dObj = new Date(state.selectedCalendarDate+'T00:00:00');
+      const projected = getProjectedDayForDate(dObj, program);
+      detail = `<div class="cal-detail">
+        <div class="cal-detail-head">
+          <span class="cal-dot projected"></span>
+          <span class="cal-detail-day">${projected? projected.label : 'Sin sesión programada'}</span>
+          <span class="cal-detail-status">${projected? 'Programada':''}</span>
+        </div>
+      </div>`;
+    }
+  }
+
+  return `<div class="cal-block">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="changeCalendarMonth(-1)">‹</button>
+      <div class="cal-title">${monthNames[month]} ${year}</div>
+      <button class="cal-nav" onclick="changeCalendarMonth(1)">›</button>
+    </div>
+    <div class="cal-weekdays"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+    <div class="cal-grid">${cells}</div>
+    <div class="cal-legend"><span><i class="cal-dot done"></i> Completada</span><span><i class="cal-dot incomplete"></i> Incompleta</span><span><i class="cal-dot projected"></i> Programada</span></div>
+    ${detail}
+    <button class="explore-toggle" onclick="goSettings()">⚙ Cambiar distribución de sesiones</button>
+  </div>`;
 }
 
 /* ============================== SOUND ============================== */
@@ -542,7 +729,11 @@ let state = {
   setPaused:false,
   restPaused:false,
   importMessage:null,
-  importError:null
+  importError:null,
+  calendarMonth: new Date().getMonth(),
+  calendarYear: new Date().getFullYear(),
+  selectedCalendarDate: null,
+  scheduleConfig: { mode:'weekday', startWeekday:1, intervalDays:3 }
 };
 
 async function init(){
@@ -553,6 +744,8 @@ async function init(){
   if(storedActiveId && PROGRAMS[storedActiveId]) state.activeProgramId = storedActiveId;
   const storedSound = await storeGet('master46_sound_on');
   if(storedSound !== null) state.soundOn = storedSound;
+  const storedSchedule = await storeGet('master46_schedule_config');
+  if(storedSchedule) state.scheduleConfig = {...state.scheduleConfig, ...storedSchedule};
   const active = await storeGet('master46_active_session');
   if(active) state.activeSession = active;
   render();
@@ -665,6 +858,25 @@ function resumeSession(){
 }
 function discardSession(){
   releaseWakeLock();
+  clearAnyRunningTimers();
+  const s = state.activeSession;
+  if(s && Object.keys(s.logs||{}).length>0){
+    // some sets were actually done before abandoning — worth remembering on the calendar
+    const {avgRpe, totalVolume} = sessionAggregates();
+    const durationSec = Math.round((Date.now()-s.startTime)/1000);
+    state.history.push({
+      id: 'sess_'+Date.now(),
+      date: new Date().toISOString(),
+      day: s.day,
+      programLabel: s.programLabel,
+      dayLabel: s.dayLabel,
+      avgRpe, totalVolume, durationSec,
+      notes: '',
+      logs: s.logs,
+      status: 'incomplete'
+    });
+    storeSet('master46_history', state.history);
+  }
   state.activeSession=null;
   storeDelete('master46_active_session');
   render();
@@ -911,6 +1123,7 @@ function sessionAggregates(){
 }
 function finalizeSession(){
   releaseWakeLock();
+  clearAnyRunningTimers();
   const s = state.activeSession;
   const {avgRpe, totalVolume} = sessionAggregates();
   const durationSec = Math.round((Date.now()-s.startTime)/1000);
@@ -919,9 +1132,11 @@ function finalizeSession(){
     date: new Date().toISOString(),
     day: s.day,
     programLabel: s.programLabel,
+    dayLabel: s.dayLabel,
     avgRpe, totalVolume, durationSec,
     notes: state.savedNotesDraft||'',
-    logs: s.logs
+    logs: s.logs,
+    status: 'completed'
   };
   state.history.push(record);
   storeSet('master46_history', state.history);
@@ -990,6 +1205,37 @@ function goHome(){ state.view='home'; render(); }
 function goSession(){ if(state.activeSession){ state.view='session'; render(); } }
 function goProgress(){ state.view='progress'; render(); }
 function goSettings(){ state.view='settings'; render(); }
+
+/* ============================== SWIPE BETWEEN TABS ============================== */
+function getTabOrder(){
+  const order = ['home'];
+  if(state.activeSession) order.push('session');
+  order.push('progress','settings');
+  return order;
+}
+let touchStartX=null, touchStartY=null;
+function handleTouchStart(e){
+  if(e.touches.length!==1) return;
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}
+function handleTouchEnd(e){
+  if(touchStartX===null) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStartX;
+  const dy = t.clientY - touchStartY;
+  touchStartX=null; touchStartY=null;
+  if(Math.abs(dx)<70 || Math.abs(dy)>60) return;
+  const order = getTabOrder();
+  const idx = order.indexOf(state.view);
+  if(idx===-1) return;
+  if(dx<0 && idx<order.length-1){ state.view=order[idx+1]; render(); }
+  else if(dx>0 && idx>0){ state.view=order[idx-1]; render(); }
+}
+if(typeof document !== 'undefined' && document.addEventListener){
+  document.addEventListener('touchstart', handleTouchStart, {passive:true});
+  document.addEventListener('touchend', handleTouchEnd, {passive:true});
+}
 
 function renderExploreDay(d){
   let lastBlock = null; let counter = 0;
@@ -1198,6 +1444,7 @@ function renderExec(){
     ${ex.sub? `<span class="exercise-tag">${ex.sub}</span>` : ''}
     ${ex.description? `<p class="exercise-description">${ex.description}</p>` : ''}
     <div class="equip-chip">🏋 ${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
+    <a class="video-link" href="${ex.videoUrl || 'https://www.google.com/search?q=' + encodeURIComponent('site:musclewiki.com '+ex.name)}" target="_blank" rel="noopener">▶ Ver técnica en video${ex.videoUrl? '' : ' (buscar)'}</a>
     ${ex.note ? `<p class="exercise-note-inline">${ex.note}</p>` : ''}
     ${isPerSide(ex.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>` : ''}
 
@@ -1272,23 +1519,28 @@ function renderSummary(){
   const remaining = estimateRemainingSeconds();
   const {avgRpe, totalVolume} = sessionAggregates();
   const pairNumbers = {};
+  const pairColors = ['#6D5FA8','#4C8C6B','#B5652E','#3E6FA5','#A0527A'];
   let pairCounter = 0;
   ex.forEach(e=>{
-    if(e.pair && !(e.pair in pairNumbers)){ pairCounter++; pairNumbers[e.pair] = pairCounter; }
+    if(e.pair && !(e.pair in pairNumbers)){ pairNumbers[e.pair] = pairCounter; pairCounter++; }
   });
   const rows = ex.map(e=>{
     const doneSets = s.steps.filter(st=>st.exerciseId===e.id).map((st)=> s.logs[e.id+'-'+st.setIndex]).filter(Boolean).length;
     const totalSets = e.series;
     const isCurrent = currentStep() && currentStep().exerciseId===e.id;
+    const isDone = doneSets>=totalSets;
     let statusTxt, statusCls;
-    if(doneSets>=totalSets){ statusTxt='Hecho ✓'; statusCls='done'; }
+    if(isDone){ statusTxt='Hecho ✓'; statusCls='done'; }
     else if(isCurrent || doneSets>0){ statusTxt=`Serie ${doneSets} de ${totalSets}`; statusCls='current'; }
     else { statusTxt=`Serie ${doneSets} de ${totalSets}`; statusCls=''; }
-    return `<button class="ex-row nav" onclick="jumpToExercise('${e.id}')">
+    const rowStateCls = isDone ? 'done' : (isCurrent ? 'current' : '');
+    const pairColor = e.pair ? pairColors[pairNumbers[e.pair] % pairColors.length] : null;
+    const pairTag = e.pair ? `<span class="superserie-tag" style="color:${pairColor};border-color:${pairColor};">⚡ Superserie ${pairNumbers[e.pair]+1}</span>` : '';
+    return `<button class="ex-row nav ${rowStateCls}" onclick="jumpToExercise('${e.id}')">
       <span class="ex-row-main">
         <span class="block-dot ${blockTagClass(e.block)}"></span>
         <span class="name ${isCurrent?'current':''}">${e.name}</span>
-        ${e.pair? `<span class="superserie-tag">⚡ Superserie ${pairNumbers[e.pair]}</span>` : ''}
+        ${pairTag}
       </span>
       <span class="ex-row-sub">${e.repsTarget}${e.carga>0?' · '+e.carga+(e.unit?' '+e.unit:''):''}</span>
       <span class="status ${statusCls}">${statusTxt}</span>
@@ -1348,26 +1600,28 @@ function renderProgress(){
   if(h.length===0){
     return `<div class="topbar"><h1>PROGRESO</h1></div>
     <div class="screen">
+      ${renderCalendar()}
       <div class="empty-state">Aún no hay sesiones registradas.<br/>Completa tu primera sesión para ver el progreso aquí.</div>
     </div>`;
   }
-  const volPoints = h.map(r=>({x:fmtDate(r.date), y:r.totalVolume}));
-  const rpePoints = h.map(r=>({x:fmtDate(r.date), y:r.avgRpe||0}));
-  const pullupPoints = h.map(r=>{
+  const completedHistory = h.filter(r=>r.status!=='incomplete');
+  const volPoints = completedHistory.map(r=>({x:fmtDate(r.date), y:r.totalVolume}));
+  const rpePoints = completedHistory.map(r=>({x:fmtDate(r.date), y:r.avgRpe||0}));
+  const pullupPoints = completedHistory.map(r=>{
     const keyLogs = Object.values(r.logs).filter(l=>l.keyMetric);
     const maxReps = keyLogs.length ? Math.max(...keyLogs.map(l=>l.reps||0)) : null;
     return maxReps!==null ? {x:fmtDate(r.date), y:maxReps} : null;
   }).filter(Boolean);
 
   const nameHasLoad = new Map();
-  h.forEach(r=> Object.values(r.logs).forEach(l=>{
+  completedHistory.forEach(r=> Object.values(r.logs).forEach(l=>{
     if(!l.name) return;
     if(!nameHasLoad.has(l.name)) nameHasLoad.set(l.name, (l.carga||0)>0);
     else if((l.carga||0)>0) nameHasLoad.set(l.name, true);
   }));
   const allExNames = [...nameHasLoad.entries()].filter(([,hasLoad])=>hasLoad).map(([name])=>name);
   const selectedName = state.selectedProgressExName && allExNames.includes(state.selectedProgressExName) ? state.selectedProgressExName : allExNames[0];
-  const loadPoints = selectedName ? h.map(r=>{
+  const loadPoints = selectedName ? completedHistory.map(r=>{
     const setLogs = Object.values(r.logs).filter(l=>l.name===selectedName);
     const maxCarga = setLogs.length ? Math.max(...setLogs.map(l=>l.carga||0)) : null;
     return maxCarga!==null ? {x:fmtDate(r.date), y:maxCarga} : null;
@@ -1375,6 +1629,7 @@ function renderProgress(){
 
   return `<div class="topbar"><h1>PROGRESO</h1></div>
   <div class="screen">
+    ${renderCalendar()}
     <div class="stat-grid">
       <div class="stat-box"><div class="num">${h.length}</div><div class="lbl">sesiones registradas</div></div>
       <div class="stat-box"><div class="num">${fmtDate(h[h.length-1].date)}</div><div class="lbl">última sesión</div></div>
@@ -1437,8 +1692,38 @@ function renderSettings(){
       ${state.exportCopied==='ok' ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
       ${state.exportCopied==='error' ? `<div class="export-status error">No se pudo copiar. Prueba con "Descargar .json".</div>` : ''}
     </div>
+    ${renderScheduleSection()}
     ${renderImportSection()}
   </div>`;
+}
+function renderScheduleSection(){
+  const cfg = state.scheduleConfig;
+  const program = getActiveProgram();
+  return `<div class="program-section">
+    <div class="sect-label">DISTRIBUCIÓN DE SESIONES</div>
+    <label class="radio-row"><input type="radio" name="schedmode" value="weekday" ${cfg.mode==='weekday'?'checked':''} onchange="setScheduleMode('weekday')"> Días fijos de la semana</label>
+    ${cfg.mode==='weekday' ? `<div class="schedule-sub">
+      <span>Empezar en:</span>
+      <select onchange="setStartWeekday(this.value)">
+        ${WEEKDAY_NAMES.map((d,i)=>`<option value="${i+1}" ${cfg.startWeekday===i+1?'selected':''}>${d}</option>`).join('')}
+      </select>
+    </div>` : ''}
+    <label class="radio-row"><input type="radio" name="schedmode" value="interval" ${cfg.mode==='interval'?'checked':''} onchange="setScheduleMode('interval')"> Cada N días</label>
+    ${cfg.mode==='interval' ? `<div class="schedule-sub">
+      <span>Cada</span>
+      <input type="number" min="1" max="14" value="${cfg.intervalDays}" style="width:56px;" onchange="setIntervalDays(this.value)">
+      <span>días, continuando desde tu última sesión registrada</span>
+    </div>` : ''}
+    <label class="radio-row"><input type="radio" name="schedmode" value="program" ${cfg.mode==='program'?'checked':''} onchange="setScheduleMode('program')"> Seguir recomendación del programa</label>
+    ${cfg.mode==='program' ? `<div class="schedule-sub">${renderProgramRecommendationInfo(program)}</div>` : ''}
+  </div>`;
+}
+function renderProgramRecommendationInfo(program){
+  const rec = program.schedule;
+  if(!rec) return `Este programa no trae una recomendación propia; se usará "Días fijos" desde el lunes por defecto.`;
+  if(rec.recommendedMode==='interval') return `El programa recomienda entrenar cada ${rec.recommendedIntervalDays} días.`;
+  if(rec.recommendedMode==='weekdays') return `El programa recomienda: ${rec.recommendedWeekdays.map(w=>WEEKDAY_NAMES[w-1]).join(', ')}.`;
+  return '';
 }
 function handleHistoryImport(input){
   const file = input.files[0];
@@ -1526,6 +1811,8 @@ window.handleProgramUpload=handleProgramUpload; window.switchProgram=switchProgr
 window.toggleSound=toggleSound;
 window.downloadHistory=downloadHistory; window.copyHistoryToClipboard=copyHistoryToClipboard;
 window.handleHistoryImport=handleHistoryImport;
+window.changeCalendarMonth=changeCalendarMonth; window.selectCalendarDate=selectCalendarDate;
+window.setScheduleMode=setScheduleMode; window.setStartWeekday=setStartWeekday; window.setIntervalDays=setIntervalDays;
 
 init();
 </script>
