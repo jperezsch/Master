@@ -168,8 +168,8 @@
   }
   .rpe-card:active{ background:var(--warn); border-color:var(--warn); color:#1a1a1a; }
 
-  .start-btn{ width:100%; background:var(--accent); color:#fff; border:none; padding:28px 16px; border-radius:4px; cursor:pointer; font-family:inherit; margin-top:auto; text-align:center; }
-  .start-btn .sb-label{ font-size:22px; font-weight:800; }
+  .start-btn{ width:100%; background:var(--accent); color:#fff; border:none; padding:36px 16px; border-radius:4px; cursor:pointer; font-family:inherit; margin-top:auto; text-align:center; box-shadow:0 0 0 4px var(--accent-dim); }
+  .start-btn .sb-label{ font-size:26px; font-weight:800; }
   .start-btn .sb-count{ font-size:14px; opacity:.85; font-weight:700; letter-spacing:.03em; margin-bottom:6px; }
 
   .active-hero{ text-align:center; margin:10px 0 14px 0; padding:22px 16px; background:var(--accent); border-radius:4px; }
@@ -205,7 +205,7 @@
   .rest-hero.paused .h-label, .rest-hero.paused .h-timer{ color:var(--text); }
 
   .next-up{ margin-top:22px; padding:16px; background:var(--surface); border-left:3px solid var(--accent); }
-  .next-up-label{ font-size:11px; font-weight:800; letter-spacing:.05em; color:var(--accent); margin-bottom:6px; }
+  .next-up-label{ font-size:16px; font-weight:800; letter-spacing:.04em; color:var(--accent); margin-bottom:8px; }
   .next-up-name{ font-size:17px; font-weight:800; margin-bottom:2px; }
   .next-up-sub{ font-size:13px; color:var(--text-dim); margin-bottom:4px; }
   .next-up-target{ font-size:13px; color:var(--text-dim); }
@@ -362,7 +362,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.7.0";
+const APP_VERSION = "1.7.1";
 const APP_BUILD_DATE = "2026-09-02";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -1801,7 +1801,7 @@ function renderRest(){
     <button class="finish-early" onclick="skipRest()">Continuar ahora</button>
 
     ${nextEx ? `<div class="next-up">
-      <div class="next-up-label">${nextIsNewExercise?'SIGUE — NUEVO EJERCICIO':'SIGUE'}</div>
+      <div class="next-up-label">${nextIsNewExercise?'A CONTINUACIÓN — NUEVO EJERCICIO':'A CONTINUACIÓN'}</div>
       <div class="next-up-name">${nextEx.name}</div>
       ${nextEx.sub? `<span class="exercise-tag">${nextEx.sub}</span>`:''}
       <p class="exercise-target-line">Serie ${nextStep.setIndex} de ${nextStep.totalSets} · Objetivo: ${phraseRepsTarget(nextEx)}</p>
