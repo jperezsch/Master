@@ -362,7 +362,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.6.0";
+const APP_VERSION = "1.7.0";
 const APP_BUILD_DATE = "2026-09-02";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -1696,7 +1696,6 @@ function renderExec(){
         <div class="h-weight">${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}</div>
       </div>
       <div class="active-controls">
-        ${ex.videoUrl ? `<a class="video-link-inline" href="${ex.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>` : ''}
         <button class="finish-early" onclick="markSetDone()">Terminar ahora</button>
       </div>`;
   } else {
@@ -1717,6 +1716,23 @@ function renderExec(){
     </div>
     <button class="auto-mode-toggle ${state.autoMode?'active':''}" onclick="toggleAutoMode()">${state.autoMode? '⏹ Salir del modo automático' : '▶▶ Modo automático (corre toda la sesión)'}</button>`;
 
+  // Preparación (fase 'ready'): momento de leer con calma, antes de que empiece el conteo.
+  // Una vez iniciada la serie, todo esto pasa a ser secundario y se oculta.
+  const isPrepPhase = state.setPhase==='ready';
+  const secondaryInfo = isPrepPhase ? `
+    ${step.pairedWith ? `<div class="pair-flag"><span class="pf-arrow">⚡</span><span class="pf-text">Superserie: sigue directo a <b>${step.pairedWith}</b></span></div>` : ''}
+    ${ex.sub? `<span class="exercise-tag">${ex.sub}</span>` : ''}
+    ${ex.description? `<p class="exercise-description">${ex.description}</p>` : ''}
+    <div class="equip-chip">🏋 ${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
+    ${ex.videoUrl ? `<a class="video-link" href="${ex.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>` : ''}
+    ${ex.note ? `<p class="exercise-note-inline">${ex.note}</p>` : ''}
+    ${isPerSide(ex.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>` : ''}
+    <div>
+      <button class="adjust-toggle" onclick="toggleAdjust()">${state.adjustOpen?'Ocultar ajuste':'Ajustar carga o reps'}</button>
+    </div>
+    ${adjustBlock}
+  ` : '';
+
   return `<div class="topbar">
       <h1>${s.dayLabel}</h1>
       <div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="viewSummary()">📋 Resumen</button></div>
@@ -1728,23 +1744,11 @@ function renderExec(){
     ${isNewExercise ? `<div class="new-exercise-flag">NUEVO EJERCICIO</div>` : ''}
     <div class="block-tag ${blockTagClass(ex.block)}">${blockLabel(ex.block)}</div>
     <h2 class="exercise-name">${ex.name}</h2>
-    <p class="exercise-target-line">Objetivo: ${phraseRepsTarget(ex)}</p>
-
-    ${isNewExercise && step.pairedWith ? `<div class="pair-flag"><span class="pf-arrow">⚡</span><span class="pf-text">Es superserie: al terminar esta serie, <b>sigue directo con ${step.pairedWith}</b>, sin descanso.</span></div>` : ''}
+    <p class="exercise-target-line">${phraseRepsTarget(ex)}</p>
 
     ${mainBlock}
 
-    ${ex.sub? `<span class="exercise-tag">${ex.sub}</span>` : ''}
-    ${ex.description? `<p class="exercise-description">${ex.description}</p>` : ''}
-    <div class="equip-chip">🏋 ${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
-    ${ex.videoUrl ? `<a class="video-link" href="${ex.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>` : ''}
-    ${ex.note ? `<p class="exercise-note-inline">${ex.note}</p>` : ''}
-    ${isPerSide(ex.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>` : ''}
-
-    ${state.setPhase==='ready' ? `<div>
-      <button class="adjust-toggle" onclick="toggleAdjust()">${state.adjustOpen?'Ocultar ajuste':'Ajustar carga o reps'}</button>
-    </div>
-    ${adjustBlock}` : ''}
+    ${secondaryInfo}
   </div>`;
 }
 /* Always-visible, larger progress scale shared by exec/rest/summary screens. */
