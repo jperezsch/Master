@@ -84,7 +84,7 @@
   .explore-block-header.blkA{ color:var(--accent); }
   .explore-block-header.blkB{ color:var(--rest); }
   .explore-block-header.blkC{ color:var(--warn); }
-  .explore-ex{ display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; padding:7px 0; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .explore-ex{ display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; padding:8px 0; font-size:14px; border-bottom:1px solid rgba(255,255,255,0.04); }
   .explore-ex .ex-num{ color:var(--text-dim); font-size:12px; min-width:18px; }
   .explore-ex .ex-name{ flex:1 1 auto; min-width:0; word-break:break-word; }
   .explore-ex .ex-t{ color:var(--text-dim); font-size:12px; flex:1 0 100%; padding-left:26px; white-space:normal; word-break:break-word; }
@@ -105,7 +105,8 @@
   /* Session exec */
   .progress-line{ font-size:13px; color:var(--text-dim); margin-bottom:8px; }
   .progress-scale{ margin-bottom:20px; }
-  .progress-scale-label{ font-size:15px; font-weight:700; color:var(--text); margin-bottom:8px; }
+  .progress-scale-label{ font-size:15px; font-weight:700; color:var(--text); margin-bottom:4px; }
+  .progress-scale-current{ font-size:14px; font-weight:700; color:var(--accent); margin-bottom:8px; }
   .scale-track{ display:flex; gap:3px; }
   .scale-seg{ flex:1; min-width:0; height:14px; border-radius:2px; border:2px solid var(--line); background:transparent; padding:0; cursor:pointer; }
   .scale-seg.blkP{ border-color:var(--good); }
@@ -116,25 +117,27 @@
   .scale-seg.done.blkA{ background:var(--accent); }
   .scale-seg.done.blkB{ background:var(--rest); }
   .scale-seg.done.blkC{ background:var(--warn); }
-  .scale-seg.current{ height:20px; margin-top:-3px; outline:2px solid #fff; outline-offset:1px; }
+  .scale-seg.current{ height:28px; margin-top:-7px; outline:3px solid #fff; outline-offset:1px; box-shadow:0 0 10px 2px rgba(255,255,255,0.65); animation:scalePulse 1.1s ease-in-out infinite; }
+  @keyframes scalePulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
 
   .new-exercise-flag{ display:inline-block; font-size:12px; font-weight:800; letter-spacing:.06em; color:#fff; background:var(--accent); padding:4px 10px; border-radius:2px; margin-bottom:12px; }
 
-  .block-tag{ font-size:12px; font-weight:700; letter-spacing:.05em; color:var(--text-dim); margin-bottom:10px; }
+  .block-tag{ font-size:13px; font-weight:700; letter-spacing:.05em; color:var(--text-dim); margin-bottom:10px; }
   .block-tag.blkA{ color:var(--accent); }
   .block-tag.blkB{ color:var(--rest); }
   .block-tag.blkC{ color:var(--warn); }
   .block-tag.blkP{ color:var(--good); }
 
   .exercise-name{ font-size:30px; font-weight:800; line-height:1.15; margin:0 0 8px 0; }
+  .exercise-target-line{ font-size:17px; font-weight:700; color:var(--text); margin:0 0 16px 0; }
   .exercise-tag{ display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text-dim); background:var(--surface-2); padding:3px 9px; border-radius:2px; margin-bottom:12px; }
-  .exercise-description{ font-size:15px; color:#C7CBCE; line-height:1.55; margin:0 0 14px 0; }
-  .equip-chip{ display:inline-block; font-size:14px; font-weight:700; color:var(--text); background:var(--surface-2); border:1px solid var(--line); padding:9px 13px; border-radius:4px; margin-bottom:12px; }
+  .exercise-description{ font-size:16px; color:#C7CBCE; line-height:1.55; margin:0 0 14px 0; }
+  .equip-chip{ display:inline-block; font-size:15px; font-weight:700; color:var(--text); background:var(--surface-2); border:1px solid var(--line); padding:10px 14px; border-radius:4px; margin-bottom:12px; }
   .equip-chip .config{ font-weight:400; color:var(--text-dim); font-size:13px; }
   .video-link{ display:inline-flex; align-items:center; gap:6px; font-size:15px; font-weight:700; color:#fff; background:var(--rest); text-decoration:none; padding:11px 16px; border-radius:4px; margin:0 0 14px 0; }
   .explore-video-link{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--rest); color:#fff; text-decoration:none; font-size:14px; margin-left:8px; vertical-align:middle; }
   .video-link-inline{ display:block; width:100%; text-align:center; font-size:14px; font-weight:700; color:#fff; background:var(--rest); text-decoration:none; padding:12px; border-radius:4px; margin-bottom:10px; }
-  .exercise-note-inline{ font-size:13px; color:var(--text-dim); font-style:italic; line-height:1.4; margin:0 0 14px 0; }
+  .exercise-note-inline{ font-size:14px; color:var(--text-dim); font-style:italic; line-height:1.4; margin:0 0 14px 0; }
   .side-note{ font-size:13px; color:var(--rest); font-weight:700; margin:0 0 14px 0; }
 
   .pair-flag{ display:flex; align-items:center; gap:12px; background:var(--rest-dim); border-left:4px solid var(--rest); padding:14px; margin:6px 0 18px 0; border-radius:2px; }
@@ -177,6 +180,11 @@
   .nav-strip{ display:flex; gap:8px; margin-bottom:18px; }
   .nav-strip button{ flex:1; background:var(--surface-2); border:1px solid var(--line); color:var(--text); padding:11px; border-radius:2px; font-size:17px; cursor:pointer; font-family:inherit; }
   .nav-strip button:disabled{ opacity:.3; cursor:not-allowed; }
+  .nav-strip button.pause-big{ flex:2; font-size:20px; font-weight:800; padding:16px; background:var(--accent); color:#fff; border-color:var(--accent); }
+  .auto-mode-toggle{ display:block; width:100%; background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim); font-size:13px; font-weight:700; padding:10px; border-radius:2px; margin-bottom:16px; cursor:pointer; font-family:inherit; }
+  .auto-mode-toggle.active{ background:var(--pair-dim); border-color:var(--pair); color:#fff; }
+  .auto-countdown{ text-align:center; font-size:14px; color:var(--text-dim); margin-top:10px; }
+  .auto-countdown b{ color:var(--text); font-size:16px; }
   .active-hero .h-label{ font-size:15px; letter-spacing:.08em; font-weight:800; color:#fff; opacity:.9; margin-bottom:14px; }
   .beat-ring{ width:16px; height:16px; border-radius:50%; background:#fff; margin:0 auto 14px auto; animation:beatpulse .5s ease-out; }
   @keyframes beatpulse{ 0%{ transform:scale(1.8); opacity:1; } 100%{ transform:scale(1); opacity:.75; } }
@@ -222,7 +230,7 @@
   .ex-row.done .block-dot.blkB{ background:var(--rest); }
   .ex-row.done .block-dot.blkC{ background:var(--warn); }
   .ex-row.current .block-dot{ outline:2px solid #fff; outline-offset:1px; }
-  .ex-row .name{ font-size:14px; color:var(--text); }
+  .ex-row .name{ font-size:15px; color:var(--text); }
   .ex-row .name.current{ font-weight:700; }
   .ex-row .status{ font-size:12px; color:var(--text-dim); }
   .ex-row .status.done{ color:var(--good); font-weight:700; }
@@ -269,6 +277,8 @@
     font-family:inherit; font-size:12px;
   }
   .storage-note{ font-size:11px; color:var(--warn); background:var(--surface-2); padding:8px 10px; margin-bottom:14px; border-left:3px solid var(--warn); }
+  .upcoming-banner{ font-size:13px; color:var(--pair); background:var(--pair-dim); padding:10px 12px; margin-bottom:14px; border-left:3px solid var(--pair); border-radius:2px; }
+  .upcoming-banner b{ color:#fff; }
 
   .cal-block{ margin-bottom:28px; }
   .cal-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
@@ -280,17 +290,18 @@
   .cal-cell.empty{ background:none; border:none; cursor:default; }
   .cal-cell.today{ border-color:var(--accent); border-width:2px; }
   .cal-cell.selected{ outline:2px solid #fff; outline-offset:1px; }
-  .cal-daynum{ font-size:12px; }
-  .cal-dot{ width:6px; height:6px; border-radius:50%; margin-top:3px; }
+  .cal-daynum{ font-size:13px; }
+  .cal-dot{ width:10px; height:10px; border-radius:50%; margin-top:3px; }
   .cal-dot.done{ background:var(--good); }
   .cal-dot.incomplete{ background:var(--warn); }
-  .cal-dot.projected{ background:transparent; border:1.5px solid var(--pair); }
-  .cal-legend{ display:flex; gap:14px; font-size:11px; color:var(--text-dim); margin-top:8px; flex-wrap:wrap; }
-  .cal-legend i{ display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; }
+  .cal-dot.projected{ background:transparent; border:2px solid var(--pair); }
+  .cal-legend{ display:flex; gap:14px; font-size:12px; color:var(--text-dim); margin-top:10px; flex-wrap:wrap; }
+  .cal-legend i{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; }
   .cal-detail{ margin-top:14px; background:var(--surface); border:1px solid var(--line); padding:12px; border-radius:2px; }
   .cal-detail-head{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
   .cal-detail-day{ font-weight:700; font-size:14px; flex:1; }
   .cal-detail-status{ font-size:11px; color:var(--text-dim); }
+  .cal-delete-btn{ background:none; border:none; color:var(--bad); font-size:16px; cursor:pointer; padding:2px 4px; }
   .cal-detail-stats{ display:flex; gap:14px; font-size:12px; color:var(--text-dim); }
   .cal-detail-notes{ font-size:12px; color:var(--text-dim); font-style:italic; margin-top:8px; }
 
@@ -351,8 +362,8 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.5.1";
-const APP_BUILD_DATE = "2026-09-01";
+const APP_VERSION = "1.6.0";
+const APP_BUILD_DATE = "2026-09-02";
 
 /* ============================== GENERATOR PROMPT ============================== */
 const GENERATOR_PROMPT = `Actúa como un entrenador experto en diseño de programas de fuerza, hipertrofia, movilidad y acondicionamiento físico. Tu tarea es diseñar para mí un programa de entrenamiento personalizado y entregarlo como un archivo JSON descargable, compatible con una app de seguimiento de entrenamientos.
@@ -518,6 +529,15 @@ function parseTargetSeconds(str){
 function isPerSide(repsTarget){
   return /c\s*\/\s*l/i.test(String(repsTarget||'')) || /cada\s+lado/i.test(String(repsTarget||''));
 }
+function phraseRepsTarget(ex){
+  const targetSeconds = parseTargetSeconds(ex.repsTarget);
+  if(targetSeconds!==null) return `${targetSeconds} segundos`;
+  if(isPerSide(ex.repsTarget)){
+    const n = String(ex.repsTarget).match(/\d+/);
+    return `${n?n[0]:ex.repsNum} repeticiones, cada lado`;
+  }
+  return `${ex.repsTarget} repeticiones`;
+}
 
 /* ============================== SESSION DISTRIBUTION / CALENDAR ============================== */
 const WEEKDAY_NAMES = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
@@ -593,6 +613,11 @@ function selectCalendarDate(dateStr){
   state.selectedCalendarDate = state.selectedCalendarDate===dateStr ? null : dateStr;
   render();
 }
+function deleteHistoryRecord(id){
+  state.history = state.history.filter(r=>r.id!==id);
+  storeSet('master46_history', state.history);
+  render();
+}
 function renderCalendar(){
   const program = getActiveProgram();
   const year=state.calendarYear, month=state.calendarMonth;
@@ -639,6 +664,7 @@ function renderCalendar(){
             <span class="cal-dot ${statusCls}"></span>
             <span class="cal-detail-day">${r.dayLabel||r.day}</span>
             <span class="cal-detail-status">${statusLabel}</span>
+            <button class="cal-delete-btn" onclick="deleteHistoryRecord('${r.id}')" title="Eliminar este registro">🗑</button>
           </div>
           <div class="cal-detail-stats">
             <span>${(r.totalVolume||0).toLocaleString('es-CL')} kg</span>
@@ -704,6 +730,8 @@ function playTone(freq, durationMs, {type='sine', volume=0.22, delay=0}={}){
 }
 /* Tick: marks each rep/second of the count. Punchy square wave cuts through gym noise. */
 function playTick(){ playTone(1046, 110, {type:'square', volume:0.45}); }
+/* Quiet per-second marker for long time-based counts (rest, timed holds) — never silent, but unobtrusive. */
+function playSoftTick(){ playTone(660, 70, {type:'sine', volume:0.14}); }
 /* Start of a set: sharp two-note rising signal. */
 function playStartChime(){
   playTone(659,150,{type:'square', volume:0.6});
@@ -735,6 +763,14 @@ function playRestGoChime(){
   playTone(880,140,{type:'square', volume:0.7, delay:0.15});
   playTone(1175,140,{type:'square', volume:0.7, delay:0.30});
   playTone(1568,360,{type:'square', volume:0.7, delay:0.45});
+}
+/* Session complete: the biggest, most celebratory sound in the app. */
+function playVictoryChime(){
+  playTone(523,150,{type:'square', volume:0.7});
+  playTone(659,150,{type:'square', volume:0.7, delay:0.16});
+  playTone(784,150,{type:'square', volume:0.7, delay:0.32});
+  playTone(1047,150,{type:'square', volume:0.75, delay:0.48});
+  playTone(1319,450,{type:'square', volume:0.75, delay:0.64});
 }
 function toggleSound(){
   state.soundOn = !state.soundOn;
@@ -804,6 +840,11 @@ let state = {
   setElapsed:0,
   repCount:0,
   currentTempo:3,
+  lastUsedTempo:null,
+  autoMode:false,
+  autoAdvanceHandle:null,
+  autoAdvanceRemaining:null,
+  autoPausedManually:false,
   draft:{carga:0, reps:0, rpe:null},
   adjustOpen:false,
   savedNotesDraft:'',
@@ -835,10 +876,27 @@ async function init(){
   if(storedActiveId && PROGRAMS[storedActiveId]) state.activeProgramId = storedActiveId;
   const storedSound = await storeGet('master46_sound_on');
   if(storedSound !== null) state.soundOn = storedSound;
+  const storedTempo = await storeGet('master46_last_tempo');
+  if(storedTempo) state.lastUsedTempo = storedTempo;
   const storedSchedules = await storeGet('master46_schedule_configs');
   if(storedSchedules) state.scheduleConfigs = storedSchedules;
   const active = await storeGet('master46_active_session');
-  if(active) state.activeSession = active;
+  if(active){
+    state.activeSession = active;
+    if(active.restEndAt){
+      const remaining = Math.max(0, Math.round((active.restEndAt - Date.now())/1000));
+      state.view='session'; state.sessionSubview='rest';
+      state.restEndAt = active.restEndAt;
+      state.restRemaining = remaining;
+      state.restPaused = false;
+      if(remaining<=0){
+        active.restEndAt = null;
+        advanceStep();
+      }else{
+        runRestTimer();
+      }
+    }
+  }
   render();
 }
 
@@ -986,6 +1044,7 @@ function loadDraftForCurrentStep(){
   const prior = state.activeSession.logs[key];
   state.draft = prior ? {...prior} : {carga: ex.carga, reps: ex.repsNum, rpe: null};
   resetStepUiFlags();
+  if(state.autoMode) scheduleAutoAdvance(beginSet, 5);
 }
 function adjustDraft(field, delta){
   state.draft[field] = Math.max(0, +( (state.draft[field]||0) + delta ).toFixed(2));
@@ -1011,25 +1070,34 @@ function startRepInterval(){
         state.repCount = 0;
         state.setPhase = 'switch';
         playSideSwitchChime();
+        if(state.autoMode) scheduleAutoAdvance(continueToOtherSide, 5);
         render();
       }else{
         markSetDone();
       }
-    }else{ playTick(); render(); }
+    }else{ playTick(); render(); } // cues the NEXT rep (repCount+1), giving time to perform it before this tempo interval elapses again
   }, state.currentTempo*1000);
+}
+/* Starts a fresh rep sequence: cue rep 1 immediately (don't make the lifter wait
+   a full tempo interval for their first sound), then tick every tempo interval after. */
+function announceAndStartReps(){
+  playTick();
+  startRepInterval();
 }
 function startTimeInterval(){
   const step = currentStep();
   const ex = exByIdInSession(state.activeSession, step.exerciseId);
   const targetSeconds = parseTargetSeconds(ex.repsTarget);
+  state.activeEndAt = Date.now() + Math.max(0,(targetSeconds - state.setElapsed))*1000;
   if(state.setTimerHandle) clearInterval(state.setTimerHandle);
   state.setTimerHandle = setInterval(()=>{
-    state.setElapsed += 1;
-    if(state.setElapsed>=targetSeconds){
+    const remaining = Math.max(0, Math.round((state.activeEndAt - Date.now())/1000));
+    state.setElapsed = targetSeconds - remaining;
+    if(remaining<=0){
       clearInterval(state.setTimerHandle); state.setTimerHandle=null;
       markSetDone();
     }else{
-      if(targetSeconds-state.setElapsed<=3) playTick();
+      if(remaining<=3) playTick(); else playSoftTick();
       render();
     }
   },1000);
@@ -1040,16 +1108,16 @@ function beginSet(){
   const targetSeconds = parseTargetSeconds(ex.repsTarget);
   state.setPhase='active'; state.setElapsed=0; state.repCount=0; state.setPaused=false;
   state.sideIndex = isPerSide(ex.repsTarget) ? 1 : null;
-  state.currentTempo = ex.tempoSeconds || 3;
+  state.currentTempo = state.lastUsedTempo || ex.tempoSeconds || 3;
   if(state.setTimerHandle) clearInterval(state.setTimerHandle);
   playStartChime();
   requestWakeLock();
-  if(targetSeconds!==null){ startTimeInterval(); } else { startRepInterval(); }
+  if(targetSeconds!==null){ startTimeInterval(); } else { announceAndStartReps(); }
   render();
 }
 function continueToOtherSide(){
   state.setPhase='active';
-  startRepInterval();
+  announceAndStartReps();
   render();
 }
 function toggleSetPause(){
@@ -1067,6 +1135,8 @@ function toggleSetPause(){
 }
 function adjustTempo(delta){
   state.currentTempo = Math.max(1, +(state.currentTempo + delta).toFixed(1));
+  state.lastUsedTempo = state.currentTempo;
+  storeSet('master46_last_tempo', state.currentTempo);
   if(!state.setPaused) startRepInterval();
   render();
 }
@@ -1107,16 +1177,29 @@ function chooseRpe(v){
   proceedAfterSet();
 }
 function proceedAfterSet(){
+  const s = state.activeSession;
   const step = currentStep();
+  const isLastStepOverall = s.currentStepIndex >= s.steps.length-1;
+  if(isLastStepOverall){
+    // finishing the very last set of the session — resting afterward makes no sense
+    playVictoryChime();
+    advanceStep();
+    render();
+    return;
+  }
   if(step.restAfter){
     state.sessionSubview='rest';
     state.restRemaining = step.restSeconds;
+    state.restEndAt = Date.now() + step.restSeconds*1000;
+    s.restEndAt = state.restEndAt;
+    persistActiveSession();
     state.restPaused = false;
     playRestStartTone();
     runRestTimer();
   }else{
     state.setPhase='transition';
     playTransitionChime();
+    if(state.autoMode) scheduleAutoAdvance(continueTransition, 5);
   }
   render();
 }
@@ -1130,6 +1213,8 @@ function toggleRestPause(){
     state.restPaused = true;
   }else if(state.restPaused){
     state.restPaused = false;
+    state.restEndAt = Date.now() + state.restRemaining*1000;
+    if(state.activeSession){ state.activeSession.restEndAt = state.restEndAt; persistActiveSession(); }
     runRestTimer();
   }
   render();
@@ -1137,32 +1222,91 @@ function toggleRestPause(){
 function runRestTimer(){
   if(state.restTimerHandle) clearInterval(state.restTimerHandle);
   state.restTimerHandle = setInterval(()=>{
-    state.restRemaining -= 1;
+    state.restRemaining = Math.max(0, Math.round((state.restEndAt - Date.now())/1000));
     if(state.restRemaining<=0){
       clearInterval(state.restTimerHandle);
       state.restTimerHandle=null;
+      if(state.activeSession){ state.activeSession.restEndAt = null; persistActiveSession(); }
       playRestGoChime();
       notifyIfHidden('Descanso terminado', 'Es hora de la siguiente serie');
       advanceStep();
     } else if(state.restRemaining<=3){
       playTick();
+    } else {
+      playSoftTick();
     }
     render();
   },1000);
 }
 function skipRest(){
   if(state.restTimerHandle){ clearInterval(state.restTimerHandle); state.restTimerHandle=null; }
+  if(state.activeSession){ state.activeSession.restEndAt = null; persistActiveSession(); }
   advanceStep();
   render();
 }
 function adjustRest(delta){
   state.restRemaining = Math.max(0, state.restRemaining+delta);
+  state.restEndAt = Date.now() + state.restRemaining*1000;
+  if(state.activeSession){ state.activeSession.restEndAt = state.restEndAt; persistActiveSession(); }
   render();
 }
 function clearAnyRunningTimers(){
   if(state.setTimerHandle){ clearInterval(state.setTimerHandle); state.setTimerHandle=null; }
   if(state.restTimerHandle){ clearInterval(state.restTimerHandle); state.restTimerHandle=null; }
+  cancelAutoAdvance();
   state.setPaused=false; state.restPaused=false;
+}
+
+/* ============================== AUTO-RUN MODE ============================== */
+function scheduleAutoAdvance(action, seconds){
+  cancelAutoAdvance();
+  state.autoAdvanceRemaining = seconds;
+  state.autoAdvanceAction = action;
+  state.autoAdvanceHandle = setInterval(()=>{
+    state.autoAdvanceRemaining -= 1;
+    if(state.autoAdvanceRemaining<=0){
+      clearInterval(state.autoAdvanceHandle); state.autoAdvanceHandle=null;
+      const fn = state.autoAdvanceAction; state.autoAdvanceAction=null;
+      if(fn) fn();
+    }
+    render();
+  },1000);
+}
+function cancelAutoAdvance(){
+  if(state.autoAdvanceHandle){ clearInterval(state.autoAdvanceHandle); state.autoAdvanceHandle=null; }
+  state.autoAdvanceRemaining = null;
+  state.autoAdvanceAction = null;
+}
+function toggleAutoMode(){
+  state.autoMode = !state.autoMode;
+  if(state.autoMode){
+    if(['ready','switch','transition'].includes(state.setPhase)){
+      const fn = state.setPhase==='ready' ? beginSet : (state.setPhase==='switch' ? continueToOtherSide : continueTransition);
+      scheduleAutoAdvance(fn, 5);
+    }
+  } else {
+    cancelAutoAdvance();
+  }
+  render();
+}
+/* Single pause control used everywhere: pauses whichever timer is actually
+   running right now (active set, rest, or an auto-advance countdown). */
+function toggleUnifiedPause(){
+  if(state.sessionSubview==='rest'){ toggleRestPause(); return; }
+  if(state.setPhase==='active'){ toggleSetPause(); return; }
+  if(state.autoAdvanceHandle){
+    cancelAutoAdvance();
+    state.autoPausedManually = true;
+    render();
+    return;
+  }
+  if(state.autoPausedManually){
+    state.autoPausedManually = false;
+    if(state.setPhase==='ready') scheduleAutoAdvance(beginSet, 5);
+    else if(state.setPhase==='switch') scheduleAutoAdvance(continueToOtherSide, 5);
+    else if(state.setPhase==='transition') scheduleAutoAdvance(continueTransition, 5);
+    render();
+  }
 }
 function stepBack(){
   const s = state.activeSession;
@@ -1326,6 +1470,39 @@ function handleTouchEnd(e){
 if(typeof document !== 'undefined' && document.addEventListener){
   document.addEventListener('touchstart', handleTouchStart, {passive:true});
   document.addEventListener('touchend', handleTouchEnd, {passive:true});
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+/* Correct any drift immediately when returning from background — a throttled
+   tab may not have ticked every second while hidden, so recompute from the
+   wall-clock end time rather than trusting the possibly-stalled counter. */
+function handleVisibilityChange(){
+  if(document.visibilityState !== 'visible') return;
+  if(state.sessionSubview==='rest' && state.restEndAt){
+    const remaining = Math.max(0, Math.round((state.restEndAt - Date.now())/1000));
+    state.restRemaining = remaining;
+    if(remaining<=0 && state.restTimerHandle){
+      clearInterval(state.restTimerHandle); state.restTimerHandle=null;
+      if(state.activeSession){ state.activeSession.restEndAt = null; persistActiveSession(); }
+      playRestGoChime();
+      advanceStep();
+    }
+    render();
+  } else if(state.sessionSubview==='exec' && state.setPhase==='active' && state.activeEndAt && !state.setPaused){
+    const step = currentStep();
+    if(step){
+      const ex = exByIdInSession(state.activeSession, step.exerciseId);
+      const targetSeconds = parseTargetSeconds(ex.repsTarget);
+      if(targetSeconds!==null){
+        const remaining = Math.max(0, Math.round((state.activeEndAt - Date.now())/1000));
+        state.setElapsed = targetSeconds - remaining;
+        if(remaining<=0 && state.setTimerHandle){
+          clearInterval(state.setTimerHandle); state.setTimerHandle=null;
+          markSetDone();
+        }
+        render();
+      }
+    }
+  }
 }
 
 function renderExploreDay(d){
@@ -1361,6 +1538,18 @@ function renderProgramSection(){
   </div>`;
 }
 
+function renderUpcomingBanner(){
+  const program = getActiveProgram();
+  const today = new Date();
+  const tomorrow = new Date(); tomorrow.setDate(today.getDate()+1);
+  const todayStr = localYMD(today);
+  const doneToday = state.history.some(r=>localYMD(new Date(r.date))===todayStr);
+  const projToday = !doneToday ? getProjectedDayForDate(today, program) : null;
+  const projTomorrow = getProjectedDayForDate(tomorrow, program);
+  if(projToday) return `<div class="upcoming-banner">📅 Hoy tienes sesión programada: <b>${projToday.label}</b>.</div>`;
+  if(projTomorrow) return `<div class="upcoming-banner">📅 Mañana tienes sesión programada: <b>${projTomorrow.label}</b>.</div>`;
+  return '';
+}
 function renderHome(){
   const storageNote = !IS_PERSISTENT ? `<div class="storage-note">Sin guardado permanente en este entorno: los datos duran mientras esta pestaña siga abierta.</div>` : '';
   if(state.activeSession){
@@ -1388,6 +1577,7 @@ function renderHome(){
   return `<div class="topbar"><h1>MÁSTER 46</h1>${soundToggleButton()}</div>
   <div class="screen">
     ${storageNote}
+    ${renderUpcomingBanner()}
     <div class="home-center">
       <button class="cta-day" onclick="startSession('${suggId}')">
         <p class="cta-label">TOCA HOY</p>
@@ -1440,11 +1630,17 @@ function renderExec(){
     </div>` : '';
 
   let mainBlock = '';
+  const autoNote = state.autoMode
+    ? (state.autoAdvanceHandle
+        ? `<p class="auto-countdown">Avanza en <b>${state.autoAdvanceRemaining}s</b> automáticamente</p>`
+        : (state.autoPausedManually ? `<p class="auto-countdown">⏸ Pausado — toca ▶ Reanudar para seguir</p>` : ''))
+    : '';
   if(state.setPhase==='ready'){
     mainBlock = `
       <button class="start-btn confirm-btn" onclick="beginSet()">
         <div class="sb-label">Iniciar serie ${step.setIndex} de ${step.totalSets} ▶</div>
-      </button>`;
+      </button>
+      ${autoNote}`;
   } else if(state.setPhase==='switch'){
     mainBlock = `
       <div class="active-hero switch-hero">
@@ -1454,7 +1650,8 @@ function renderExec(){
       </div>
       <button class="start-btn confirm-btn" onclick="continueToOtherSide()">
         <div class="sb-label">Listo, continuar ▶</div>
-      </button>`;
+      </button>
+      ${autoNote}`;
   } else if(state.setPhase==='transition'){
     const nextStep = s.steps[s.currentStepIndex+1];
     const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
@@ -1465,13 +1662,14 @@ function renderExec(){
       </div>
       <button class="start-btn confirm-btn" onclick="continueTransition()">
         <div class="sb-label">Continuar ▶</div>
-      </button>`;
+      </button>
+      ${autoNote}`;
   } else if(state.setPhase==='active'){
     const targetReps = state.draft.reps || ex.repsNum;
     const sideLabel = state.sideIndex ? `LADO ${state.sideIndex}` : null;
     let heroInner;
     if(targetSeconds!==null){
-      heroInner = `<div class="h-count">${fmtTime(state.setElapsed)}</div><div class="h-detail">Objetivo: ${targetSeconds}s</div>`;
+      heroInner = `<div class="h-count">${fmtTime(targetSeconds-state.setElapsed)}</div><div class="h-detail">Cuenta regresiva</div>`;
     } else {
       const outOfRange = (ex.tempoMin!==undefined && state.currentTempo<ex.tempoMin) || (ex.tempoMax!==undefined && state.currentTempo>ex.tempoMax);
       let rangeLine = '';
@@ -1510,12 +1708,14 @@ function renderExec(){
       </div>`;
   }
 
-  const canPause = state.setPhase==='active';
+  const canPause = state.setPhase==='active' || state.autoAdvanceHandle || state.autoPausedManually;
+  const isPausedNow = state.setPaused || state.autoPausedManually;
   const navStrip = `<div class="nav-strip">
       <button onclick="stepBack()" ${s.currentStepIndex<=0?'disabled':''}>⏮</button>
-      <button onclick="toggleSetPause()" ${canPause?'':'disabled'}>${state.setPaused?'▶':'⏸'}</button>
+      <button class="${state.autoMode?'pause-big':''}" onclick="toggleUnifiedPause()" ${canPause?'':'disabled'}>${isPausedNow?'▶ Reanudar':'⏸'}</button>
       <button onclick="stepForward()" ${s.currentStepIndex>=s.steps.length-1?'disabled':''}>⏭</button>
-    </div>`;
+    </div>
+    <button class="auto-mode-toggle ${state.autoMode?'active':''}" onclick="toggleAutoMode()">${state.autoMode? '⏹ Salir del modo automático' : '▶▶ Modo automático (corre toda la sesión)'}</button>`;
 
   return `<div class="topbar">
       <h1>${s.dayLabel}</h1>
@@ -1528,6 +1728,7 @@ function renderExec(){
     ${isNewExercise ? `<div class="new-exercise-flag">NUEVO EJERCICIO</div>` : ''}
     <div class="block-tag ${blockTagClass(ex.block)}">${blockLabel(ex.block)}</div>
     <h2 class="exercise-name">${ex.name}</h2>
+    <p class="exercise-target-line">Objetivo: ${phraseRepsTarget(ex)}</p>
 
     ${isNewExercise && step.pairedWith ? `<div class="pair-flag"><span class="pf-arrow">⚡</span><span class="pf-text">Es superserie: al terminar esta serie, <b>sigue directo con ${step.pairedWith}</b>, sin descanso.</span></div>` : ''}
 
@@ -1553,6 +1754,7 @@ function renderProgressScale(s){
     ? s.exercisesSnapshot.findIndex(e=>e.id===s.steps[s.currentStepIndex].exerciseId)
     : s.exercisesSnapshot.length-1;
   const currentExId = s.currentStepIndex<s.steps.length ? s.steps[s.currentStepIndex].exerciseId : null;
+  const currentExName = currentExId ? exByIdInSession(s, currentExId).name : '';
   const segments = s.exercisesSnapshot.map(ex=>{
     const exSteps = s.steps.filter(st=>st.exerciseId===ex.id);
     const doneCount = exSteps.filter(st=>s.logs[st.exerciseId+'-'+st.setIndex]).length;
@@ -1563,6 +1765,7 @@ function renderProgressScale(s){
   }).join('');
   return `<div class="progress-scale">
     <div class="progress-scale-label">Ejercicio ${exIndex+1} de ${s.exercisesSnapshot.length} · ${pct}%</div>
+    ${currentExName? `<div class="progress-scale-current">📍 Ahora: ${currentExName}</div>` : ''}
     <div class="scale-track">${segments}</div>
   </div>`;
 }
@@ -1580,7 +1783,7 @@ function renderRest(){
     ${renderProgressScale(s)}
     <div class="nav-strip">
       <button onclick="stepBack()" ${s.currentStepIndex<=0?'disabled':''}>⏮</button>
-      <button onclick="toggleRestPause()">${state.restPaused?'▶':'⏸'}</button>
+      <button class="${state.autoMode?'pause-big':''}" onclick="toggleUnifiedPause()">${state.restPaused?'▶ Reanudar':'⏸'}</button>
       <button onclick="stepForward()" ${s.currentStepIndex>=s.steps.length-1?'disabled':''}>⏭</button>
     </div>
     <div class="rest-hero ${state.restPaused?'paused':''}">
@@ -1596,14 +1799,27 @@ function renderRest(){
     ${nextEx ? `<div class="next-up">
       <div class="next-up-label">${nextIsNewExercise?'SIGUE — NUEVO EJERCICIO':'SIGUE'}</div>
       <div class="next-up-name">${nextEx.name}</div>
-      ${nextEx.sub? `<div class="next-up-sub">${nextEx.sub}</div>`:''}
-      <div class="next-up-target">Serie ${nextStep.setIndex} de ${nextStep.totalSets} · ${nextEx.repsTarget}${nextEx.carga>0?' · '+nextEx.carga+' '+nextCargaUnit:(nextEx.unit?' · '+nextEx.unit:'')}${nextEx.equipment?' · '+nextEx.equipment:''}</div>
+      ${nextEx.sub? `<span class="exercise-tag">${nextEx.sub}</span>`:''}
+      <p class="exercise-target-line">Serie ${nextStep.setIndex} de ${nextStep.totalSets} · Objetivo: ${phraseRepsTarget(nextEx)}</p>
+      ${nextEx.description? `<p class="exercise-description">${nextEx.description}</p>`:''}
+      <div class="equip-chip">🏋 ${nextEx.equipment? nextEx.equipment+' · ':''}${nextEx.carga>0? nextEx.carga+' '+nextCargaUnit : (nextEx.unit||'Peso corporal')}${nextEx.discConfig? ` <span class="config">(${nextEx.discConfig})</span>`:''}</div>
+      ${nextEx.videoUrl? `<a class="video-link" href="${nextEx.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>` : ''}
+      ${nextEx.note? `<p class="exercise-note-inline">${nextEx.note}</p>`:''}
     </div>` : `<div class="next-up"><div class="next-up-label">ÚLTIMA SERIE</div><div class="next-up-name">Esta es la última serie de la sesión</div></div>`}
   </div>`;
 }
 
 function viewSummary(){ state.sessionSubview='summary'; render(); }
-function backToExec(){ state.sessionSubview = state.activeSession.currentStepIndex>=state.activeSession.steps.length ? 'complete':'exec'; render(); }
+function backToExec(){
+  if(state.restTimerHandle || state.restPaused){
+    state.sessionSubview = 'rest';
+  } else if(state.activeSession.currentStepIndex >= state.activeSession.steps.length){
+    state.sessionSubview = 'complete';
+  } else {
+    state.sessionSubview = 'exec';
+  }
+  render();
+}
 
 function renderSummary(){
   const s = state.activeSession;
@@ -1959,6 +2175,8 @@ window.changeCalendarMonth=changeCalendarMonth; window.selectCalendarDate=select
 window.setScheduleMode=setScheduleMode; window.setStartWeekday=setStartWeekday; window.setIntervalDays=setIntervalDays;
 window.askDeleteProgram=askDeleteProgram; window.cancelDeleteProgram=cancelDeleteProgram; window.confirmDeleteProgram=confirmDeleteProgram;
 window.copyGeneratorPrompt=copyGeneratorPrompt;
+window.deleteHistoryRecord=deleteHistoryRecord;
+window.toggleAutoMode=toggleAutoMode; window.toggleUnifiedPause=toggleUnifiedPause;
 
 init();
 </script>
