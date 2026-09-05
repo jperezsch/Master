@@ -63,7 +63,7 @@
     text-decoration:underline;
   }
 
-  .program-section{ margin-top:22px; padding-top:16px; border-top:1px solid var(--line); }
+  .program-section{ margin-top:16px; padding:16px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
   .program-section .sect-label{ font-size:12px; color:var(--text-dim); letter-spacing:.04em; margin-bottom:10px; }
   .program-row{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
   .program-row select{ flex:1; }
@@ -286,11 +286,17 @@
   .cal-title{ font-size:15px; font-weight:800; }
   .cal-weekdays{ display:grid; grid-template-columns:repeat(7,1fr); text-align:center; font-size:11px; color:var(--text-dim); margin-bottom:4px; }
   .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
-  .cal-cell{ aspect-ratio:1; background:var(--surface); border:1px solid var(--line); border-radius:2px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-family:inherit; color:var(--text); padding:0; position:relative; }
+  .cal-cell{ aspect-ratio:1; background:var(--surface); border:2px solid var(--line); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-family:inherit; color:var(--text); padding:0; position:relative; transition:transform .1s ease; }
   .cal-cell.empty{ background:none; border:none; cursor:default; }
-  .cal-cell.today{ border-color:var(--accent); border-width:2px; }
-  .cal-cell.selected{ outline:2px solid #fff; outline-offset:1px; }
-  .cal-daynum{ font-size:13px; }
+  .cal-cell.today{ border-color:#fff; border-width:2px; }
+  .cal-cell.selected{ transform:scale(1.08); box-shadow:0 0 0 2px #fff; z-index:1; }
+  .cal-cell.done{ background:var(--good); border-color:var(--good); }
+  .cal-cell.done .cal-daynum{ color:#0c2412; font-weight:800; }
+  .cal-cell.incomplete{ background:var(--warn); border-color:var(--warn); }
+  .cal-cell.incomplete .cal-daynum{ color:#2b1d02; font-weight:800; }
+  .cal-cell.projected{ background:var(--pair-dim); border-color:var(--pair); border-style:dashed; }
+  .cal-cell.projected .cal-daynum{ color:#fff; font-weight:700; }
+  .cal-daynum{ font-size:14px; }
   .cal-dot{ width:10px; height:10px; border-radius:50%; margin-top:3px; }
   .cal-dot.done{ background:var(--good); }
   .cal-dot.incomplete{ background:var(--warn); }
@@ -307,9 +313,15 @@
 
   .radio-row{ display:flex; align-items:center; gap:8px; font-size:14px; padding:8px 0; cursor:pointer; }
   .schedule-sub{ display:flex; align-items:center; gap:8px; padding:4px 0 10px 26px; font-size:13px; color:var(--text-dim); }
+  .schedule-summary-toggle{ display:flex; align-items:center; justify-content:space-between; width:100%; background:var(--surface-2); border:1px solid var(--line); color:var(--text); padding:12px 14px; border-radius:4px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; }
+  .schedule-summary-toggle .chev{ color:var(--text-dim); font-weight:400; font-size:13px; }
+  .schedule-options{ margin-top:12px; padding-top:12px; border-top:1px solid var(--line); }
+  .settings-block-version{ background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; margin-bottom:4px; }
+  .settings-block-version .eyebrow{ font-size:18px; font-weight:800; color:var(--text); margin:0 0 6px 0; }
+  .settings-block-version button{ margin-top:10px; }
   .schedule-sub select, .schedule-sub input{ background:var(--surface-2); color:var(--text); border:1px solid var(--line); padding:5px 8px; font-family:inherit; font-size:13px; }
 
-  .export-section{ margin-top:30px; padding-top:18px; border-top:1px solid var(--line); }
+  .export-section{ margin-top:16px; padding:16px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
   .export-section .sect-label{ font-size:12px; color:var(--text-dim); letter-spacing:.04em; margin-bottom:8px; }
   .export-help{ font-size:13px; color:var(--text-dim); line-height:1.4; margin:0 0 12px 0; }
   .export-actions{ display:flex; gap:10px; }
@@ -362,7 +374,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.8.0";
+const APP_VERSION = "1.9.0";
 const APP_BUILD_DATE = "2026-09-05";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -429,7 +441,19 @@ Cuando termines de reunir la información y generes el programa, el archivo debe
   ]
 }
 
-Reglas importantes: usa palabras completas en vez de abreviaturas de planilla en todos los campos de texto (por ejemplo "cada mano" en vez de "c/mano"). No dejes ningún campo obligatorio vacío. Todos los "id" de ejercicio deben ser únicos dentro de su día, y los "id" de día únicos dentro del programa. Los números deben ser números de JSON reales (12.5), nunca texto entre comillas ("12.5"). Antes de entregar el archivo, revisa que el JSON sea válido.`;
+Reglas importantes: usa palabras completas en vez de abreviaturas de planilla en todos los campos de texto (por ejemplo "cada mano" en vez de "c/mano"). No dejes ningún campo obligatorio vacío. Todos los "id" de ejercicio deben ser únicos dentro de su día, y los "id" de día únicos dentro del programa. Los números deben ser números de JSON reales (12.5), nunca texto entre comillas ("12.5"). Cuando el usuario te diga qué discos o pesos exactos tiene disponibles, calcula "discConfig" combinando esos pesos reales para llegar a la carga indicada (nunca inventes una combinación que el usuario no tenga).
+
+ANTES DE ENTREGAR EL ARCHIVO, VERIFICA TODO ESTO:
+☐ El JSON es válido (sin comas colgantes, sin comentarios, todas las comillas cerradas).
+☐ Cada "id" de ejercicio es único dentro de su día; cada "id" de día es único en el programa.
+☐ "block" es exactamente "P", "A", "B" o "C" (mayúscula) en todos los ejercicios.
+☐ Ningún "pair" se repite en más de 2 ejercicios del mismo día.
+☐ Los campos numéricos (series, repsNum, carga, rest, tempoSeconds, tempoMin, tempoMax) son números de JSON, no texto.
+☐ Si "sub" o "description" menciona un tiempo de ejecución (ej. "excéntrico 3 segundos"), "tempoSeconds" y "tempoMin" lo reflejan.
+☐ "repsNum" en ejercicios unilaterales ("cada lado" en repsTarget) es la cifra de UN SOLO lado.
+☐ Como máximo un ejercicio en todo el programa tiene "keyMetric": true.
+☐ "videoUrl" solo tiene una URL si de verdad la verificaste en musclewiki.com; si no, va en null.
+☐ El resultado se entrega como archivo .json descargable, no como bloque de código para copiar.`;
 
 function copyGeneratorPrompt(){
   try{
@@ -646,9 +670,9 @@ function renderCalendar(){
     const isToday = dateStr===todayStr;
     const isSelected = state.selectedCalendarDate===dateStr;
     const projected = dotCls ? null : getProjectedDayForDate(dateObj, program);
-    cells += `<button class="cal-cell ${isToday?'today':''} ${isSelected?'selected':''}" onclick="selectCalendarDate('${dateStr}')" title="${projected?projected.label:''}">
+    const fillCls = dotCls ? dotCls : (projected ? 'projected' : '');
+    cells += `<button class="cal-cell ${fillCls} ${isToday?'today':''} ${isSelected?'selected':''}" onclick="selectCalendarDate('${dateStr}')" title="${projected?projected.label:''}">
       <span class="cal-daynum">${d}</span>
-      ${dotCls? `<span class="cal-dot ${dotCls}"></span>` : (projected? `<span class="cal-dot projected"></span>` : '')}
     </button>`;
   }
 
@@ -859,7 +883,8 @@ let state = {
   calendarYear: new Date().getFullYear(),
   selectedCalendarDate: null,
   scheduleConfigs: {}, // keyed by programId: { mode, startWeekday, intervalDays }
-  pendingDeleteId: null
+  pendingDeleteId: null,
+  scheduleSectionOpen: false
 };
 function getScheduleConfigFor(programId){
   if(!state.scheduleConfigs[programId]){
@@ -1996,15 +2021,6 @@ function renderProgress(){
     </div>` : ''}
   </div>`;
 }
-function renderImportSection(){
-  return `<div class="export-section">
-    <div class="sect-label">IMPORTAR HISTORIAL</div>
-    <p class="export-help">Si vienes de otra dirección web (por ejemplo, migraste de Netlify a GitHub Pages), sube aquí el archivo que exportaste antes para seguir donde quedaste.</p>
-    <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleHistoryImport(this)"/></label>
-    ${state.importMessage ? `<div class="export-status ok">${state.importMessage}</div>` : ''}
-    ${state.importError ? `<div class="export-status error">${state.importError}</div>` : ''}
-  </div>`;
-}
 function forceUpdate(){
   const url = window.location.href.split('?')[0] + '?v=' + Date.now();
   window.location.href = url;
@@ -2012,16 +2028,18 @@ function forceUpdate(){
 function renderSettings(){
   return `<div class="topbar"><h1>AJUSTES</h1></div>
   <div class="screen">
-    <div class="hero"><p class="eyebrow">Máster 46</p><h2>Versión ${APP_VERSION}</h2></div>
-    <p class="export-help">Compilado: ${APP_BUILD_DATE}</p>
-    <button class="btn secondary" onclick="forceUpdate()">🔄 Buscar actualización</button>
+    <div class="settings-block-version">
+      <p class="eyebrow">Máster 46 · Versión ${APP_VERSION}</p>
+      <p class="export-help">Compilado: ${APP_BUILD_DATE}</p>
+      <button class="btn secondary" onclick="forceUpdate()">🔄 Buscar actualización</button>
+    </div>
 
     ${renderSettingsProgramSection()}
     ${renderScheduleSection()}
     ${renderGeneratorPromptSection()}
 
     <div class="export-section">
-      <div class="sect-label">EXPORTAR DATOS REALES</div>
+      <div class="sect-label">DESCARGAR AVANCES PARA CREAR SIGUIENTE SEMANA</div>
       <p class="export-help">Descarga o copia este archivo y pégalo en el chat con Claude para armar la semana siguiente con tus datos reales de carga, reps y RPE.</p>
       <div class="export-actions">
         <button class="btn secondary small" onclick="downloadHistory()">Descargar .json</button>
@@ -2030,7 +2048,6 @@ function renderSettings(){
       ${state.exportCopied==='ok' ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
       ${state.exportCopied==='error' ? `<div class="export-status error">No se pudo copiar. Prueba con "Descargar .json".</div>` : ''}
     </div>
-    ${renderImportSection()}
   </div>`;
 }
 function renderSettingsProgramSection(){
@@ -2038,7 +2055,7 @@ function renderSettingsProgramSection(){
   const options = ids.map(id=>`<option value="${id}" ${id===state.activeProgramId?'selected':''}>${PROGRAMS[id].label}</option>`).join('');
   const canDelete = state.activeProgramId !== 'default';
   return `<div class="program-section">
-    <div class="sect-label">PROGRAMA</div>
+    <div class="sect-label">1 · PROGRAMA</div>
     <div class="program-row">
       <select onchange="switchProgram(this.value)">${options}</select>
       <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleProgramUpload(this)"/></label>
@@ -2071,26 +2088,39 @@ function confirmDeleteProgram(){
   state.pendingDeleteId = null;
   render();
 }
+function toggleScheduleSection(){ state.scheduleSectionOpen = !state.scheduleSectionOpen; render(); }
+function scheduleSummaryText(cfg, program){
+  if(cfg.mode==='weekday') return `Días fijos, empezando el ${WEEKDAY_NAMES[(cfg.startWeekday||1)-1]}`;
+  if(cfg.mode==='interval') return `Cada ${cfg.intervalDays} días`;
+  return `Según recomendación del programa`;
+}
 function renderScheduleSection(){
   const cfg = getScheduleConfigFor(state.activeProgramId);
   const program = getActiveProgram();
+  const open = state.scheduleSectionOpen;
   return `<div class="program-section">
-    <div class="sect-label">DISTRIBUCIÓN DE SESIONES — ${program.label}</div>
-    <label class="radio-row"><input type="radio" name="schedmode" value="weekday" ${cfg.mode==='weekday'?'checked':''} onchange="setScheduleMode('weekday')"> Días fijos de la semana</label>
-    ${cfg.mode==='weekday' ? `<div class="schedule-sub">
-      <span>Empezar en:</span>
-      <select onchange="setStartWeekday(this.value)">
-        ${WEEKDAY_NAMES.map((d,i)=>`<option value="${i+1}" ${cfg.startWeekday===i+1?'selected':''}>${d}</option>`).join('')}
-      </select>
+    <div class="sect-label">2 · DISTRIBUCIÓN DE SESIONES — ${program.label}</div>
+    <button class="schedule-summary-toggle" onclick="toggleScheduleSection()">
+      <span>${scheduleSummaryText(cfg, program)}</span>
+      <span class="chev">${open?'▴ Ocultar':'▾ Cambiar'}</span>
+    </button>
+    ${open ? `<div class="schedule-options">
+      <label class="radio-row"><input type="radio" name="schedmode" value="weekday" ${cfg.mode==='weekday'?'checked':''} onchange="setScheduleMode('weekday')"> Días fijos de la semana</label>
+      ${cfg.mode==='weekday' ? `<div class="schedule-sub">
+        <span>Empezar en:</span>
+        <select onchange="setStartWeekday(this.value)">
+          ${WEEKDAY_NAMES.map((d,i)=>`<option value="${i+1}" ${cfg.startWeekday===i+1?'selected':''}>${d}</option>`).join('')}
+        </select>
+      </div>` : ''}
+      <label class="radio-row"><input type="radio" name="schedmode" value="interval" ${cfg.mode==='interval'?'checked':''} onchange="setScheduleMode('interval')"> Cada N días</label>
+      ${cfg.mode==='interval' ? `<div class="schedule-sub">
+        <span>Cada</span>
+        <input type="number" min="1" max="14" value="${cfg.intervalDays}" style="width:56px;" onchange="setIntervalDays(this.value)">
+        <span>días, continuando desde tu última sesión registrada</span>
+      </div>` : ''}
+      <label class="radio-row"><input type="radio" name="schedmode" value="program" ${cfg.mode==='program'?'checked':''} onchange="setScheduleMode('program')"> Seguir recomendación del programa</label>
+      ${cfg.mode==='program' ? `<div class="schedule-sub">${renderProgramRecommendationInfo(program)}</div>` : ''}
     </div>` : ''}
-    <label class="radio-row"><input type="radio" name="schedmode" value="interval" ${cfg.mode==='interval'?'checked':''} onchange="setScheduleMode('interval')"> Cada N días</label>
-    ${cfg.mode==='interval' ? `<div class="schedule-sub">
-      <span>Cada</span>
-      <input type="number" min="1" max="14" value="${cfg.intervalDays}" style="width:56px;" onchange="setIntervalDays(this.value)">
-      <span>días, continuando desde tu última sesión registrada</span>
-    </div>` : ''}
-    <label class="radio-row"><input type="radio" name="schedmode" value="program" ${cfg.mode==='program'?'checked':''} onchange="setScheduleMode('program')"> Seguir recomendación del programa</label>
-    ${cfg.mode==='program' ? `<div class="schedule-sub">${renderProgramRecommendationInfo(program)}</div>` : ''}
   </div>`;
 }
 function renderProgramRecommendationInfo(program){
@@ -2102,12 +2132,11 @@ function renderProgramRecommendationInfo(program){
 }
 function renderGeneratorPromptSection(){
   return `<div class="export-section">
-    <div class="sect-label">GENERAR UN PROGRAMA NUEVO CON IA</div>
-    <p class="export-help">Copia este prompt y pégalo en una conversación nueva con Claude, ChatGPT o la IA que prefieras. Te va a hacer preguntas sobre tus objetivos, tu equipamiento y tu disponibilidad, y al final te entrega un archivo .json listo para subir aquí.</p>
+    <div class="sect-label">3 · GENERAR UN PROGRAMA NUEVO CON IA</div>
+    <p class="export-help">Copia este prompt y pégalo en una conversación nueva con Claude, ChatGPT o la IA que prefieras. Te va a hacer preguntas sobre tus objetivos, tu equipamiento y tu disponibilidad, y al final te entrega un archivo .json listo para subir aquí. No necesitas leer el prompt: solo cópialo y pégalo.</p>
     <button class="btn secondary small" onclick="copyGeneratorPrompt()">📋 Copiar prompt</button>
     ${state.promptCopied===true ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
-    ${state.promptCopied==='error' ? `<div class="export-status error">No se pudo copiar automáticamente. Mantén presionado el texto de abajo para copiarlo a mano.</div>` : ''}
-    <textarea readonly rows="4" style="margin-top:10px; font-size:11px;" onclick="this.select()">${GENERATOR_PROMPT}</textarea>
+    ${state.promptCopied==='error' ? `<div class="export-status error">No se pudo copiar automáticamente. Selecciona y copia el texto de abajo a mano.</div><textarea readonly rows="4" style="margin-top:10px; font-size:11px;" onclick="this.select()">${GENERATOR_PROMPT}</textarea>` : ''}
   </div>`;
 }
 function handleHistoryImport(input){
@@ -2198,6 +2227,7 @@ window.downloadHistory=downloadHistory; window.copyHistoryToClipboard=copyHistor
 window.handleHistoryImport=handleHistoryImport;
 window.changeCalendarMonth=changeCalendarMonth; window.selectCalendarDate=selectCalendarDate;
 window.setScheduleMode=setScheduleMode; window.setStartWeekday=setStartWeekday; window.setIntervalDays=setIntervalDays;
+window.toggleScheduleSection=toggleScheduleSection;
 window.askDeleteProgram=askDeleteProgram; window.cancelDeleteProgram=cancelDeleteProgram; window.confirmDeleteProgram=confirmDeleteProgram;
 window.copyGeneratorPrompt=copyGeneratorPrompt;
 window.deleteHistoryRecord=deleteHistoryRecord;
