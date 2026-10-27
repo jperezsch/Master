@@ -524,6 +524,65 @@
   .auto-mode-toggle{ margin:4px auto 16px auto; width:auto; display:block; }
   .upload-label{ white-space:nowrap; flex:0 0 auto; }
   .program-row select{ min-width:0; }
+
+  /* =====================================================================
+     v2.1 · INICIO COMO EXPLORADOR DEL PROGRAMA
+     ===================================================================== */
+  .prog-picker{ margin:2px 0 14px 0; }
+  .pp-label{ display:block; font-size:12px; font-weight:800; letter-spacing:.1em; color:var(--text-dim); margin:0 0 6px 4px; }
+  .prog-select{ width:100%; font-size:16px; font-weight:700; padding:12px 14px; border-radius:var(--r-btn); background:var(--surface); border:1px solid var(--line); color:var(--text); }
+  .cta-program{ margin-bottom:12px; }
+  .cta-program .cta-title{ font-size:30px; }
+  .cta-go{ margin:16px 0 0 0; font-size:18px; font-weight:800; }
+  .home-hint{ font-size:14px; color:var(--text-dim); line-height:1.5; margin:4px 4px 14px 4px; text-align:center; }
+  .resume-strip{ display:flex; gap:8px; align-items:stretch; margin-bottom:14px; }
+  .resume-main{ flex:1; text-align:left; background:var(--pair-dim); border:1px solid var(--pair); border-radius:var(--r-btn); padding:12px 14px; color:#fff; cursor:pointer; font-family:inherit; display:flex; flex-direction:column; gap:3px; }
+  .rs-label{ font-size:12px; font-weight:800; letter-spacing:.1em; color:#C9C0F0; }
+  .rs-text{ font-size:16px; font-weight:700; }
+  .resume-discard{ background:none; border:1px solid var(--line); color:var(--text-dim); border-radius:var(--r-btn); padding:0 14px; font-size:14px; cursor:pointer; font-family:inherit; }
+
+  .back-btn{ background:none; border:none; color:var(--text); font-size:20px; font-weight:800; padding:6px 4px; cursor:pointer; font-family:inherit; }
+  .prog-head{ margin:2px 0 16px 0; }
+  .prog-status{ display:inline-block; font-size:12px; font-weight:800; letter-spacing:.1em; padding:5px 12px; border-radius:var(--r-chip); background:var(--surface-2); color:var(--text-dim); }
+  .prog-status.st-Actual{ background:var(--accent); color:#fff; }
+  .prog-status.st-Realizado{ background:var(--good); color:#0c2412; }
+  .prog-title{ font-size:28px; line-height:1.15; margin:10px 0 4px 0; letter-spacing:-0.01em; }
+  .prog-meta{ font-size:16px; color:var(--text-dim); margin:0 0 8px 0; }
+  .prog-hint{ font-size:14px; color:var(--text-dim); line-height:1.5; margin:0; }
+  .screen.has-startbar{ padding-bottom:110px; }
+
+  .day-card{ background:var(--card-bg); border:1px solid var(--line); border-radius:var(--r-card); box-shadow:var(--shadow-card); margin-bottom:14px; overflow:hidden; }
+  .day-card.open{ border-color:var(--accent); }
+  .day-head{ width:100%; display:flex; align-items:center; gap:10px; text-align:left; background:none; border:none; color:var(--text); padding:18px 16px; cursor:pointer; font-family:inherit; }
+  .day-head-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; }
+  .day-title{ font-size:26px; font-weight:800; letter-spacing:-0.01em; }
+  .day-sub{ font-size:16px; color:var(--text-dim); line-height:1.35; }
+  .day-meta{ font-size:14px; color:var(--text-dim); }
+  .day-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .day-chip{ font-size:13px; font-weight:800; padding:4px 11px; border-radius:var(--r-chip); background:var(--surface-2); color:var(--text-dim); }
+  .day-chip.done{ background:rgba(111,169,122,0.2); color:var(--good); }
+  .day-chip.sugg{ background:var(--accent); color:#fff; }
+  .day-chev{ font-size:20px; color:var(--text-dim); }
+  .day-body{ padding:0 14px 14px 14px; border-top:1px solid var(--line); }
+  .pex{ width:100%; display:flex; align-items:flex-start; gap:12px; text-align:left; background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:13px 12px; margin:7px 0 0 0; color:var(--text); cursor:pointer; font-family:inherit; }
+  .pex.open{ border-color:var(--text-dim); }
+  .pex-num{ flex:0 0 auto; width:28px; height:28px; border-radius:50%; background:var(--bg); color:var(--text-dim); font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .pex-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+  .pex-name{ font-size:17px; font-weight:800; line-height:1.25; }
+  .pex-t{ font-size:14px; color:var(--text-dim); line-height:1.35; }
+  .pex-last{ font-size:14px; color:var(--good); font-weight:700; }
+  .pex-chev{ color:var(--text-dim); font-size:16px; margin-top:2px; }
+  .pex-detail{ padding:12px 4px 6px 4px; }
+  .pex-facts{ font-size:15px; color:var(--text); line-height:1.5; margin:0 0 12px 0; }
+  .pex-lastbox{ font-size:15px; background:rgba(111,169,122,0.14); border-left:4px solid var(--good); border-radius:10px; padding:11px 13px; margin:0 0 12px 0; line-height:1.4; }
+  .pex-detail .video-link{ margin-bottom:6px; }
+
+  .start-bar{ position:fixed; left:50%; transform:translateX(-50%); width:100%; max-width:480px; bottom:calc(68px + env(safe-area-inset-bottom)); padding:0 14px; z-index:20; pointer-events:none; }
+  .start-bar-inner{ pointer-events:auto; display:flex; align-items:center; gap:10px; background:rgba(29,34,38,0.97); border:1px solid var(--line); border-radius:18px; padding:10px; box-shadow:0 10px 30px rgba(0,0,0,0.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+  .start-bar-text{ flex:1; font-size:16px; font-weight:700; padding-left:6px; line-height:1.3; }
+  .sb-go{ background:linear-gradient(160deg,#D4572F 0%,#A53A1F 100%); color:#fff; border:none; border-radius:14px; padding:15px 20px; font-size:17px; font-weight:800; cursor:pointer; font-family:inherit; white-space:nowrap; }
+  .sb-go.wide{ flex:1; font-size:19px; padding:17px; }
+  .sb-cancel{ background:var(--surface-2); color:var(--text); border:1px solid var(--line); border-radius:14px; padding:15px 16px; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit; }
 </style>
 </head>
 <body>
@@ -570,7 +629,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "2.0.0";
+const APP_VERSION = "2.1.0";
 const APP_BUILD_DATE = "2026-10-27";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -1050,8 +1109,8 @@ let state = {
   activeSession:null,
   history:[],
   activeProgramId:'default',
-  exploreOpen:false,
-  showOtherDays:false,
+  homeScreen:'main', // main | program
+  openDays:{}, openEx:{}, focusDayId:null, confirmStartDay:null,
   programUploadError:null,
   restRemaining:0,
   restTimerHandle:null,
@@ -1161,7 +1220,7 @@ function handleProgramUpload(input){
       PROGRAMS[id] = data;
       state.activeProgramId = id;
       state.programUploadError = null;
-      state.exploreOpen = false;
+      state.homeScreen = 'main'; state.openDays = {}; state.openEx = {}; state.focusDayId = null;
       storeSet('master46_programs', Object.fromEntries(Object.entries(PROGRAMS).filter(([k])=>k!=='default')));
       storeSet('master46_active_program_id', id);
       render();
@@ -1176,11 +1235,10 @@ function handleProgramUpload(input){
 function switchProgram(id){
   state.activeProgramId = id;
   state.programUploadError = null;
-  state.showOtherDays = false;
+  state.openDays = {}; state.openEx = {}; state.focusDayId = null; state.confirmStartDay = null;
   storeSet('master46_active_program_id', id);
   render();
 }
-function toggleExplore(){ state.exploreOpen = !state.exploreOpen; render(); }
 
 /* ============================== SESSION LOGIC ============================== */
 function suggestedDay(){
@@ -1213,6 +1271,7 @@ function startSession(dayId){
     steps, currentStepIndex:0, logs:{}, startTime: Date.now()
   };
   state.sessionSubview='exec';
+  state.confirmStartDay=null;
   resetStepUiFlags();
   loadDraftForCurrentStep();
   state.view='session';
@@ -1237,6 +1296,7 @@ function discardSession(){
       id: 'sess_'+Date.now(),
       date: new Date().toISOString(),
       day: s.day,
+      programId: s.programId,
       programLabel: s.programLabel,
       dayLabel: s.dayLabel,
       avgRpe, totalVolume, durationSec,
@@ -1612,6 +1672,7 @@ function finalizeSession(){
     id: 'sess_'+Date.now(),
     date: new Date().toISOString(),
     day: s.day,
+    programId: s.programId,
     programLabel: s.programLabel,
     dayLabel: s.dayLabel,
     avgRpe, totalVolume, durationSec,
@@ -1625,6 +1686,9 @@ function finalizeSession(){
   state.activeSession=null;
   state.savedNotesDraft='';
   state.view='home';
+  // volver al programa con el día recién hecho desplegado
+  if(PROGRAMS[s.programId]) state.activeProgramId = s.programId;
+  state.homeScreen='program'; state.openDays = {[s.day]:true}; state.openEx = {}; state.focusDayId=null; state.confirmStartDay=null;
   render();
 }
 
@@ -1683,7 +1747,10 @@ function renderNav(){
     <button class="${state.view==='settings'?'active':''}" onclick="goSettings()"><span class="ic">⚙️</span>Ajustes</button>
   </div>`;
 }
-function goHome(){ state.view='home'; render(); }
+function goHome(){
+  if(state.view==='home' && state.homeScreen==='program') state.homeScreen='main';
+  state.view='home'; render();
+}
 function goSession(){ if(state.activeSession){ state.view='session'; render(); } }
 function goProgress(){ state.view='progress'; render(); }
 function goSettings(){ state.view='settings'; render(); }
@@ -1756,37 +1823,6 @@ function handleVisibilityChange(){
   }
 }
 
-function renderExploreDay(d){
-  let lastBlock = null; let counter = 0;
-  const rows = d.exercises.map(e=>{
-    counter++;
-    let header = '';
-    if(e.block !== lastBlock){
-      header = `<div class="explore-block-header ${blockTagClass(e.block)}">${blockLabel(e.block)}</div>`;
-      lastBlock = e.block;
-    }
-    return header + `<div class="explore-ex"><span class="ex-num">${counter}.</span><span class="ex-name">${e.name}${e.videoUrl? ` <a href="${e.videoUrl}" target="_blank" rel="noopener" class="explore-video-link" onclick="event.stopPropagation()">▶</a>`:''}</span><span class="ex-t">${e.repsTarget}${e.carga>0?' · '+e.carga+(e.unit?' '+e.unit:''):''}${e.equipment?' · '+e.equipment:''}${e.discConfig?' ('+e.discConfig+')':''}</span></div>`;
-  }).join('');
-  return `<div class="explore-day"><div class="d-title">${d.label}${d.subtitle?' — '+d.subtitle:''}</div>${rows}</div>`;
-}
-
-function renderProgramSection(){
-  const ids = Object.keys(PROGRAMS);
-  const options = ids.map(id=>`<option value="${id}" ${id===state.activeProgramId?'selected':''}>${PROGRAMS[id].label}</option>`).join('');
-  const program = getActiveProgram();
-  const explorePanel = state.exploreOpen
-    ? `<div class="explore-panel">${program.days.map(d=>renderExploreDay(d)).join('')}</div>`
-    : '';
-  return `<div class="program-section">
-    <div class="sect-label">PROGRAMA ACTIVO</div>
-    <div class="program-row">
-      <select onchange="switchProgram(this.value)">${options}</select>
-    </div>
-    <button class="explore-toggle" onclick="toggleExplore()">${state.exploreOpen?'Ocultar contenido ▴':'Ver contenido del programa ▾'}</button>
-    ${explorePanel}
-  </div>`;
-}
-
 function renderUpcomingBanner(){
   const program = getActiveProgram();
   const today = new Date();
@@ -1799,43 +1835,189 @@ function renderUpcomingBanner(){
   if(projTomorrow) return `<div class="upcoming-banner">📅 Mañana tienes sesión programada: <b>${projTomorrow.label}</b>.</div>`;
   return '';
 }
-function renderHome(){
-  const storageNote = !IS_PERSISTENT ? `<div class="storage-note">Sin guardado permanente en este entorno: los datos duran mientras esta pestaña siga abierta.</div>` : '';
-  if(state.activeSession){
-    const s = state.activeSession;
-    return `<div class="topbar"><h1>MÁSTER 46</h1>${soundToggleButton()}</div>
-    <div class="screen">
-      ${storageNote}
-      <div class="home-center">
-        <button class="cta-day" onclick="resumeSession()">
-          <p class="cta-label">SESIÓN EN CURSO</p>
-          <p class="cta-title">Continuar ${s.dayLabel}</p>
-          <p class="cta-sub">Vas en el paso ${s.currentStepIndex+1} de ${s.steps.length}</p>
-        </button>
-        <button class="switch-day" onclick="discardSession()">Descartar y empezar de nuevo</button>
-      </div>
-    </div>`;
+/* ============================== INICIO: PROGRAMA ============================== */
+const PAIR_COLORS = ['#6D5FA8','#4C8C6B','#B5652E','#3E6FA5','#A0527A'];
+function recordProgramId(r){
+  if(r.programId && PROGRAMS[r.programId]) return r.programId;
+  const byLabel = Object.keys(PROGRAMS).find(k=>PROGRAMS[k].label===r.programLabel);
+  return byLabel || 'default';
+}
+function lastRecordForDay(programId, dayId){
+  for(let i=state.history.length-1;i>=0;i--){
+    const r = state.history[i];
+    if(r.status==='incomplete') continue;
+    if(r.day===dayId && recordProgramId(r)===programId) return r;
   }
+  return null;
+}
+/* Realizado: todos sus días tienen sesión completa. Actual: el primer programa aún no terminado.
+   Siguiente: los que vienen después. El orden es el de carga. */
+function programStatuses(){
+  const out = {}; let currentFound = false;
+  Object.keys(PROGRAMS).forEach(id=>{
+    const done = PROGRAMS[id].days.every(d=>lastRecordForDay(id, d.id));
+    if(done) out[id] = 'Realizado';
+    else if(!currentFound){ out[id] = 'Actual'; currentFound = true; }
+    else out[id] = 'Siguiente';
+  });
+  return out;
+}
+function programLastDate(programId){
+  const recs = state.history.filter(r=>r.status!=='incomplete' && recordProgramId(r)===programId);
+  return recs.length ? recs[recs.length-1].date : null;
+}
+function openProgramScreen(){ state.homeScreen='program'; render(); window.scrollTo(0,0); }
+function toggleDay(dayId){
+  if(state.openDays[dayId]){
+    delete state.openDays[dayId];
+    if(state.focusDayId===dayId) state.focusDayId = Object.keys(state.openDays).pop() || null;
+  } else {
+    state.openDays[dayId] = true; state.focusDayId = dayId;
+  }
+  state.confirmStartDay = null;
+  render();
+}
+function toggleEx(dayId, exId){
+  const k = dayId+':'+exId;
+  if(state.openEx[k]) delete state.openEx[k]; else state.openEx[k] = true;
+  render();
+}
+function askStart(dayId){ state.confirmStartDay = dayId; render(); }
+function cancelStart(){ state.confirmStartDay = null; render(); }
+function lastResultLine(rec, ex){
+  if(!rec || !rec.logs) return '';
+  const keys = Object.keys(rec.logs).filter(k=>k.startsWith(ex.id+'-'))
+    .sort((a,b)=> parseInt(a.split('-').pop(),10) - parseInt(b.split('-').pop(),10));
+  if(!keys.length) return '';
+  const sets = keys.map(k=>rec.logs[k]);
+  const timed = parseTargetSeconds(ex.repsTarget)!==null;
+  const carga = Math.max(...sets.map(l=>l.carga||0));
+  const reps = sets.map(l=>l.reps).join(' / ');
+  const rpeLog = sets.find(l=>l.rpe!==null && l.rpe!==undefined);
+  return `${carga>0? carga+' '+(ex.unit||'kg')+' · ' : ''}${reps}${timed?' s':' reps'}${rpeLog? ' · RPE '+rpeLog.rpe : ''}`;
+}
+function renderExerciseRow(day, e, n, rec, pairNums){
+  const open = !!state.openEx[day.id+':'+e.id];
+  const timed = parseTargetSeconds(e.repsTarget)!==null;
+  const last = lastResultLine(rec, e);
+  const pc = e.pair ? PAIR_COLORS[pairNums[e.pair] % PAIR_COLORS.length] : null;
+  const pairTag = e.pair ? `<span class="superserie-tag" style="color:${pc};border-color:${pc};">⚡ Superserie ${pairNums[e.pair]+1}</span>` : '';
+  const partner = e.pair ? day.exercises.find(o=>o.pair===e.pair && o.id!==e.id) : null;
+  const detail = open ? `<div class="pex-detail">
+      ${e.sub? `<span class="exercise-tag">${e.sub}</span>`:''}
+      ${e.description? `<p class="exercise-description">${e.description}</p>`:''}
+      <div class="equip-chip">🏋 ${e.equipment? e.equipment+' · ':''}${e.carga>0? e.carga+' '+(e.unit||'kg') : (e.unit||'Peso corporal')}${e.discConfig? ` <span class="config">(${e.discConfig})</span>`:''}</div>
+      <p class="pex-facts">${e.series} series · ${phraseRepsTarget(e)}${!timed && e.tempoSeconds? ` · ritmo ${e.tempoSeconds} s por repetición`:''} · descanso ${e.rest} s${e.restLabel? ' ('+e.restLabel+')':''}</p>
+      ${partner? `<div class="pair-flag"><span class="pf-arrow">⚡</span><span class="pf-text">Superserie con <b>${partner.name}</b></span></div>`:''}
+      ${isPerSide(e.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>`:''}
+      ${e.note? `<p class="exercise-note-inline">${e.note}</p>`:''}
+      ${last? `<div class="pex-lastbox"><b>Última vez</b> (${fmtDate(rec.date)}): ${last}</div>`:''}
+      ${e.videoUrl? `<a class="video-link" href="${e.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>`:''}
+    </div>` : '';
+  return `<button class="pex ${open?'open':''}" onclick="toggleEx('${day.id}','${e.id}')">
+      <span class="pex-num">${n}</span>
+      <span class="pex-main">
+        <span class="pex-name">${e.name}${pairTag}</span>
+        <span class="pex-t">${e.series} × ${e.repsTarget}${e.carga>0?' · '+e.carga+' '+(e.unit||'kg'):''}${e.equipment?' · '+e.equipment:''}</span>
+        ${last? `<span class="pex-last">✓ Última vez: ${last}</span>`:''}
+      </span>
+      <span class="pex-chev">${open?'▴':'▾'}</span>
+    </button>${detail}`;
+}
+function renderDayCard(program, programId, d, sugg){
+  const rec = lastRecordForDay(programId, d.id);
+  const open = !!state.openDays[d.id];
+  const totalSets = d.exercises.reduce((a,e)=>a+e.series,0);
+  const pairNums = {}; let pc = 0;
+  d.exercises.forEach(e=>{ if(e.pair && !(e.pair in pairNums)){ pairNums[e.pair]=pc++; } });
+  const chips = (rec ? `<span class="day-chip done">✓ Hecho ${fmtDate(rec.date)}</span>` : `<span class="day-chip">Pendiente</span>`)
+    + (d.id===sugg ? `<span class="day-chip sugg">Sugerido hoy</span>` : '');
+  let body = '';
+  if(open){
+    let lastBlock = null, n = 0;
+    body = `<div class="day-body">` + d.exercises.map(e=>{
+      n++;
+      let header = '';
+      if(e.block!==lastBlock){ header = `<div class="explore-block-header ${blockTagClass(e.block)}">${blockLabel(e.block)}</div>`; lastBlock = e.block; }
+      return header + renderExerciseRow(d, e, n, rec, pairNums);
+    }).join('') + `</div>`;
+  }
+  return `<div class="day-card ${open?'open':''}">
+    <button class="day-head" onclick="toggleDay('${d.id}')">
+      <span class="day-head-main">
+        <span class="day-title">${d.label}</span>
+        <span class="day-sub">${d.subtitle||''}</span>
+        <span class="day-meta">${d.exercises.length} ejercicios · ${totalSets} series</span>
+        <span class="day-chips">${chips}</span>
+      </span>
+      <span class="day-chev">${open?'▴':'▾'}</span>
+    </button>
+    ${body}
+  </div>`;
+}
+function renderStartBar(program){
+  if(state.activeSession){
+    return `<div class="start-bar"><div class="start-bar-inner">
+      <span class="start-bar-text">Tienes una sesión en curso (${state.activeSession.dayLabel})</span>
+      <button class="sb-go" onclick="resumeSession()">Continuar ▶</button></div></div>`;
+  }
+  const d = state.focusDayId ? getDay(program, state.focusDayId) : null;
+  if(!d) return '';
+  if(state.confirmStartDay===d.id){
+    return `<div class="start-bar"><div class="start-bar-inner">
+      <span class="start-bar-text">¿Iniciar ${d.label}?</span>
+      <button class="sb-cancel" onclick="cancelStart()">Cancelar</button>
+      <button class="sb-go" onclick="startSession('${d.id}')">Sí, iniciar ▶</button></div></div>`;
+  }
+  return `<div class="start-bar"><div class="start-bar-inner">
+    <button class="sb-go wide" onclick="askStart('${d.id}')">Iniciar ${d.label} ▶</button></div></div>`;
+}
+function renderProgramScreen(){
+  const id = state.activeProgramId, program = getActiveProgram();
+  const status = programStatuses()[id];
+  const sugg = suggestedDay();
+  const nEx = program.days.reduce((a,d)=>a+d.exercises.length,0);
+  return `<div class="topbar"><button class="back-btn" onclick="state.homeScreen='main'; render();">‹ Inicio</button>${soundToggleButton()}</div>
+  <div class="screen has-startbar">
+    <div class="prog-head">
+      <span class="prog-status st-${status}">${status.toUpperCase()}</span>
+      <h2 class="prog-title">${program.label}</h2>
+      <p class="prog-meta">${program.days.length} días · ${nEx} ejercicios</p>
+      <p class="prog-hint">Abre un día para estudiarlo. El botón para iniciar aparece abajo cuando tienes un día desplegado.</p>
+    </div>
+    ${program.days.map(d=>renderDayCard(program, id, d, sugg)).join('')}
+  </div>
+  ${renderStartBar(program)}`;
+}
+
+function renderHome(){
+  if(state.homeScreen==='program') return renderProgramScreen();
+  const storageNote = !IS_PERSISTENT ? `<div class="storage-note">Sin guardado permanente en este entorno: los datos duran mientras esta pestaña siga abierta.</div>` : '';
   const program = getActiveProgram();
-  const suggId = suggestedDay();
-  const suggDay = getDay(program, suggId);
-  const otherDays = program.days.filter(d=>d.id!==suggId);
-  const otherList = state.showOtherDays
-    ? otherDays.map(d=>`<button class="switch-day" onclick="startSession('${d.id}')">${d.label} — ${d.subtitle||''}</button>`).join('')
-    : '';
+  const statuses = programStatuses();
+  const options = Object.keys(PROGRAMS).map(id=>`<option value="${id}" ${id===state.activeProgramId?'selected':''}>${PROGRAMS[id].label} · ${statuses[id]}</option>`).join('');
+  const nEx = program.days.reduce((a,d)=>a+d.exercises.length,0);
+  const lastDate = programLastDate(state.activeProgramId);
+  const resume = state.activeSession ? `<div class="resume-strip">
+      <button class="resume-main" onclick="resumeSession()"><span class="rs-label">SESIÓN EN CURSO</span><span class="rs-text">Continuar ${state.activeSession.dayLabel} · paso ${state.activeSession.currentStepIndex+1} de ${state.activeSession.steps.length} ▶</span></button>
+      <button class="resume-discard" onclick="discardSession()">Descartar</button>
+    </div>` : '';
   return `<div class="topbar"><h1>MÁSTER 46</h1>${soundToggleButton()}</div>
   <div class="screen">
     ${storageNote}
-    ${renderUpcomingBanner()}
-    <div class="home-center">
-      <button class="cta-day" onclick="startSession('${suggId}')">
-        <p class="cta-label">TOCA HOY</p>
-        <p class="cta-title">${suggDay.label}</p>
-        <p class="cta-sub">${suggDay.subtitle||''}</p>
-      </button>
-      ${otherDays.length ? `<button class="switch-day" onclick="state.showOtherDays=!state.showOtherDays; render();">${state.showOtherDays?'Ocultar otros días':'Elegir otro día ▾'}</button>${otherList}` : ''}
+    ${resume}
+    <div class="prog-picker">
+      <label class="pp-label" for="progSelect">PROGRAMA</label>
+      <select id="progSelect" class="prog-select" onchange="switchProgram(this.value)">${options}</select>
     </div>
-    ${renderProgramSection()}
+    <button class="cta-day cta-program" onclick="openProgramScreen()">
+      <p class="cta-label">${statuses[state.activeProgramId].toUpperCase()}</p>
+      <p class="cta-title">${program.label}</p>
+      <p class="cta-sub">${program.days.length} días · ${nEx} ejercicios${lastDate? ' · última sesión '+fmtDate(lastDate):''}</p>
+      <p class="cta-go">Ver programa ›</p>
+    </button>
+    <p class="home-hint">Revisa el programa día por día. La sesión se inicia desde el detalle de cada día.</p>
+    ${renderUpcomingBanner()}
   </div>`;
 }
 
@@ -2483,7 +2665,7 @@ window.continueToOtherSide=continueToOtherSide; window.continueTransition=contin
 window.stepBack=stepBack; window.stepForward=stepForward; window.forceUpdate=forceUpdate;
 window.skipRest=skipRest; window.adjustRest=adjustRest; window.viewSummary=viewSummary;
 window.backToExec=backToExec; window.finalizeSession=finalizeSession; window.state=state;
-window.handleProgramUpload=handleProgramUpload; window.switchProgram=switchProgram; window.toggleExplore=toggleExplore;
+window.handleProgramUpload=handleProgramUpload; window.switchProgram=switchProgram;
 window.toggleSound=toggleSound;
 window.downloadHistory=downloadHistory; window.copyHistoryToClipboard=copyHistoryToClipboard;
 window.handleHistoryImport=handleHistoryImport;
@@ -2493,6 +2675,7 @@ window.toggleScheduleSection=toggleScheduleSection;
 window.askDeleteProgram=askDeleteProgram; window.cancelDeleteProgram=cancelDeleteProgram; window.confirmDeleteProgram=confirmDeleteProgram;
 window.copyGeneratorPrompt=copyGeneratorPrompt;
 window.deleteHistoryRecord=deleteHistoryRecord;
+window.openProgramScreen=openProgramScreen; window.toggleDay=toggleDay; window.toggleEx=toggleEx; window.askStart=askStart; window.cancelStart=cancelStart;
 window.heroTap=heroTap; window.swipeDirection=swipeDirection;
 window.toggleAutoMode=toggleAutoMode; window.toggleUnifiedPause=toggleUnifiedPause;
 
