@@ -177,10 +177,6 @@
   .active-hero.paused .h-label, .active-hero.paused .h-count, .active-hero.paused .h-detail, .active-hero.paused .h-weight{ color:var(--text); }
   .switch-hero, .transition-hero{ background:var(--pair); }
   .active-controls{ display:flex; flex-direction:column; gap:2px; }
-  .nav-strip{ display:flex; gap:8px; margin-bottom:18px; }
-  .nav-strip button{ flex:1; background:var(--surface-2); border:1px solid var(--line); color:var(--text); padding:12px; border-radius:2px; font-size:19px; cursor:pointer; font-family:inherit; }
-  .nav-strip button:disabled{ opacity:.3; cursor:not-allowed; }
-  .nav-strip button.pause-big{ flex:2; font-size:22px; font-weight:800; padding:18px; background:var(--accent); color:#fff; border-color:var(--accent); }
   .auto-mode-toggle{ display:block; width:100%; background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim); font-size:14px; font-weight:700; padding:11px; border-radius:2px; margin-bottom:16px; cursor:pointer; font-family:inherit; }
   .auto-mode-toggle.active{ background:var(--pair-dim); border-color:var(--pair); color:#fff; }
   .auto-countdown{ text-align:center; font-size:14px; color:var(--text-dim); margin-top:10px; }
@@ -328,6 +324,206 @@
   .export-status{ font-size:12px; margin-top:8px; }
   .export-status.ok{ color:var(--good); }
   .export-status.error{ color:var(--bad); }
+
+  /* =====================================================================
+     v2.0 · CAPA VISUAL
+     Tokens y componentes compartidos por las 4 pestañas. Regla: ningún
+     texto por debajo de 13px, tarjetas con esquinas suaves, un solo
+     color de acento por estado (óxido trabajo, violeta sin descanso,
+     verde azulado descanso).
+     ===================================================================== */
+  :root{
+    --r-card:16px; --r-btn:14px; --r-chip:999px;
+    --shadow-card:0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 22px rgba(0,0,0,0.28);
+    --card-bg:linear-gradient(180deg,#20262A 0%,#1B2024 100%);
+    --accent-hi:#D4572F;
+  }
+  body{
+    background:
+      radial-gradient(900px 420px at 50% -120px, rgba(191,68,39,0.16), transparent 70%),
+      var(--bg);
+    background-attachment:fixed;
+    font-size:16px;
+  }
+  button{ -webkit-tap-highlight-color:transparent; }
+  .topbar{ padding:22px 20px 12px 20px; }
+  .topbar h1{ font-size:24px; letter-spacing:-0.01em; font-weight:800; color:var(--text); }
+  .screen{ padding:0 18px 22px 18px; }
+
+  /* Tarjetas */
+  .program-section, .export-section, .settings-block-version, .cal-block, .chart-block, .time-remaining, .stat-box, .progress-scale, .next-up, .cal-detail{
+    background:var(--card-bg); border:1px solid var(--line); border-radius:var(--r-card); box-shadow:var(--shadow-card);
+  }
+  .program-section, .export-section{ padding:18px; margin-top:14px; }
+  .sect-label{ display:flex; align-items:center; gap:10px; font-size:13px !important; font-weight:800; letter-spacing:.07em !important; color:var(--text) !important; margin-bottom:12px !important; }
+  .sect-num{ display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; font-size:14px; font-weight:800; letter-spacing:0; flex:0 0 auto; }
+  .sect-sub{ margin:-6px 0 12px 36px; font-size:14px; color:var(--text-dim); }
+  .export-help{ font-size:14px !important; line-height:1.5 !important; }
+  .export-status{ font-size:14px !important; font-weight:700; }
+  .error-text{ font-size:14px; }
+
+  /* Botones y campos */
+  .btn{ border-radius:var(--r-btn); padding:12px 18px; font-size:15px; }
+  .btn.secondary{ background:var(--surface-2); }
+  .btn.small{ padding:11px 16px; font-size:14px; }
+  .btn.block{ padding:18px; font-size:18px; border-radius:var(--r-btn); }
+  .btn.ghost{ font-size:15px; }
+  select, .schedule-sub select, .schedule-sub input{ border-radius:10px; padding:10px 12px; font-size:15px; }
+  textarea{ border-radius:12px; font-size:15px; padding:12px; }
+  .upload-label{ border-radius:var(--r-btn); font-size:14px; padding:11px 14px; }
+  .explore-toggle{ font-size:15px; margin-top:6px; color:var(--text); opacity:.85; }
+  .summary-link{ border-radius:var(--r-btn); padding:11px 16px; font-size:15px; background:var(--surface-2); }
+  .topbar .btn.ghost{ font-size:20px; padding:6px 8px; }
+
+  /* Inicio */
+  .cta-day{
+    border-radius:22px; padding:30px 22px; margin-bottom:10px; text-align:left;
+    background:linear-gradient(145deg,#D4572F 0%,#A53A1F 100%);
+    box-shadow:0 14px 34px rgba(191,68,39,0.35), 0 1px 0 rgba(255,255,255,0.18) inset;
+  }
+  .cta-day .cta-label{ display:inline-block; font-size:13px; font-weight:800; letter-spacing:.1em; opacity:1; background:rgba(0,0,0,0.25); padding:5px 12px; border-radius:var(--r-chip); margin:0 0 14px 0; }
+  .cta-day .cta-title{ font-size:38px; letter-spacing:-0.02em; }
+  .cta-day .cta-sub{ font-size:17px; opacity:.95; }
+  .switch-day{ font-size:16px; padding:12px; color:var(--text); }
+  .upcoming-banner{ font-size:15px; border-radius:14px; padding:14px 16px; border-left-width:4px; }
+  .storage-note{ font-size:13px; border-radius:12px; }
+  .explore-day .d-title{ font-size:18px; }
+  .explore-block-header{ font-size:13px; }
+  .explore-ex{ font-size:16px; padding:10px 0; }
+  .explore-ex .ex-num{ font-size:13px; }
+  .explore-ex .ex-t{ font-size:14px; }
+
+  /* Barra inferior */
+  .navbar{ border-top:1px solid var(--line); background:rgba(24,29,32,0.96); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-radius:20px 20px 0 0; padding:6px 6px calc(6px + env(safe-area-inset-bottom)) 6px; gap:4px; }
+  .navbar button{ font-size:12px; font-weight:700; padding:8px 0 7px 0; border-radius:14px; gap:2px; }
+  .navbar button .ic{ font-size:22px; line-height:1.1; }
+  .navbar button.active{ color:#fff; background:rgba(191,68,39,0.22); }
+  #app{ padding-bottom:92px; }
+
+  /* Progreso */
+  .cal-block{ padding:16px; }
+  .cal-title{ font-size:18px; }
+  .cal-nav{ width:42px; height:42px; border-radius:12px; font-size:22px; }
+  .cal-weekdays{ font-size:13px; font-weight:700; }
+  .cal-grid{ gap:5px; }
+  .cal-cell{ border-radius:11px; border-width:2px; }
+  .cal-daynum{ font-size:16px; }
+  .cal-legend{ font-size:14px; gap:16px; }
+  .cal-legend i{ width:12px; height:12px; }
+  .cal-detail{ padding:14px; }
+  .cal-detail-day{ font-size:17px; }
+  .cal-detail-status{ font-size:13px; }
+  .cal-detail-stats{ font-size:14px; }
+  .cal-detail-notes{ font-size:14px; }
+  .stat-grid{ gap:12px; }
+  .stat-box{ padding:16px; }
+  .stat-box .num{ font-size:28px; letter-spacing:-0.01em; }
+  .stat-box .lbl{ font-size:13px; margin-top:2px; }
+  .chart-block{ padding:16px 14px 12px 14px; margin-bottom:16px; }
+  .chart-title{ font-size:17px; font-weight:800; }
+  .chart-sub{ font-size:13px; margin-bottom:12px; }
+  .empty-state{ font-size:15px; border-radius:var(--r-card); }
+
+  /* Ajustes */
+  .settings-block-version{ padding:18px; }
+  .settings-block-version .eyebrow{ font-size:22px; }
+  .radio-row{ font-size:16px; padding:11px 0; }
+  .radio-row input{ width:20px; height:20px; accent-color:var(--accent); }
+  .schedule-sub{ font-size:15px; }
+  .schedule-summary-toggle{ border-radius:var(--r-btn); font-size:16px; padding:15px 16px; }
+  .schedule-summary-toggle .chev{ font-size:14px; }
+
+  /* Sesión: barra de progreso, textos y resumen */
+  .progress-scale{ padding:14px 16px 16px 16px; margin-bottom:18px; }
+  .progress-scale-label{ font-size:16px; color:var(--text-dim); }
+  .progress-scale-current{ font-size:17px; }
+  .scale-seg{ border-radius:5px; }
+  .block-tag{ display:inline-block; font-size:13px; font-weight:800; letter-spacing:.07em; padding:5px 12px; border-radius:var(--r-chip); background:var(--surface-2); margin-bottom:12px; }
+  .exercise-name{ font-size:34px; letter-spacing:-0.015em; }
+  .exercise-target-line{ font-size:21px; color:var(--text-dim); }
+  .new-exercise-flag{ border-radius:var(--r-chip); padding:5px 14px; font-size:13px; }
+  .exercise-tag{ border-radius:var(--r-chip); font-size:13px; padding:5px 12px; }
+  .exercise-description{ font-size:17px; }
+  .equip-chip{ border-radius:14px; font-size:16px; }
+  .equip-chip .config{ font-size:14px; }
+  .video-link{ border-radius:14px; font-size:16px; }
+  .exercise-note-inline{ font-size:15px; }
+  .side-note{ font-size:14px; }
+  .pair-flag{ border-radius:14px; border-left-width:5px; }
+  .pair-flag .pf-text{ font-size:17px; }
+  .adjust-toggle{ font-size:15px; }
+  .next-up{ padding:18px; border-left:5px solid var(--accent); }
+  .next-up-label{ font-size:15px; }
+  .next-up-name{ font-size:26px; }
+  .time-remaining{ padding:18px; }
+  .time-remaining .num{ font-size:42px; }
+  .time-remaining .lbl{ font-size:14px; }
+  .nav-hint{ font-size:14px; }
+  .ex-row{ background:var(--card-bg); border:1px solid var(--line); border-radius:14px; padding:15px 16px; margin-bottom:9px; width:100%; }
+  .ex-row.current{ border-color:#fff; box-shadow:0 0 0 1px #fff inset; }
+  .ex-row.done{ opacity:.78; }
+  .ex-row .name{ font-size:17px; }
+  .ex-row .status{ font-size:14px; }
+  .ex-row-sub{ font-size:14px; padding-left:19px; }
+  .block-dot{ width:13px; height:13px; }
+  .superserie-tag{ font-size:12px; padding:2px 9px; border-radius:var(--r-chip); }
+  .rpe-card{ border-radius:16px; font-size:18px; padding:24px 10px; background:var(--card-bg); }
+  .rpe-title{ font-size:21px; }
+  .set-count{ font-size:22px; }
+  .stepper button{ width:54px; height:54px; }
+  .auto-mode-toggle{ border-radius:var(--r-chip); font-size:14px; padding:11px 14px; margin-bottom:18px; }
+  .finish-early{ font-size:15px; padding:12px; }
+  .tempo-row .tempo-val{ font-size:17px; }
+  .tempo-row button{ width:42px; height:42px; font-size:22px; }
+  .tempo-ok{ font-size:13px; }
+  .tempo-warn{ font-size:14px; border-radius:var(--r-chip); }
+  .hero .eyebrow{ font-size:15px; }
+  .hero h2{ font-size:32px; }
+
+  /* Botón-contador: héroe tocable + flechas discretas en los márgenes + arrastre */
+  .counter-wrap{ position:relative; touch-action:pan-y; user-select:none; -webkit-user-select:none; margin:10px 0 14px 0; transition:transform .12s ease-out; }
+  .counter-wrap > .active-hero, .counter-wrap > .rest-hero, .counter-wrap > .start-btn{ margin:0; }
+  .active-hero, .rest-hero{ border-radius:22px; padding-left:48px; padding-right:48px; box-shadow:0 12px 30px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.16) inset; }
+  .active-hero{ background:linear-gradient(160deg,#D4572F 0%,#A53A1F 100%); }
+  .switch-hero, .transition-hero{ background:linear-gradient(160deg,#7A6BBD 0%,#5A4C92 100%); padding-left:16px; padding-right:16px; margin:10px 0 14px 0; }
+  .rest-hero{ background:linear-gradient(160deg,#4A918A 0%,#2F6A63 100%); }
+  .active-hero.paused, .rest-hero.paused{ background:var(--surface-2); border:2px dashed var(--text-dim); box-shadow:none; }
+  .active-hero.tappable, .rest-hero.tappable{ cursor:pointer; }
+  .active-hero .h-label, .rest-hero .h-label{ font-size:16px; }
+  .active-hero .h-detail{ font-size:20px; }
+  .active-hero .h-weight{ font-size:18px; }
+  .h-hint{ margin-top:12px; font-size:14px; font-weight:700; color:#fff; opacity:.7; letter-spacing:.02em; }
+  .edge-arrow{
+    position:absolute; top:0; bottom:0; width:42px; border:none; background:none; color:#fff;
+    font-size:38px; line-height:1; font-family:inherit; cursor:pointer; opacity:.5; padding:0;
+    display:flex; align-items:center; justify-content:center; z-index:2;
+  }
+  .edge-arrow.left{ left:0; border-radius:22px 0 0 22px; }
+  .edge-arrow.right{ right:0; border-radius:0 22px 22px 0; }
+  .edge-arrow:active{ opacity:1; background:rgba(255,255,255,0.12); }
+  .edge-arrow:disabled{ opacity:.12; cursor:default; }
+  .start-btn{ border-radius:22px; padding:38px 52px; background:linear-gradient(160deg,#D4572F 0%,#A53A1F 100%); box-shadow:0 12px 30px rgba(191,68,39,0.38), 0 1px 0 rgba(255,255,255,0.18) inset; }
+  .start-btn .sb-label{ font-size:29px; }
+  .start-btn .sb-sub{ margin-top:8px; font-size:15px; font-weight:700; opacity:.85; }
+  .start-btn.paused{ background:var(--surface-2); border:2px dashed var(--text-dim); box-shadow:none; }
+  .counter-wrap .start-btn{ margin-top:0; }
+
+  /* ajustes de composición de la pantalla de sesión */
+  .tag-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .tag-row .new-exercise-flag, .tag-row .block-tag{ margin:0; display:inline-block; }
+  .progress-scale{ padding:12px 14px 14px 14px; margin-bottom:14px; }
+  .progress-scale-label{ margin-bottom:10px; font-size:15px; }
+  .exercise-name{ font-size:30px; margin-bottom:6px; }
+  .exercise-target-line{ font-size:19px; margin-bottom:6px; }
+  .counter-wrap{ margin:8px 0 12px 0; }
+  .active-hero{ padding-top:18px; padding-bottom:18px; }
+  .active-hero .h-count{ font-size:84px; }
+  .start-btn{ padding:34px 46px; }
+  .start-btn .sb-label{ font-size:32px; letter-spacing:-0.01em; }
+  .start-btn .sb-sub{ font-size:17px; margin-top:6px; }
+  .auto-mode-toggle{ margin:4px auto 16px auto; width:auto; display:block; }
+  .upload-label{ white-space:nowrap; flex:0 0 auto; }
+  .program-row select{ min-width:0; }
 </style>
 </head>
 <body>
@@ -374,8 +570,8 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "1.9.0";
-const APP_BUILD_DATE = "2026-09-05";
+const APP_VERSION = "2.0.0";
+const APP_BUILD_DATE = "2026-10-27";
 
 /* ============================== GENERATOR PROMPT ============================== */
 const GENERATOR_PROMPT = `Actúa como un entrenador experto en diseño de programas de fuerza, hipertrofia, movilidad y acondicionamiento físico. Tu tarea es diseñar para mí un programa de entrenamiento personalizado y entregarlo como un archivo JSON descargable, compatible con una app de seguimiento de entrenamientos.
@@ -1360,6 +1556,7 @@ function stepBack(){
   const s = state.activeSession;
   if(!s || s.currentStepIndex<=0) return;
   clearAnyRunningTimers();
+  s.restEndAt = null; state.restEndAt = null;
   s.currentStepIndex -= 1;
   state.sessionSubview='exec';
   loadDraftForCurrentStep();
@@ -1370,6 +1567,7 @@ function stepForward(){
   const s = state.activeSession;
   if(!s || s.currentStepIndex>=s.steps.length-1) return;
   clearAnyRunningTimers();
+  s.restEndAt = null; state.restEndAt = null;
   s.currentStepIndex += 1;
   state.sessionSubview='exec';
   loadDraftForCurrentStep();
@@ -1440,9 +1638,9 @@ function lineChart(points, {w=420,h=140,color='#BF4427',yFmt=(v)=>v}={}){
   const scaleY = v => h-pad.b - ((v-minY)/((maxY-minY)||1))*(h-pad.t-pad.b);
   const path = points.map((p,i)=> (i===0?'M':'L')+scaleX(i)+','+scaleY(p.y)).join(' ');
   const dots = points.map((p,i)=>`<circle cx="${scaleX(i)}" cy="${scaleY(p.y)}" r="3" fill="${color}"/>`).join('');
-  const labels = points.map((p,i)=> i%Math.ceil(points.length/6||1)===0 ? `<text x="${scaleX(i)}" y="${h-6}" font-size="9" fill="#9AA1A6" text-anchor="middle">${p.x}</text>`:'').join('');
+  const labels = points.map((p,i)=> i%Math.ceil(points.length/6||1)===0 ? `<text x="${scaleX(i)}" y="${h-6}" font-size="11" fill="#9AA1A6" text-anchor="middle">${p.x}</text>`:'').join('');
   const gridY = `<line x1="${pad.l}" y1="${scaleY(minY)}" x2="${w-pad.r}" y2="${scaleY(minY)}" stroke="#333A3F" stroke-width="1"/>`;
-  const yLabel = `<text x="4" y="${scaleY(maxY)+4}" font-size="9" fill="#9AA1A6">${yFmt(maxY)}</text>`;
+  const yLabel = `<text x="4" y="${scaleY(maxY)+4}" font-size="11" fill="#9AA1A6">${yFmt(maxY)}</text>`;
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}">${gridY}${yLabel}<path d="${path}" fill="none" stroke="${color}" stroke-width="2"/>${dots}${labels}</svg>`;
 }
 function barChart(points, {w=420,h=140,color='#3E7C74',yFmt=(v)=>v}={}){
@@ -1459,14 +1657,15 @@ function barChart(points, {w=420,h=140,color='#3E7C74',yFmt=(v)=>v}={}){
   }).join('');
   const labels = points.map((p,i)=>{
     const x = pad.l + i*gap + gap/2;
-    return `<text x="${x}" y="${h-6}" font-size="9" fill="#9AA1A6" text-anchor="middle">${p.x}</text>`;
+    return `<text x="${x}" y="${h-6}" font-size="11" fill="#9AA1A6" text-anchor="middle">${p.x}</text>`;
   }).join('');
-  const yLabel = `<text x="4" y="${pad.t+8}" font-size="9" fill="#9AA1A6">${yFmt(maxY)}</text>`;
+  const yLabel = `<text x="4" y="${pad.t+8}" font-size="11" fill="#9AA1A6">${yFmt(maxY)}</text>`;
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}">${yLabel}${bars}${labels}</svg>`;
 }
 
 /* ============================== RENDER ============================== */
 function render(){
+  if(typeof swipe !== 'undefined' && swipe){ renderDeferred = true; return; }
   const app = document.getElementById('app');
   let html = '';
   if(state.view==='home') html = renderHome();
@@ -1498,7 +1697,9 @@ function getTabOrder(){
 }
 let touchStartX=null, touchStartY=null;
 function handleTouchStart(e){
+  touchStartX = null; touchStartY = null;
   if(e.touches.length!==1) return;
+  if(e.target && e.target.closest && e.target.closest('[data-swipe]')) return;
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
 }
@@ -1516,6 +1717,10 @@ function handleTouchEnd(e){
   else if(dx>0 && idx>0){ state.view=order[idx-1]; render(); }
 }
 if(typeof document !== 'undefined' && document.addEventListener){
+  document.addEventListener('pointerdown', onSwipeDown);
+  document.addEventListener('pointermove', onSwipeMove);
+  document.addEventListener('pointerup', onSwipeEnd);
+  document.addEventListener('pointercancel', onSwipeCancel);
   document.addEventListener('touchstart', handleTouchStart, {passive:true});
   document.addEventListener('touchend', handleTouchEnd, {passive:true});
   document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -1576,9 +1781,7 @@ function renderProgramSection(){
     <div class="sect-label">PROGRAMA ACTIVO</div>
     <div class="program-row">
       <select onchange="switchProgram(this.value)">${options}</select>
-      <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleProgramUpload(this)"/></label>
     </div>
-    ${state.programUploadError?`<div class="error-text">${state.programUploadError}</div>`:''}
     <button class="explore-toggle" onclick="toggleExplore()">${state.exploreOpen?'Ocultar contenido ▴':'Ver contenido del programa ▾'}</button>
     ${explorePanel}
   </div>`;
@@ -1645,6 +1848,88 @@ function renderSession(){
   return renderExec();
 }
 
+/* ---- Botón-contador: un solo elemento que se toca para pausar/reanudar,
+   tiene flechas discretas ‹ › en sus márgenes y se arrastra para retroceder/avanzar. ---- */
+function counterWrap(inner){
+  const s = state.activeSession;
+  const atStart = s.currentStepIndex<=0;
+  const atEnd = s.currentStepIndex>=s.steps.length-1;
+  return `<div class="counter-wrap" data-swipe="1">${inner}
+    <button class="edge-arrow left" aria-label="Paso anterior" onclick="event.stopPropagation(); stepBack()" ${atStart?'disabled':''}>‹</button>
+    <button class="edge-arrow right" aria-label="Paso siguiente" onclick="event.stopPropagation(); stepForward()" ${atEnd?'disabled':''}>›</button>
+  </div>`;
+}
+/* Botón grande de las fases ready/switch/transition. En modo automático, mientras corre la
+   cuenta atrás de 5s, el mismo botón muestra los segundos y al tocarlo pausa o reanuda. */
+function phaseButton(label, sub, fnName, autoVerb){
+  let main = label, click = fnName+'()', cls = '';
+  if(state.autoMode && state.autoAdvanceHandle){
+    main = `${autoVerb} ${state.autoAdvanceRemaining}s`; sub = 'Toca para pausar'; click = 'toggleUnifiedPause()';
+  } else if(state.autoMode && state.autoPausedManually){
+    main = '⏸ Pausado'; sub = 'Toca para reanudar'; click = 'toggleUnifiedPause()'; cls = 'paused';
+  }
+  return counterWrap(`<button class="start-btn confirm-btn ${cls}" onclick="${click}">
+      <div class="sb-label">${main}</div>${sub?`<div class="sb-sub">${sub}</div>`:''}
+    </button>`);
+}
+function heroTap(e){
+  if(Date.now() < swipeSuppressUntil) return;
+  if(e && e.target && e.target.closest && e.target.closest('button,a')) return;
+  if(state.sessionSubview==='rest') toggleRestPause();
+  else if(state.setPhase==='active') toggleSetPause();
+}
+/* Gesto de arrastre horizontal sobre el botón-contador (pointer events: dedo o ratón). */
+const SWIPE_MIN_PX = 60;
+let swipe = null, swipeSuppressUntil = 0, renderDeferred = false;
+function swipeDirection(dx, dy){
+  if(Math.abs(dx) < SWIPE_MIN_PX) return null;
+  if(Math.abs(dy) > Math.abs(dx)*0.8) return null;
+  return dx < 0 ? 'next' : 'prev';
+}
+function swipeReset(){
+  const el = document.querySelector('[data-swipe]');
+  if(el){ el.style.transform=''; el.style.opacity=''; el.style.transition=''; }
+}
+function swipeFlushRender(){
+  if(renderDeferred){ renderDeferred = false; setTimeout(()=>{ if(!swipe) render(); }, 60); }
+}
+function onSwipeDown(e){
+  if(e.pointerType==='mouse' && e.button!==0) return;
+  const t = e.target && e.target.closest ? e.target.closest('[data-swipe]') : null;
+  swipe = t ? {x:e.clientX, y:e.clientY, moved:false} : null;
+}
+function onSwipeMove(e){
+  if(!swipe) return;
+  const dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+  if(Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)){
+    swipe.moved = true;
+    const el = document.querySelector('[data-swipe]');
+    if(el){
+      const lim = Math.max(-90, Math.min(90, dx));
+      el.style.transform = `translateX(${lim}px)`;
+      el.style.opacity = String(1 - Math.min(Math.abs(dx), 140)/400);
+    }
+  }
+}
+function onSwipeEnd(e){
+  if(!swipe) return;
+  const dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+  swipe = null;
+  swipeReset();
+  const dir = swipeDirection(dx, dy);
+  if(dir){
+    swipeSuppressUntil = Date.now() + 450;
+    renderDeferred = false;
+    if(dir==='next') stepForward(); else stepBack();
+  } else {
+    swipeFlushRender();
+  }
+}
+function onSwipeCancel(){
+  if(!swipe) return;
+  swipe = null; swipeReset(); swipeFlushRender();
+}
+
 function renderExec(){
   const s = state.activeSession;
   const step = currentStep();
@@ -1676,17 +1961,8 @@ function renderExec(){
     </div>` : '';
 
   let mainBlock = '';
-  const autoNote = state.autoMode
-    ? (state.autoAdvanceHandle
-        ? `<p class="auto-countdown">Avanza en <b>${state.autoAdvanceRemaining}s</b> automáticamente</p>`
-        : (state.autoPausedManually ? `<p class="auto-countdown">⏸ Pausado — toca ▶ Reanudar para seguir</p>` : ''))
-    : '';
   if(state.setPhase==='ready'){
-    mainBlock = `
-      <button class="start-btn confirm-btn" onclick="beginSet()">
-        <div class="sb-label">Iniciar serie ${step.setIndex} de ${step.totalSets} ▶</div>
-      </button>
-      ${autoNote}`;
+    mainBlock = phaseButton(`Serie ${step.setIndex} de ${step.totalSets}`, '▶ Toca para iniciar', 'beginSet', 'Empieza en');
   } else if(state.setPhase==='switch'){
     mainBlock = `
       <div class="active-hero switch-hero">
@@ -1694,10 +1970,7 @@ function renderExec(){
         <div class="h-count">✓ 1</div>
         <div class="h-detail">Lado 1 listo. Reacomódate para el lado 2.</div>
       </div>
-      <button class="start-btn confirm-btn" onclick="continueToOtherSide()">
-        <div class="sb-label">Listo, continuar ▶</div>
-      </button>
-      ${autoNote}`;
+      ${phaseButton('Lado 2', '▶ Toca para continuar', 'continueToOtherSide', 'Continúa en')}`;
   } else if(state.setPhase==='transition'){
     const nextStep = s.steps[s.currentStepIndex+1];
     const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
@@ -1706,10 +1979,7 @@ function renderExec(){
         <div class="h-label">SIGUE SIN DESCANSO</div>
         <div class="h-detail" style="font-size:22px; margin-top:6px;">${nextEx? nextEx.name : ''}</div>
       </div>
-      <button class="start-btn confirm-btn" onclick="continueTransition()">
-        <div class="sb-label">Continuar ▶</div>
-      </button>
-      ${autoNote}`;
+      ${phaseButton('Continuar', '▶ Toca para seguir', 'continueTransition', 'Continúa en')}`;
   } else if(state.setPhase==='active'){
     const targetReps = state.draft.reps || ex.repsNum;
     const sideLabel = state.sideIndex ? `LADO ${state.sideIndex}` : null;
@@ -1736,11 +2006,12 @@ function renderExec(){
         ${rangeLine}`;
     }
     mainBlock = `
-      <div class="active-hero ${state.setPaused?'paused':''}">
+      ${counterWrap(`<div class="active-hero tappable ${state.setPaused?'paused':''}" onclick="heroTap(event)">
         <div class="h-label">${state.setPaused? 'PAUSADO' : 'SERIE '+step.setIndex+' DE '+step.totalSets+(sideLabel?' · '+sideLabel:'')+' EN CURSO'}</div>
         ${heroInner}
         <div class="h-weight">${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}</div>
-      </div>
+        <div class="h-hint">${state.setPaused? 'Toca para reanudar' : 'Toca para pausar'}</div>
+      </div>`)}
       <div class="active-controls">
         <button class="finish-early" onclick="markSetDone()">Terminar ahora</button>
       </div>`;
@@ -1753,14 +2024,7 @@ function renderExec(){
       </div>`;
   }
 
-  const canPause = state.setPhase==='active' || state.autoAdvanceHandle || state.autoPausedManually;
-  const isPausedNow = state.setPaused || state.autoPausedManually;
-  const navStrip = `<div class="nav-strip">
-      <button onclick="stepBack()" ${s.currentStepIndex<=0?'disabled':''}>⏮</button>
-      <button class="${state.autoMode?'pause-big':''}" onclick="toggleUnifiedPause()" ${canPause?'':'disabled'}>${isPausedNow?'▶ Reanudar':'⏸'}</button>
-      <button onclick="stepForward()" ${s.currentStepIndex>=s.steps.length-1?'disabled':''}>⏭</button>
-    </div>
-    <button class="auto-mode-toggle ${state.autoMode?'active':''}" onclick="toggleAutoMode()">${state.autoMode? '⏹ Salir del modo automático' : '▶▶ Modo automático (corre toda la sesión)'}</button>`;
+  const navStrip = `<button class="auto-mode-toggle ${state.autoMode?'active':''}" onclick="toggleAutoMode()">${state.autoMode? '⏹ Salir del modo automático' : '▶▶ Modo automático'}</button>`;
 
   // Preparación (fase 'ready'): momento de leer con calma, antes de que empiece el conteo.
   // Una vez iniciada la serie, todo esto pasa a ser secundario y se oculta.
@@ -1785,14 +2049,16 @@ function renderExec(){
     </div>
   <div class="screen">
     ${renderProgressScale(s)}
-    ${navStrip}
 
-    ${isNewExercise ? `<div class="new-exercise-flag">NUEVO EJERCICIO</div>` : ''}
-    <div class="block-tag ${blockTagClass(ex.block)}">${blockLabel(ex.block)}</div>
+    <div class="tag-row">
+      ${isNewExercise ? `<span class="new-exercise-flag">NUEVO</span>` : ''}
+      <span class="block-tag ${blockTagClass(ex.block)}">${blockLabel(ex.block)}</span>
+    </div>
     <h2 class="exercise-name">${ex.name}</h2>
     <p class="exercise-target-line">${phraseRepsTarget(ex)}</p>
 
     ${mainBlock}
+    ${navStrip}
 
     ${secondaryInfo}
   </div>`;
@@ -1815,7 +2081,6 @@ function renderProgressScale(s){
   }).join('');
   return `<div class="progress-scale">
     <div class="progress-scale-label">Ejercicio ${exIndex+1} de ${s.exercisesSnapshot.length} · ${pct}%</div>
-    ${currentExName? `<div class="progress-scale-current">📍 Ahora: ${currentExName}</div>` : ''}
     <div class="scale-track">${segments}</div>
   </div>`;
 }
@@ -1831,15 +2096,11 @@ function renderRest(){
   return `<div class="topbar"><h1>${s.dayLabel}</h1><div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="viewSummary()">📋 Resumen</button></div></div>
   <div class="screen">
     ${renderProgressScale(s)}
-    <div class="nav-strip">
-      <button onclick="stepBack()" ${s.currentStepIndex<=0?'disabled':''}>⏮</button>
-      <button class="${state.autoMode?'pause-big':''}" onclick="toggleUnifiedPause()">${state.restPaused?'▶ Reanudar':'⏸'}</button>
-      <button onclick="stepForward()" ${s.currentStepIndex>=s.steps.length-1?'disabled':''}>⏭</button>
-    </div>
-    <div class="rest-hero ${state.restPaused?'paused':''}">
+    ${counterWrap(`<div class="rest-hero tappable ${state.restPaused?'paused':''}" onclick="heroTap(event)">
       <div class="h-label">${state.restPaused?'DESCANSO · PAUSADO':'DESCANSO · '+prevStep.restLabel}</div>
       <div class="h-timer ${warnState?'warn':''}">${fmtTime(state.restRemaining)}</div>
-    </div>
+      <div class="h-hint">${state.restPaused? 'Toca para reanudar' : 'Toca para pausar'}</div>
+    </div>`)}
     <div class="rest-actions">
       <button class="btn secondary small" onclick="adjustRest(-15)">−15s</button>
       <button class="btn secondary small" onclick="adjustRest(15)">+15s</button>
@@ -1922,8 +2183,8 @@ function renderSummary(){
 }
 function jumpToExercise(exerciseId){
   const s = state.activeSession;
-  if(state.setTimerHandle){ clearInterval(state.setTimerHandle); state.setTimerHandle=null; }
-  if(state.restTimerHandle){ clearInterval(state.restTimerHandle); state.restTimerHandle=null; }
+  clearAnyRunningTimers();
+  s.restEndAt = null; state.restEndAt = null;
   const exSteps = s.steps.map((st,i)=>({st,i})).filter(o=>o.st.exerciseId===exerciseId);
   if(exSteps.length===0) return;
   let target = exSteps.find(o=> !s.logs[exerciseId+'-'+o.st.setIndex]);
@@ -2039,7 +2300,7 @@ function renderSettings(){
     ${renderGeneratorPromptSection()}
 
     <div class="export-section">
-      <div class="sect-label">DESCARGAR AVANCES PARA CREAR SIGUIENTE SEMANA</div>
+      <div class="sect-label"><span class="sect-num">4</span>DESCARGAR AVANCES PARA CREAR SIGUIENTE SEMANA</div>
       <p class="export-help">Descarga o copia este archivo y pégalo en el chat con Claude para armar la semana siguiente con tus datos reales de carga, reps y RPE.</p>
       <div class="export-actions">
         <button class="btn secondary small" onclick="downloadHistory()">Descargar .json</button>
@@ -2055,7 +2316,7 @@ function renderSettingsProgramSection(){
   const options = ids.map(id=>`<option value="${id}" ${id===state.activeProgramId?'selected':''}>${PROGRAMS[id].label}</option>`).join('');
   const canDelete = state.activeProgramId !== 'default';
   return `<div class="program-section">
-    <div class="sect-label">1 · PROGRAMA</div>
+    <div class="sect-label"><span class="sect-num">1</span>PROGRAMA</div>
     <div class="program-row">
       <select onchange="switchProgram(this.value)">${options}</select>
       <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleProgramUpload(this)"/></label>
@@ -2099,7 +2360,8 @@ function renderScheduleSection(){
   const program = getActiveProgram();
   const open = state.scheduleSectionOpen;
   return `<div class="program-section">
-    <div class="sect-label">2 · DISTRIBUCIÓN DE SESIONES — ${program.label}</div>
+    <div class="sect-label"><span class="sect-num">2</span>DISTRIBUCIÓN DE SESIONES</div>
+    <p class="sect-sub">${program.label}</p>
     <button class="schedule-summary-toggle" onclick="toggleScheduleSection()">
       <span>${scheduleSummaryText(cfg, program)}</span>
       <span class="chev">${open?'▴ Ocultar':'▾ Cambiar'}</span>
@@ -2132,7 +2394,7 @@ function renderProgramRecommendationInfo(program){
 }
 function renderGeneratorPromptSection(){
   return `<div class="export-section">
-    <div class="sect-label">3 · GENERAR UN PROGRAMA NUEVO CON IA</div>
+    <div class="sect-label"><span class="sect-num">3</span>GENERAR UN PROGRAMA NUEVO CON IA</div>
     <p class="export-help">Copia este prompt y pégalo en una conversación nueva con Claude, ChatGPT o la IA que prefieras. Te va a hacer preguntas sobre tus objetivos, tu equipamiento y tu disponibilidad, y al final te entrega un archivo .json listo para subir aquí. No necesitas leer el prompt: solo cópialo y pégalo.</p>
     <button class="btn secondary small" onclick="copyGeneratorPrompt()">📋 Copiar prompt</button>
     ${state.promptCopied===true ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
@@ -2231,6 +2493,7 @@ window.toggleScheduleSection=toggleScheduleSection;
 window.askDeleteProgram=askDeleteProgram; window.cancelDeleteProgram=cancelDeleteProgram; window.confirmDeleteProgram=confirmDeleteProgram;
 window.copyGeneratorPrompt=copyGeneratorPrompt;
 window.deleteHistoryRecord=deleteHistoryRecord;
+window.heroTap=heroTap; window.swipeDirection=swipeDirection;
 window.toggleAutoMode=toggleAutoMode; window.toggleUnifiedPause=toggleUnifiedPause;
 
 init();
