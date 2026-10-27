@@ -583,10 +583,80 @@
   .sb-go{ background:linear-gradient(160deg,#D4572F 0%,#A53A1F 100%); color:#fff; border:none; border-radius:14px; padding:15px 20px; font-size:17px; font-weight:800; cursor:pointer; font-family:inherit; white-space:nowrap; }
   .sb-go.wide{ flex:1; font-size:19px; padding:17px; }
   .sb-cancel{ background:var(--surface-2); color:var(--text); border:1px solid var(--line); border-radius:14px; padding:15px 16px; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit; }
+
+  /* =====================================================================
+     v2.2 · AJUSTES EN ACORDEÓN, PLAN DE SESIÓN, DETENER
+     ===================================================================== */
+  .acc{ padding:0 !important; }
+  .acc-head{ width:100%; display:flex; align-items:center; gap:12px; background:none; border:none; color:var(--text); text-align:left; padding:16px 16px; cursor:pointer; font-family:inherit; }
+  .acc-title{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; font-size:13px; font-weight:800; letter-spacing:.07em; line-height:1.3; }
+  .acc-sum{ font-size:15px; font-weight:600; letter-spacing:0; color:var(--text-dim); }
+  .acc-chev{ font-size:18px; color:var(--text-dim); }
+  .acc-body{ padding:0 16px 18px 16px; border-top:1px solid var(--line); padding-top:14px; }
+  .acc.open{ border-color:var(--text-dim); }
+
+  .stop-btn{ background:var(--surface-2); color:var(--text); border:1px solid var(--line); border-radius:var(--r-btn); width:46px; height:44px; font-size:18px; cursor:pointer; font-family:inherit; }
+  .next-strip{ position:relative; display:flex; flex-direction:column; gap:2px; width:100%; text-align:left; background:var(--card-bg); border:1px solid var(--line); border-left:5px solid var(--rest); border-radius:14px; padding:12px 40px 12px 14px; margin:2px 0 12px 0; color:var(--text); cursor:pointer; font-family:inherit; }
+  .next-strip.last{ border-left-color:var(--good); }
+  .ns-label{ font-size:12px; font-weight:800; letter-spacing:.1em; color:var(--rest); }
+  .next-strip.last .ns-label{ color:var(--good); }
+  .ns-main{ font-size:18px; font-weight:800; line-height:1.25; }
+  .ns-sub{ font-size:15px; color:var(--text-dim); line-height:1.35; }
+  .ns-go{ position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:26px; color:var(--text-dim); }
+
+  .sheet-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:50; }
+  .sheet-panel{ position:fixed; left:50%; transform:translateX(-50%); bottom:0; width:100%; max-width:480px; height:80vh; height:80dvh; background:#1B2024; border:1px solid var(--line); border-bottom:none; border-radius:22px 22px 0 0; z-index:51; display:flex; flex-direction:column; box-shadow:0 -12px 40px rgba(0,0,0,0.5); }
+  .sheet-grab{ width:44px; height:5px; border-radius:3px; background:var(--line); margin:9px auto 4px auto; flex:0 0 auto; }
+  .sheet-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; padding:6px 16px 8px 18px; flex:0 0 auto; }
+  .sheet-title{ display:flex; flex-direction:column; gap:3px; font-size:20px; font-weight:800; }
+  .sheet-clock{ font-size:16px; font-weight:700; color:var(--accent-hi); font-variant-numeric:tabular-nums; }
+  .sheet-close{ background:var(--surface-2); border:1px solid var(--line); color:var(--text); border-radius:12px; width:44px; height:44px; font-size:18px; cursor:pointer; font-family:inherit; }
+  .sheet-tabs{ display:flex; gap:6px; padding:0 16px 10px 16px; flex:0 0 auto; }
+  .sheet-tab{ flex:1; background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim); border-radius:var(--r-chip); padding:11px 0; font-size:16px; font-weight:800; cursor:pointer; font-family:inherit; }
+  .sheet-tab.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .sheet-scroll{ flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:2px 16px 16px 16px; }
+  .sheet-foot{ flex:0 0 auto; display:flex; gap:8px; padding:10px 16px calc(12px + env(safe-area-inset-bottom)) 16px; border-top:1px solid var(--line); }
+  .sheet-foot .btn{ flex:1; padding:13px 8px; font-size:15px; }
+  .sheet-stats{ margin-bottom:12px; }
+
+  .up{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:14px 14px 12px 14px; margin-bottom:10px; }
+  .up.first{ border-color:var(--rest); box-shadow:0 0 0 1px var(--rest) inset; background:linear-gradient(180deg,#1E2A2A 0%,#1B2326 100%); }
+  .up-flag{ display:inline-block; font-size:12px; font-weight:800; letter-spacing:.1em; color:#fff; background:var(--rest); padding:4px 11px; border-radius:var(--r-chip); margin-bottom:8px; }
+  .up-order{ font-size:13px; font-weight:800; color:var(--text-dim); margin-bottom:4px; letter-spacing:.06em; }
+  .up-name{ font-size:21px; font-weight:800; line-height:1.25; margin-bottom:3px; }
+  .up-sets{ font-size:15px; color:var(--text-dim); margin-bottom:8px; line-height:1.35; }
+  .up-big{ font-size:24px; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; margin-bottom:8px; }
+  .up-dot{ color:var(--text-dim); }
+  .up-line{ font-size:16px; line-height:1.45; margin-bottom:3px; }
+  .up-line.dim{ font-size:15px; color:var(--text-dim); }
+  .up .config{ color:var(--text-dim); font-size:14px; }
+  .up-more{ background:none; border:none; color:var(--text); opacity:.85; text-decoration:underline; font-size:15px; padding:8px 0 2px 0; cursor:pointer; font-family:inherit; }
+  .up-details{ margin-top:6px; padding-top:8px; border-top:1px solid var(--line); }
+  .data-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:6px; }
+  .dg{ background:var(--bg); border-radius:12px; padding:11px 12px; display:flex; flex-direction:column; gap:3px; }
+  .dg.wide{ grid-column:1 / -1; }
+  .dg-l{ font-size:13px; color:var(--text-dim); font-weight:700; letter-spacing:.04em; }
+  .dg-v{ font-size:19px; font-weight:800; line-height:1.3; }
+  .done-row{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:9px; }
+  .done-top{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .done-name{ font-size:17px; font-weight:800; }
+  .done-badge{ font-size:13px; font-weight:800; color:var(--text-dim); background:var(--surface-2); padding:3px 10px; border-radius:var(--r-chip); white-space:nowrap; }
+  .done-badge.ok{ color:var(--good); background:rgba(111,169,122,0.18); }
+  .done-sets{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .done-set{ font-size:15px; background:var(--bg); padding:5px 10px; border-radius:var(--r-chip); }
+  .done-rpe{ font-size:14px; color:var(--warn); font-weight:700; margin-top:8px; }
+
+  .dialog-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.62); z-index:60; }
+  .dialog-card{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:calc(100% - 36px); max-width:420px; background:#1F2529; border:1px solid var(--line); border-radius:20px; padding:22px 20px 18px 20px; z-index:61; box-shadow:0 20px 50px rgba(0,0,0,0.6); }
+  .dialog-card h3{ margin:0 0 10px 0; font-size:22px; }
+  .dialog-card p{ margin:0 0 18px 0; font-size:16px; line-height:1.5; color:#C7CBCE; }
+  .dialog-actions{ display:flex; flex-direction:column; gap:10px; }
+  .dialog-actions .btn{ padding:15px; font-size:17px; }
 </style>
 </head>
 <body>
 <div id="app"></div>
+<div id="sheet"></div>
 
 <script>
 /* ============================== DEFAULT PROGRAM ============================== */
@@ -629,7 +699,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "2.1.0";
+const APP_VERSION = "2.2.0";
 const APP_BUILD_DATE = "2026-10-27";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -1139,7 +1209,10 @@ let state = {
   selectedCalendarDate: null,
   scheduleConfigs: {}, // keyed by programId: { mode, startWeekday, intervalDays }
   pendingDeleteId: null,
-  scheduleSectionOpen: false
+  scheduleSectionOpen: false,
+  settingsOpen:{},
+  sheetOpen:false, sheetTab:'next', sheetOpenEx:{}, stopDialog:false,
+  sessionLoaded:false
 };
 function getScheduleConfigFor(programId){
   if(!state.scheduleConfigs[programId]){
@@ -1165,7 +1238,7 @@ async function init(){
     state.activeSession = active;
     if(active.restEndAt){
       const remaining = Math.max(0, Math.round((active.restEndAt - Date.now())/1000));
-      state.view='session'; state.sessionSubview='rest';
+      state.view='session'; state.sessionSubview='rest'; state.sessionLoaded=true;
       state.restEndAt = active.restEndAt;
       state.restRemaining = remaining;
       state.restPaused = false;
@@ -1213,6 +1286,7 @@ function handleProgramUpload(input){
       const data = JSON.parse(e.target.result);
       const errors = validateProgram(data);
       if(errors.length){
+        state.settingsOpen.prog = true;
         state.programUploadError = 'El archivo no calza con el formato: ' + errors.slice(0,4).join('; ') + (errors.length>4?'; ...':'') + '. Revisa formato-programa.md.';
         render(); return;
       }
@@ -1225,6 +1299,7 @@ function handleProgramUpload(input){
       storeSet('master46_active_program_id', id);
       render();
     }catch(err){
+      state.settingsOpen.prog = true;
       state.programUploadError = 'No se pudo leer el archivo: no es un JSON válido.';
       render();
     }
@@ -1271,6 +1346,7 @@ function startSession(dayId){
     steps, currentStepIndex:0, logs:{}, startTime: Date.now()
   };
   state.sessionSubview='exec';
+  state.sessionLoaded = true; state.stopDialog=false; state.sheetOpen=false;
   state.confirmStartDay=null;
   resetStepUiFlags();
   loadDraftForCurrentStep();
@@ -1278,10 +1354,47 @@ function startSession(dayId){
   persistActiveSession();
   render();
 }
+function sessionElapsedSec(s){
+  const now = Date.now();
+  const stoppedFor = s.stoppedAt ? now - s.stoppedAt : 0;
+  return Math.max(0, Math.round((now - s.startTime - (s.pausedMs||0) - stoppedFor)/1000));
+}
 function resumeSession(){
   requestWakeLock();
+  const s = state.activeSession;
+  // Sesión viva en esta página (el usuario solo salió a otra pestaña): volver sin tocar los temporizadores.
+  if(s && state.sessionLoaded && !s.stoppedAt){
+    state.view='session'; backToExec(); return;
+  }
+  if(s && s.stoppedAt){ s.pausedMs = (s.pausedMs||0) + (Date.now()-s.stoppedAt); s.stoppedAt = null; }
   state.view='session'; state.sessionSubview='exec';
   loadDraftForCurrentStep();
+  if(s && s.resumePhase==='logging') state.setPhase='logging';
+  if(s) s.resumePhase = null;
+  state.sessionLoaded = true;
+  persistActiveSession();
+  render();
+}
+/* Detener: congela la sesión (series hechas, paso actual y tiempo) para continuar en otro momento. */
+function askStopSession(){ state.stopDialog = true; syncOverlay(true); }
+function cancelStop(){ state.stopDialog = false; syncOverlay(true); }
+function stopSession(){
+  const s = state.activeSession;
+  if(!s) return;
+  const wasLogging = state.sessionSubview==='exec' && state.setPhase==='logging';
+  const inRest = state.sessionSubview==='rest';
+  clearAnyRunningTimers();
+  releaseWakeLock();
+  state.autoMode = false;
+  s.restEndAt = null; state.restEndAt = null;
+  if(inRest && s.currentStepIndex < s.steps.length-1) s.currentStepIndex += 1; // el descanso ya terminó para efectos prácticos
+  s.resumePhase = wasLogging ? 'logging' : null;
+  s.stoppedAt = Date.now();
+  persistActiveSession();
+  state.stopDialog = false; state.sheetOpen = false;
+  state.sessionLoaded = false;
+  state.sessionSubview = 'exec';
+  state.view = 'home'; state.homeScreen = 'main';
   render();
 }
 function discardSession(){
@@ -1291,7 +1404,7 @@ function discardSession(){
   if(s && Object.keys(s.logs||{}).length>0){
     // some sets were actually done before abandoning — worth remembering on the calendar
     const {avgRpe, totalVolume} = sessionAggregates();
-    const durationSec = Math.round((Date.now()-s.startTime)/1000);
+    const durationSec = sessionElapsedSec(s);
     state.history.push({
       id: 'sess_'+Date.now(),
       date: new Date().toISOString(),
@@ -1307,6 +1420,7 @@ function discardSession(){
     storeSet('master46_history', state.history);
   }
   state.activeSession=null;
+  state.sessionLoaded=false; state.sheetOpen=false; state.stopDialog=false;
   storeDelete('master46_active_session');
   render();
 }
@@ -1667,7 +1781,7 @@ function finalizeSession(){
   clearAnyRunningTimers();
   const s = state.activeSession;
   const {avgRpe, totalVolume} = sessionAggregates();
-  const durationSec = Math.round((Date.now()-s.startTime)/1000);
+  const durationSec = sessionElapsedSec(s);
   const record = {
     id: 'sess_'+Date.now(),
     date: new Date().toISOString(),
@@ -1684,6 +1798,7 @@ function finalizeSession(){
   storeSet('master46_history', state.history);
   storeDelete('master46_active_session');
   state.activeSession=null;
+  state.sessionLoaded=false; state.sheetOpen=false; state.stopDialog=false;
   state.savedNotesDraft='';
   state.view='home';
   // volver al programa con el día recién hecho desplegado
@@ -1738,6 +1853,7 @@ function render(){
   else if(state.view==='settings') html = renderSettings();
   html += renderNav();
   app.innerHTML = html;
+  syncOverlay(false);
 }
 function renderNav(){
   return `<div class="navbar">
@@ -1751,7 +1867,11 @@ function goHome(){
   if(state.view==='home' && state.homeScreen==='program') state.homeScreen='main';
   state.view='home'; render();
 }
-function goSession(){ if(state.activeSession){ state.view='session'; render(); } }
+function goSession(){
+  if(!state.activeSession) return;
+  if(!state.sessionLoaded || state.activeSession.stoppedAt){ resumeSession(); return; }
+  state.view='session'; render();
+}
 function goProgress(){ state.view='progress'; render(); }
 function goSettings(){ state.view='settings'; render(); }
 
@@ -1766,7 +1886,7 @@ let touchStartX=null, touchStartY=null;
 function handleTouchStart(e){
   touchStartX = null; touchStartY = null;
   if(e.touches.length!==1) return;
-  if(e.target && e.target.closest && e.target.closest('[data-swipe]')) return;
+  if(e.target && e.target.closest && e.target.closest('[data-swipe],#sheet')) return;
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
 }
@@ -1958,8 +2078,8 @@ function renderDayCard(program, programId, d, sugg){
 function renderStartBar(program){
   if(state.activeSession){
     return `<div class="start-bar"><div class="start-bar-inner">
-      <span class="start-bar-text">Tienes una sesión en curso (${state.activeSession.dayLabel})</span>
-      <button class="sb-go" onclick="resumeSession()">Continuar ▶</button></div></div>`;
+      <span class="start-bar-text">Tienes una sesión ${state.activeSession.stoppedAt?'detenida':'en curso'} (${state.activeSession.dayLabel})</span>
+      <button class="sb-go" onclick="resumeSession()">${state.activeSession.stoppedAt?'Reanudar':'Continuar'} ▶</button></div></div>`;
   }
   const d = state.focusDayId ? getDay(program, state.focusDayId) : null;
   if(!d) return '';
@@ -1999,7 +2119,7 @@ function renderHome(){
   const nEx = program.days.reduce((a,d)=>a+d.exercises.length,0);
   const lastDate = programLastDate(state.activeProgramId);
   const resume = state.activeSession ? `<div class="resume-strip">
-      <button class="resume-main" onclick="resumeSession()"><span class="rs-label">SESIÓN EN CURSO</span><span class="rs-text">Continuar ${state.activeSession.dayLabel} · paso ${state.activeSession.currentStepIndex+1} de ${state.activeSession.steps.length} ▶</span></button>
+      <button class="resume-main" onclick="resumeSession()"><span class="rs-label">${state.activeSession.stoppedAt?'SESIÓN DETENIDA':'SESIÓN EN CURSO'}</span><span class="rs-text">${state.activeSession.stoppedAt?'Reanudar':'Continuar'} ${state.activeSession.dayLabel} · paso ${state.activeSession.currentStepIndex+1} de ${state.activeSession.steps.length} ▶</span></button>
       <button class="resume-discard" onclick="discardSession()">Descartar</button>
     </div>` : '';
   return `<div class="topbar"><h1>MÁSTER 46</h1>${soundToggleButton()}</div>
@@ -2110,6 +2230,224 @@ function onSwipeEnd(e){
 function onSwipeCancel(){
   if(!swipe) return;
   swipe = null; swipeReset(); swipeFlushRender();
+}
+
+/* ============================== PLAN DE LA SESIÓN (hoja inferior) ============================== */
+/* Vive fuera de #app para que el redibujado de cada segundo no reinicie su scroll.
+   Los temporizadores siguen corriendo mientras está abierta. */
+function shortTarget(e){
+  const secs = parseTargetSeconds(e.repsTarget);
+  if(secs!==null) return `${secs} s`;
+  if(isPerSide(e.repsTarget)) return e.repsTarget;
+  return `${e.repsTarget} reps`;
+}
+function loadText(e){ return e.carga>0 ? `${e.carga} ${e.unit||'kg'}` : (e.unit||'Peso corporal'); }
+function sessionTopActions(){
+  return `<div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="openSheet('next')">📋 Plan</button><button class="stop-btn" onclick="askStopSession()" aria-label="Detener sesión" title="Detener sesión">⏹</button></div>`;
+}
+function nextStrip(s){
+  const nxt = s.steps[s.currentStepIndex+1];
+  if(!nxt){
+    return `<button class="next-strip last" onclick="openSheet('next')"><span class="ns-label">ÚLTIMA SERIE</span><span class="ns-main">Después termina la sesión</span><span class="ns-go">›</span></button>`;
+  }
+  const ex = exByIdInSession(s, nxt.exerciseId);
+  const cur = currentStep();
+  const same = cur && cur.exerciseId===nxt.exerciseId;
+  return `<button class="next-strip" onclick="openSheet('next')">
+    <span class="ns-label">${same?'SIGUE (MISMO EJERCICIO)':'SIGUE'}</span>
+    <span class="ns-main">${ex.name}</span>
+    <span class="ns-sub">Serie ${nxt.setIndex} de ${nxt.totalSets} · ${shortTarget(ex)} · ${loadText(ex)}</span>
+    <span class="ns-go">›</span></button>`;
+}
+function openSheet(tab){ state.sheetOpen = true; if(tab) state.sheetTab = tab; syncOverlay(true); }
+function closeSheet(){ state.sheetOpen = false; state.stopDialog = false; syncOverlay(true); }
+function setSheetTab(t){ state.sheetTab = t; syncOverlay(true); }
+function toggleSheetEx(k){ if(state.sheetOpenEx[k]) delete state.sheetOpenEx[k]; else state.sheetOpenEx[k] = true; syncOverlay(true); }
+function sheetToSummary(){ state.sheetOpen = false; syncOverlay(true); viewSummary(); }
+
+function overlayVisible(){
+  return !!state.activeSession && state.view==='session' && ['exec','rest'].includes(state.sessionSubview);
+}
+let lastOverlaySig = '';
+function syncOverlay(force){
+  const root = document.getElementById('sheet');
+  if(!root) return;
+  const want = overlayVisible() && (state.sheetOpen || state.stopDialog);
+  if(!want){
+    if(state.sheetOpen || state.stopDialog){ state.sheetOpen = false; state.stopDialog = false; }
+    if(root.innerHTML) root.innerHTML = '';
+    lastOverlaySig = '';
+    return;
+  }
+  const s = state.activeSession;
+  const sig = [state.sheetOpen, state.sheetTab, state.stopDialog, s.currentStepIndex, Object.keys(s.logs).length, state.sessionSubview, state.setPhase, JSON.stringify(state.sheetOpenEx)].join('|');
+  if(!force && sig===lastOverlaySig){ updateSheetClock(); return; }
+  const old = root.querySelector('.sheet-scroll');
+  const top = old ? old.scrollTop : 0;
+  root.innerHTML = renderOverlay();
+  const sc = root.querySelector('.sheet-scroll');
+  if(sc) sc.scrollTop = top;
+  lastOverlaySig = sig;
+  updateSheetClock();
+}
+/* Reloj en vivo del encabezado: se actualiza por texto, sin reconstruir la hoja. */
+function updateSheetClock(){
+  const el = document.getElementById('sheetClock');
+  if(!el || !state.activeSession) return;
+  let txt = '';
+  const step = currentStep();
+  if(state.sessionSubview==='rest'){
+    txt = (state.restPaused?'⏸ Descanso en pausa ':'Descanso ')+fmtTime(state.restRemaining);
+  } else if(step && state.setPhase==='active'){
+    const ex = exByIdInSession(state.activeSession, step.exerciseId);
+    const ts = parseTargetSeconds(ex.repsTarget);
+    const body = ts!==null ? fmtTime(ts-state.setElapsed) : `${state.repCount} / ${state.draft.reps || ex.repsNum}`;
+    txt = (state.setPaused?'⏸ En pausa · ':'Serie en curso · ')+body;
+  } else if(state.setPhase==='logging'){ txt = 'Falta registrar cómo se sintió'; }
+  else { txt = 'Listo para iniciar la serie'; }
+  el.textContent = txt;
+}
+function pairNumbersOfSession(){
+  const m = {}; let c = 0;
+  state.activeSession.exercisesSnapshot.forEach(e=>{ if(e.pair && !(e.pair in m)){ m[e.pair]=c++; } });
+  return m;
+}
+function sheetDetails(ex, key){
+  const open = !!state.sheetOpenEx[key];
+  const has = ex.description || ex.note || ex.videoUrl || isPerSide(ex.repsTarget);
+  if(!has) return '';
+  return `<button class="up-more" onclick="toggleSheetEx('${key}')">${open?'Ocultar detalles ▴':'Más detalles ▾'}</button>
+    ${open ? `<div class="up-details">
+      ${ex.description? `<p class="exercise-description">${ex.description}</p>`:''}
+      ${isPerSide(ex.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>`:''}
+      ${ex.note? `<p class="exercise-note-inline">${ex.note}</p>`:''}
+      ${ex.videoUrl? `<a class="video-link" href="${ex.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>`:''}
+    </div>` : ''}`;
+}
+function upcomingGroups(){
+  const s = state.activeSession; const out = []; const seen = {};
+  for(let i=s.currentStepIndex+1;i<s.steps.length;i++){
+    const st = s.steps[i];
+    if(!seen[st.exerciseId]){ seen[st.exerciseId] = {id:st.exerciseId, sets:[]}; out.push(seen[st.exerciseId]); }
+    seen[st.exerciseId].sets.push(st.setIndex);
+  }
+  return out;
+}
+function renderSheetNext(){
+  const s = state.activeSession;
+  const groups = upcomingGroups();
+  if(groups.length===0) return `<div class="empty-state">No quedan más series: esta es la última.</div>`;
+  const pn = pairNumbersOfSession();
+  const cur = currentStep();
+  return groups.map((g,i)=>{
+    const ex = exByIdInSession(s, g.id);
+    const timed = parseTargetSeconds(ex.repsTarget)!==null;
+    const isCurrentEx = state.sessionSubview==='exec' && cur && cur.exerciseId===g.id;
+    const setsTxt = isCurrentEx
+      ? `Quedan ${g.sets.length} ${g.sets.length===1?'serie':'series'} de este ejercicio (${g.sets.join(', ')} de ${ex.series})`
+      : (g.sets.length===ex.series ? `${ex.series} series` : `Series ${g.sets.join(', ')} de ${ex.series}`);
+    const pc = ex.pair ? PAIR_COLORS[pn[ex.pair] % PAIR_COLORS.length] : null;
+    const partner = ex.pair ? s.exercisesSnapshot.find(o=>o.pair===ex.pair && o.id!==ex.id) : null;
+    return `<div class="up ${i===0?'first':''}">
+      ${i===0 ? `<div class="up-flag">${isCurrentEx?'SIGUE (MISMO EJERCICIO)':'SIGUE'}</div>` : `<div class="up-order">${i+1}º</div>`}
+      <div class="up-name">${ex.name}${ex.pair?` <span class="superserie-tag" style="color:${pc};border-color:${pc};">⚡ Superserie ${pn[ex.pair]+1}</span>`:''}</div>
+      <div class="up-sets">${setsTxt}</div>
+      <div class="up-big"><b>${shortTarget(ex)}</b><span class="up-dot">·</span><b>${loadText(ex)}</b></div>
+      <div class="up-line">🏋 ${ex.equipment||'Sin equipo'}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
+      <div class="up-line dim">Descanso ${ex.rest} s${ex.restLabel?' ('+ex.restLabel+')':''}${!timed && ex.tempoSeconds? ` · ritmo ${ex.tempoSeconds} s por repetición`:''}${partner? ` · sin pausa con ${partner.name}`:''}</div>
+      ${sheetDetails(ex, 'up:'+g.id)}
+    </div>`;
+  }).join('');
+}
+function renderSheetNow(){
+  const s = state.activeSession;
+  const inRest = state.sessionSubview==='rest';
+  const idx = inRest ? s.currentStepIndex+1 : s.currentStepIndex;
+  const st = s.steps[idx];
+  if(!st) return `<div class="empty-state">No hay una serie pendiente.</div>`;
+  const ex = exByIdInSession(s, st.exerciseId);
+  const timed = parseTargetSeconds(ex.repsTarget)!==null;
+  const live = !inRest;
+  const adjLoad = live && state.draft && state.draft.carga!==ex.carga;
+  const adjReps = live && state.draft && !timed && state.draft.reps!==ex.repsNum;
+  const loadTxt = adjLoad ? `${state.draft.carga>0? state.draft.carga+' '+(ex.unit||'kg') : (ex.unit||'Peso corporal')} (ajustada)` : loadText(ex);
+  const repsTxt = adjReps ? `${state.draft.reps} reps (ajustado)` : shortTarget(ex);
+  const partner = st.pairedWith;
+  const after = st.restAfter ? `Descanso ${st.restSeconds} s${st.restLabel?' ('+st.restLabel+')':''}` : `Sin descanso: sigue con ${st.pairedWith}`;
+  const tempo = (!timed && ex.tempoSeconds) ? `${live && state.setPhase==='active' ? state.currentTempo : (state.lastUsedTempo!=null && (ex.tempoMin==null||state.lastUsedTempo>=ex.tempoMin) && (ex.tempoMax==null||state.lastUsedTempo<=ex.tempoMax) ? state.lastUsedTempo : ex.tempoSeconds)} s por repetición` : '';
+  return `<div class="up first">
+      <div class="up-flag">${inRest?'SIGUIENTE SERIE':'SERIE ACTUAL'}</div>
+      <div class="up-name">${ex.name}</div>
+      <div class="up-sets">Serie ${st.setIndex} de ${st.totalSets}</div>
+      <div class="data-grid">
+        <div class="dg"><span class="dg-l">Repeticiones</span><span class="dg-v">${repsTxt}</span></div>
+        <div class="dg"><span class="dg-l">Carga</span><span class="dg-v">${loadTxt}</span></div>
+        <div class="dg wide"><span class="dg-l">Equipo</span><span class="dg-v">${ex.equipment||'Sin equipo'}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</span></div>
+        ${tempo? `<div class="dg"><span class="dg-l">Ritmo</span><span class="dg-v">${tempo}</span></div>`:''}
+        <div class="dg ${tempo?'':'wide'}"><span class="dg-l">Al terminar</span><span class="dg-v">${after}</span></div>
+      </div>
+      ${sheetDetails(ex, 'now:'+ex.id)}
+    </div>`;
+}
+function renderSheetDone(){
+  const s = state.activeSession;
+  const {avgRpe, totalVolume} = sessionAggregates();
+  const rows = s.exercisesSnapshot.map(ex=>{
+    const keys = Object.keys(s.logs).filter(k=>k.startsWith(ex.id+'-'))
+      .sort((a,b)=> parseInt(a.split('-').pop(),10) - parseInt(b.split('-').pop(),10));
+    if(!keys.length) return '';
+    const timed = parseTargetSeconds(ex.repsTarget)!==null;
+    const sets = keys.map(k=>s.logs[k]);
+    const rpe = sets.find(l=>l.rpe!==null && l.rpe!==undefined);
+    const done = keys.length>=ex.series;
+    return `<div class="done-row">
+      <div class="done-top"><span class="done-name">${ex.name}</span><span class="done-badge ${done?'ok':''}">${done?'✓ Completo':keys.length+' de '+ex.series}</span></div>
+      <div class="done-sets">${sets.map((l,i)=>`<span class="done-set">S${keys[i].split('-').pop()} · ${l.carga>0? l.carga+' '+(ex.unit||'kg')+' × ' : ''}${l.reps}${timed?' s':''}</span>`).join('')}</div>
+      ${rpe? `<div class="done-rpe">RPE ${rpe.rpe}</div>`:''}
+    </div>`;
+  }).join('');
+  return `<div class="stat-grid sheet-stats">
+      <div class="stat-box"><div class="num">${fmtTime(sessionElapsedSec(s))}</div><div class="lbl">tiempo</div></div>
+      <div class="stat-box"><div class="num">${totalVolume.toLocaleString('es-CL')}</div><div class="lbl">kg movidos</div></div>
+    </div>
+    ${rows || `<div class="empty-state">Aún no registras series en esta sesión.</div>`}`;
+}
+function renderOverlay(){
+  const s = state.activeSession;
+  let html = '';
+  if(state.sheetOpen){
+    const tab = state.sheetTab;
+    const body = tab==='now' ? renderSheetNow() : (tab==='done' ? renderSheetDone() : renderSheetNext());
+    const tabBtn = (k,l)=>`<button class="sheet-tab ${tab===k?'active':''}" onclick="setSheetTab('${k}')">${l}</button>`;
+    html += `<div class="sheet-backdrop" onclick="closeSheet()"></div>
+    <div class="sheet-panel" role="dialog" aria-label="Plan de la sesión">
+      <div class="sheet-grab"></div>
+      <div class="sheet-head">
+        <div class="sheet-title"><span>Plan · ${s.dayLabel}</span><span id="sheetClock" class="sheet-clock"></span></div>
+        <button class="sheet-close" onclick="closeSheet()" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="sheet-tabs">${tabBtn('next','Siguiente')}${tabBtn('now','Ahora')}${tabBtn('done','Hecho')}</div>
+      <div class="sheet-scroll">${body}</div>
+      <div class="sheet-foot">
+        <button class="btn secondary small" onclick="sheetToSummary()">📋 Resumen completo</button>
+        <button class="btn secondary small" onclick="askStopSession()">⏹ Detener sesión</button>
+      </div>
+    </div>`;
+  }
+  if(state.stopDialog){
+    const inActive = state.sessionSubview==='exec' && state.setPhase==='active';
+    const nextIdx = state.sessionSubview==='rest' ? s.currentStepIndex+2 : s.currentStepIndex+1;
+    html += `<div class="dialog-backdrop"></div>
+    <div class="dialog-card" role="alertdialog" aria-label="Detener sesión">
+      <h3>¿Detener la sesión?</h3>
+      <p>Se guardan las series que ya hiciste y el punto donde vas (paso ${Math.min(nextIdx, s.steps.length)} de ${s.steps.length}). Podrás reanudarla más tarde desde Inicio.${inActive? ' La serie en curso se repetirá desde el principio.':''}</p>
+      <div class="dialog-actions">
+        <button class="btn secondary" onclick="cancelStop()">Seguir entrenando</button>
+        <button class="btn" onclick="stopSession()">Detener y salir</button>
+      </div>
+    </div>`;
+  }
+  return html;
 }
 
 function renderExec(){
@@ -2227,7 +2565,7 @@ function renderExec(){
 
   return `<div class="topbar">
       <h1>${s.dayLabel}</h1>
-      <div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="viewSummary()">📋 Resumen</button></div>
+      ${sessionTopActions()}
     </div>
   <div class="screen">
     ${renderProgressScale(s)}
@@ -2240,6 +2578,7 @@ function renderExec(){
     <p class="exercise-target-line">${phraseRepsTarget(ex)}</p>
 
     ${mainBlock}
+    ${nextStrip(s)}
     ${navStrip}
 
     ${secondaryInfo}
@@ -2275,7 +2614,7 @@ function renderRest(){
   const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
   const nextCargaUnit = nextEx ? (nextEx.unit || 'kg') : '';
   const nextIsNewExercise = nextStep && nextStep.setIndex===1;
-  return `<div class="topbar"><h1>${s.dayLabel}</h1><div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="viewSummary()">📋 Resumen</button></div></div>
+  return `<div class="topbar"><h1>${s.dayLabel}</h1>${sessionTopActions()}</div>
   <div class="screen">
     ${renderProgressScale(s)}
     ${counterWrap(`<div class="rest-hero tappable ${state.restPaused?'paused':''}" onclick="heroTap(event)">
@@ -2381,7 +2720,7 @@ function jumpToExercise(exerciseId){
 function renderComplete(){
   const s = state.activeSession;
   const {avgRpe, totalVolume} = sessionAggregates();
-  const durationMin = Math.round((Date.now()-s.startTime)/60000);
+  const durationMin = Math.round(sessionElapsedSec(s)/60);
   return `<div class="topbar"><h1>${s.dayLabel} · Completada</h1></div>
   <div class="screen">
     <div class="hero"><p class="eyebrow">Sesión terminada</p><h2>Buen trabajo.</h2></div>
@@ -2468,6 +2807,18 @@ function forceUpdate(){
   const url = window.location.href.split('?')[0] + '?v=' + Date.now();
   window.location.href = url;
 }
+function toggleSettingsBlock(k){ state.settingsOpen[k] = !state.settingsOpen[k]; render(); }
+function accordion(key, num, title, summary, body){
+  const open = !!state.settingsOpen[key];
+  return `<div class="program-section acc ${open?'open':''}">
+    <button class="acc-head" onclick="toggleSettingsBlock('${key}')">
+      <span class="sect-num">${num}</span>
+      <span class="acc-title">${title}${summary? `<span class="acc-sum">${summary}</span>`:''}</span>
+      <span class="acc-chev">${open?'▴':'▾'}</span>
+    </button>
+    ${open? `<div class="acc-body">${body}</div>` : ''}
+  </div>`;
+}
 function renderSettings(){
   return `<div class="topbar"><h1>AJUSTES</h1></div>
   <div class="screen">
@@ -2481,25 +2832,21 @@ function renderSettings(){
     ${renderScheduleSection()}
     ${renderGeneratorPromptSection()}
 
-    <div class="export-section">
-      <div class="sect-label"><span class="sect-num">4</span>DESCARGAR AVANCES PARA CREAR SIGUIENTE SEMANA</div>
+    ${accordion('export', 4, 'DESCARGAR AVANCES PARA CREAR SIGUIENTE SEMANA', '', `
       <p class="export-help">Descarga o copia este archivo y pégalo en el chat con Claude para armar la semana siguiente con tus datos reales de carga, reps y RPE.</p>
       <div class="export-actions">
         <button class="btn secondary small" onclick="downloadHistory()">Descargar .json</button>
         <button class="btn secondary small" onclick="copyHistoryToClipboard()">Copiar</button>
       </div>
       ${state.exportCopied==='ok' ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
-      ${state.exportCopied==='error' ? `<div class="export-status error">No se pudo copiar. Prueba con "Descargar .json".</div>` : ''}
-    </div>
+      ${state.exportCopied==='error' ? `<div class="export-status error">No se pudo copiar. Prueba con "Descargar .json".</div>` : ''}`)}
   </div>`;
 }
 function renderSettingsProgramSection(){
   const ids = Object.keys(PROGRAMS);
   const options = ids.map(id=>`<option value="${id}" ${id===state.activeProgramId?'selected':''}>${PROGRAMS[id].label}</option>`).join('');
   const canDelete = state.activeProgramId !== 'default';
-  return `<div class="program-section">
-    <div class="sect-label"><span class="sect-num">1</span>PROGRAMA</div>
-    <div class="program-row">
+  const body = `<div class="program-row">
       <select onchange="switchProgram(this.value)">${options}</select>
       <label class="upload-label">Subir .json<input type="file" accept="application/json" onchange="handleProgramUpload(this)"/></label>
     </div>
@@ -2512,8 +2859,8 @@ function renderSettingsProgramSection(){
              <button class="btn small" style="background:var(--bad);" onclick="confirmDeleteProgram()">Sí, eliminar</button>
            </div>`
         : `<button class="explore-toggle" onclick="askDeleteProgram()">🗑 Eliminar este programa</button>`
-    ) : `<p class="export-help">El programa incorporado no se puede eliminar.</p>`}
-  </div>`;
+    ) : `<p class="export-help">El programa incorporado no se puede eliminar.</p>`}`;
+  return accordion('prog', 1, 'PROGRAMA', getActiveProgram().label, body);
 }
 function askDeleteProgram(){ state.pendingDeleteId = state.activeProgramId; render(); }
 function cancelDeleteProgram(){ state.pendingDeleteId = null; render(); }
@@ -2541,14 +2888,7 @@ function renderScheduleSection(){
   const cfg = getScheduleConfigFor(state.activeProgramId);
   const program = getActiveProgram();
   const open = state.scheduleSectionOpen;
-  return `<div class="program-section">
-    <div class="sect-label"><span class="sect-num">2</span>DISTRIBUCIÓN DE SESIONES</div>
-    <p class="sect-sub">${program.label}</p>
-    <button class="schedule-summary-toggle" onclick="toggleScheduleSection()">
-      <span>${scheduleSummaryText(cfg, program)}</span>
-      <span class="chev">${open?'▴ Ocultar':'▾ Cambiar'}</span>
-    </button>
-    ${open ? `<div class="schedule-options">
+  const body = `<div class="schedule-options" style="margin-top:0; padding-top:0; border-top:none;">
       <label class="radio-row"><input type="radio" name="schedmode" value="weekday" ${cfg.mode==='weekday'?'checked':''} onchange="setScheduleMode('weekday')"> Días fijos de la semana</label>
       ${cfg.mode==='weekday' ? `<div class="schedule-sub">
         <span>Empezar en:</span>
@@ -2564,8 +2904,8 @@ function renderScheduleSection(){
       </div>` : ''}
       <label class="radio-row"><input type="radio" name="schedmode" value="program" ${cfg.mode==='program'?'checked':''} onchange="setScheduleMode('program')"> Seguir recomendación del programa</label>
       ${cfg.mode==='program' ? `<div class="schedule-sub">${renderProgramRecommendationInfo(program)}</div>` : ''}
-    </div>` : ''}
-  </div>`;
+    </div>`;
+  return accordion('sched', 2, 'DISTRIBUCIÓN DE SESIONES', scheduleSummaryText(cfg, program), body);
 }
 function renderProgramRecommendationInfo(program){
   const rec = program.schedule;
@@ -2575,13 +2915,11 @@ function renderProgramRecommendationInfo(program){
   return '';
 }
 function renderGeneratorPromptSection(){
-  return `<div class="export-section">
-    <div class="sect-label"><span class="sect-num">3</span>GENERAR UN PROGRAMA NUEVO CON IA</div>
-    <p class="export-help">Copia este prompt y pégalo en una conversación nueva con Claude, ChatGPT o la IA que prefieras. Te va a hacer preguntas sobre tus objetivos, tu equipamiento y tu disponibilidad, y al final te entrega un archivo .json listo para subir aquí. No necesitas leer el prompt: solo cópialo y pégalo.</p>
+  const body = `<p class="export-help">Copia este prompt y pégalo en una conversación nueva con Claude, ChatGPT o la IA que prefieras. Te va a hacer preguntas sobre tus objetivos, tu equipamiento y tu disponibilidad, y al final te entrega un archivo .json listo para subir aquí. No necesitas leer el prompt: solo cópialo y pégalo.</p>
     <button class="btn secondary small" onclick="copyGeneratorPrompt()">📋 Copiar prompt</button>
     ${state.promptCopied===true ? `<div class="export-status ok">Copiado al portapapeles.</div>` : ''}
-    ${state.promptCopied==='error' ? `<div class="export-status error">No se pudo copiar automáticamente. Selecciona y copia el texto de abajo a mano.</div><textarea readonly rows="4" style="margin-top:10px; font-size:11px;" onclick="this.select()">${GENERATOR_PROMPT}</textarea>` : ''}
-  </div>`;
+    ${state.promptCopied==='error' ? `<div class="export-status error">No se pudo copiar automáticamente. Selecciona y copia el texto de abajo a mano.</div><textarea readonly rows="4" style="margin-top:10px; font-size:11px;" onclick="this.select()">${GENERATOR_PROMPT}</textarea>` : ''}`;
+  return accordion('gen', 3, 'GENERAR UN PROGRAMA NUEVO CON IA', '', body);
 }
 function handleHistoryImport(input){
   const file = input.files[0];
@@ -2676,6 +3014,8 @@ window.askDeleteProgram=askDeleteProgram; window.cancelDeleteProgram=cancelDelet
 window.copyGeneratorPrompt=copyGeneratorPrompt;
 window.deleteHistoryRecord=deleteHistoryRecord;
 window.openProgramScreen=openProgramScreen; window.toggleDay=toggleDay; window.toggleEx=toggleEx; window.askStart=askStart; window.cancelStart=cancelStart;
+window.openSheet=openSheet; window.closeSheet=closeSheet; window.setSheetTab=setSheetTab; window.toggleSheetEx=toggleSheetEx; window.sheetToSummary=sheetToSummary;
+window.askStopSession=askStopSession; window.cancelStop=cancelStop; window.stopSession=stopSession; window.toggleSettingsBlock=toggleSettingsBlock;
 window.heroTap=heroTap; window.swipeDirection=swipeDirection;
 window.toggleAutoMode=toggleAutoMode; window.toggleUnifiedPause=toggleUnifiedPause;
 
