@@ -652,6 +652,93 @@
   .dialog-card p{ margin:0 0 18px 0; font-size:16px; line-height:1.5; color:#C7CBCE; }
   .dialog-actions{ display:flex; flex-direction:column; gap:10px; }
   .dialog-actions .btn{ padding:15px; font-size:17px; }
+
+  /* =====================================================================
+     v2.3 · BOTÓN DE CONTEO ESTÁNDAR + BLOQUE INFORMATIVO NAVEGABLE
+     ===================================================================== */
+  .counter-hero{ position:relative; text-align:center; border-radius:22px; padding:20px 16px 14px 16px; min-height:318px; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#fff; margin:8px 0 6px 0; box-shadow:0 12px 30px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.16) inset; user-select:none; -webkit-user-select:none; }
+  .counter-hero.tappable{ cursor:pointer; }
+  .ch-work{ background:linear-gradient(160deg,#D4572F 0%,#A53A1F 100%); }
+  .ch-pair{ background:linear-gradient(160deg,#7A6BBD 0%,#5A4C92 100%); }
+  .ch-rest{ background:linear-gradient(160deg,#4A918A 0%,#2F6A63 100%); }
+  .counter-hero.paused{ background:var(--surface-2); border:2px dashed var(--text-dim); box-shadow:none; }
+  .ch-label{ font-size:16px; font-weight:800; letter-spacing:.08em; opacity:.95; margin-bottom:8px; line-height:1.3; }
+  .ch-big{ font-size:88px; font-weight:800; line-height:1; letter-spacing:-0.03em; font-variant-numeric:tabular-nums; max-width:100%; }
+  .ch-big.mid{ font-size:60px; letter-spacing:-0.02em; }
+  .ch-big.text{ font-size:32px; line-height:1.18; letter-spacing:-0.01em; }
+  .ch-big.warn{ color:var(--warn); }
+  .ch-detail{ font-size:19px; font-weight:700; margin-top:8px; opacity:.95; min-height:24px; }
+  .ch-aux{ min-height:70px; margin-top:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .ch-aux .tempo-row{ margin-top:0; }
+  .ch-hint{ font-size:15px; font-weight:700; opacity:.72; margin-top:4px; }
+  .counter-hero .beat-ring{ position:absolute; top:16px; right:18px; margin:0; }
+  .ch-under{ display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; margin:0 0 10px 0; min-height:30px; }
+  .ch-under .finish-early{ width:auto; display:inline-block; margin:0; }
+  .ch-under .adjust-toggle{ margin:0; font-size:16px; color:var(--text); opacity:.85; }
+  .exercise-equip{ font-size:15px; color:var(--text-dim); margin:0 0 6px 0; line-height:1.4; }
+  .exercise-equip .config{ font-size:14px; }
+
+  .info-block{ background:var(--card-bg); border:2px solid var(--line); border-radius:18px; margin:4px 0 16px 0; overflow:hidden; touch-action:pan-y; box-shadow:var(--shadow-card); }
+  .info-block.rel-next{ border-color:var(--rest); }
+  .info-block.rel-now{ border-color:var(--accent); }
+  .ib-nav{ display:flex; align-items:center; border-bottom:1px solid var(--line); background:rgba(255,255,255,0.035); }
+  .ib-arrow{ flex:0 0 56px; height:56px; background:none; border:none; color:#fff; opacity:.6; font-size:36px; line-height:1; cursor:pointer; font-family:inherit; padding:0; }
+  .ib-arrow:active{ opacity:1; background:rgba(255,255,255,0.1); }
+  .ib-arrow:disabled{ opacity:.12; cursor:default; }
+  .ib-head{ flex:1; text-align:center; display:flex; flex-direction:column; gap:2px; }
+  .ib-flag{ font-size:15px; font-weight:800; letter-spacing:.1em; }
+  .rel-next .ib-flag{ color:#6FC2B8; }
+  .rel-now .ib-flag{ color:var(--accent-hi); }
+  .rel-prev .ib-flag{ color:var(--text-dim); }
+  .ib-pos{ font-size:13px; color:var(--text-dim); }
+  .ib-body{ padding:14px 16px 16px 16px; }
+  .ib-name{ font-size:24px; font-weight:800; line-height:1.2; margin-bottom:4px; }
+  .ib-set{ font-size:16px; color:var(--text-dim); margin-bottom:10px; line-height:1.35; }
+  .ib-data{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+  .ib-chip{ background:var(--bg); border-radius:12px; padding:9px 13px; font-size:21px; font-weight:800; }
+  .ib-line{ font-size:16px; line-height:1.45; margin-bottom:4px; }
+  .ib-line.dim{ font-size:15px; color:var(--text-dim); }
+  .ib-line .config{ color:var(--text-dim); font-size:14px; }
+  .ib-logged{ font-size:15px; color:var(--good); font-weight:700; margin:8px 0 2px 0; line-height:1.5; }
+  .note-label{ display:block; font-size:14px; font-weight:700; color:var(--text-dim); margin:12px 0 6px 0; }
+  .note-label.big{ font-size:16px; color:var(--text); }
+  .note-field{ width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:12px; padding:11px 12px; font-family:inherit; font-size:16px; line-height:1.4; resize:vertical; }
+  .note-field:focus{ outline:2px solid var(--accent); outline-offset:0; }
+  .ib-jump{ display:block; width:100%; margin-top:14px; background:var(--rest); color:#fff; border:none; border-radius:14px; padding:15px; font-size:17px; font-weight:800; cursor:pointer; font-family:inherit; }
+  .ib-jump.confirm{ background:var(--bad); }
+  .ib-back{ display:block; width:100%; margin-top:10px; background:none; border:1px solid var(--line); color:var(--text); border-radius:14px; padding:12px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
+  .rpe-block{ margin:8px 0 12px 0; }
+  .rpe-block .rpe-title{ margin:6px 0 4px 0; }
+  .rpe-block .rpe-grid{ margin-top:14px; }
+  .done-note{ font-size:15px; color:var(--text); background:var(--bg); border-radius:10px; padding:9px 11px; margin-top:8px; line-height:1.4; }
+
+  /* Días del programa diferenciados por color */
+  .day-card{ border-left:8px solid var(--dc,#555); margin-bottom:18px; }
+  .day-head{ background:var(--dc-bg); }
+  .day-title{ color:var(--dc); }
+  .day-card.open{ border-color:var(--dc); box-shadow:0 0 0 2px var(--dc), var(--shadow-card); }
+  .day-body{ background:var(--dc-bg2); border-top:1px solid var(--dc); }
+  .link-btn{ display:block; margin-top:8px; background:none; border:none; color:var(--text); text-decoration:underline; font-size:15px; font-weight:700; padding:0; cursor:pointer; font-family:inherit; }
+
+  /* Historial y editor de sesiones */
+  .hist-block{ padding-bottom:10px; }
+  .hist-row{ width:100%; display:flex; align-items:center; gap:10px; text-align:left; background:var(--surface-2); border:1px solid var(--line); border-radius:14px; padding:13px 14px; margin-top:8px; color:var(--text); cursor:pointer; font-family:inherit; }
+  .hist-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+  .hist-title{ font-size:18px; font-weight:800; }
+  .hist-date{ font-size:14px; font-weight:700; color:var(--text-dim); margin-left:6px; }
+  .hist-sub{ font-size:14px; color:var(--text-dim); }
+  .hist-meta{ font-size:14px; color:var(--text-dim); }
+  .hist-side{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+  .hist-note{ font-size:18px; }
+  .hist-add{ font-size:13px; color:var(--text-dim); font-weight:700; }
+  .cal-edit{ margin-top:10px; }
+  .rec-head{ margin:2px 0 14px 0; }
+  .rec-saved{ font-size:14px; color:var(--good); font-weight:700; }
+  .rec-card{ background:var(--card-bg); border:1px solid var(--line); border-radius:var(--r-card); padding:16px; margin-bottom:14px; box-shadow:var(--shadow-card); }
+  .rec-ex{ padding:12px 0; border-top:1px solid var(--line); }
+  .rec-ex:first-of-type{ border-top:none; }
+  .rec-ex-name{ font-size:18px; font-weight:800; margin-bottom:6px; }
+  .rec-ex .note-field{ margin-top:8px; }
 </style>
 </head>
 <body>
@@ -699,8 +786,8 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "2.2.0";
-const APP_BUILD_DATE = "2026-10-27";
+const APP_VERSION = "2.3.0";
+const APP_BUILD_DATE = "2026-10-28";
 
 /* ============================== GENERATOR PROMPT ============================== */
 const GENERATOR_PROMPT = `Actúa como un entrenador experto en diseño de programas de fuerza, hipertrofia, movilidad y acondicionamiento físico. Tu tarea es diseñar para mí un programa de entrenamiento personalizado y entregarlo como un archivo JSON descargable, compatible con una app de seguimiento de entrenamientos.
@@ -1020,7 +1107,8 @@ function renderCalendar(){
             <span>RPE ${r.avgRpe?r.avgRpe.toFixed(1):'—'}</span>
             <span>${Math.round((r.durationSec||0)/60)} min</span>
           </div>
-          ${r.notes? `<p class="cal-detail-notes">"${r.notes}"</p>`:''}
+          ${r.notes? `<p class="cal-detail-notes">"${esc(r.notes)}"</p>`:''}
+          <button class="btn secondary small cal-edit" onclick="openRecordEditor('${r.id}')">✎ Ver y comentar</button>
         </div>`;
       }).join('');
     } else {
@@ -1212,7 +1300,9 @@ let state = {
   scheduleSectionOpen: false,
   settingsOpen:{},
   sheetOpen:false, sheetTab:'next', sheetOpenEx:{}, stopDialog:false,
-  sessionLoaded:false
+  sessionLoaded:false,
+  infoView:null, infoViewCur:null, infoDetails:{}, jumpConfirm:null,
+  editRecordId:null, historyShown:8
 };
 function getScheduleConfigFor(programId){
   if(!state.scheduleConfigs[programId]){
@@ -1343,16 +1433,25 @@ function startSession(dayId){
     dayLabel: dayData.label,
     daySubtitle: dayData.subtitle,
     exercisesSnapshot: exercises,
-    steps, currentStepIndex:0, logs:{}, startTime: Date.now()
+    steps, currentStepIndex:0, logs:{}, exNotes:{}, startTime: Date.now()
   };
   state.sessionSubview='exec';
   state.sessionLoaded = true; state.stopDialog=false; state.sheetOpen=false;
+  state.infoView=null; state.infoDetails={}; state.jumpConfirm=null;
   state.confirmStartDay=null;
   resetStepUiFlags();
   loadDraftForCurrentStep();
   state.view='session';
   persistActiveSession();
   render();
+}
+function buildExerciseNotes(s){
+  const out = {};
+  Object.keys(s.exNotes||{}).forEach(id=>{
+    const t = s.exNotes[id];
+    if(t && t.trim()){ const ex = exByIdInSession(s, id); out[id] = {name: ex? ex.name : id, text: t}; }
+  });
+  return out;
 }
 function sessionElapsedSec(s){
   const now = Date.now();
@@ -1414,6 +1513,7 @@ function discardSession(){
       dayLabel: s.dayLabel,
       avgRpe, totalVolume, durationSec,
       notes: '',
+      exerciseNotes: buildExerciseNotes(s),
       logs: s.logs,
       status: 'incomplete'
     });
@@ -1791,6 +1891,7 @@ function finalizeSession(){
     dayLabel: s.dayLabel,
     avgRpe, totalVolume, durationSec,
     notes: state.savedNotesDraft||'',
+    exerciseNotes: buildExerciseNotes(s),
     logs: s.logs,
     status: 'completed'
   };
@@ -1852,8 +1953,34 @@ function render(){
   else if(state.view==='progress') html = renderProgress();
   else if(state.view==='settings') html = renderSettings();
   html += renderNav();
-  app.innerHTML = html;
+  // Si se está escribiendo en un campo protegido (data-keep), se actualiza todo menos ese bloque,
+  // para que el conteo siga avanzando sin quitar el foco ni el teclado.
+  const ae = document.activeElement;
+  const keepEl = ae && ae.closest ? ae.closest('[data-keep]') : null;
+  if(!(keepEl && patchApp(app, html))) app.innerHTML = html;
   syncOverlay(false);
+}
+function patchApp(app, html){
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  const oldTop = [...app.children], newTop = [...tmp.children];
+  if(oldTop.length!==newTop.length) return false;
+  for(let i=0;i<oldTop.length;i++){
+    if(oldTop[i].className!==newTop[i].className) return false;
+    if(oldTop[i].classList.contains('screen') && oldTop[i].children.length!==newTop[i].children.length) return false;
+  }
+  for(let i=0;i<oldTop.length;i++){
+    const o = oldTop[i], n = newTop[i];
+    if(o.classList.contains('screen')){
+      const oc = [...o.children], nc = [...n.children];
+      for(let j=0;j<oc.length;j++){
+        const ok = oc[j].getAttribute('data-keep'), nk = nc[j].getAttribute('data-keep');
+        if(ok && ok===nk) continue;
+        oc[j].replaceWith(nc[j]);
+      }
+    } else { o.replaceWith(n); }
+  }
+  return true;
 }
 function renderNav(){
   return `<div class="navbar">
@@ -1872,7 +1999,7 @@ function goSession(){
   if(!state.sessionLoaded || state.activeSession.stoppedAt){ resumeSession(); return; }
   state.view='session'; render();
 }
-function goProgress(){ state.view='progress'; render(); }
+function goProgress(){ if(state.editRecordId) flushRecordSave(); state.editRecordId=null; state.view='progress'; render(); }
 function goSettings(){ state.view='settings'; render(); }
 
 /* ============================== SWIPE BETWEEN TABS ============================== */
@@ -2031,7 +2158,7 @@ function renderExerciseRow(day, e, n, rec, pairNums){
       ${partner? `<div class="pair-flag"><span class="pf-arrow">⚡</span><span class="pf-text">Superserie con <b>${partner.name}</b></span></div>`:''}
       ${isPerSide(e.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>`:''}
       ${e.note? `<p class="exercise-note-inline">${e.note}</p>`:''}
-      ${last? `<div class="pex-lastbox"><b>Última vez</b> (${fmtDate(rec.date)}): ${last}</div>`:''}
+      ${last? `<div class="pex-lastbox"><b>Última vez</b> (${fmtDate(rec.date)}): ${last}<button class="link-btn" onclick="openRecordEditor('${rec.id}')">Ver sesión y comentarios ›</button></div>`:''}
       ${e.videoUrl? `<a class="video-link" href="${e.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>`:''}
     </div>` : '';
   return `<button class="pex ${open?'open':''}" onclick="toggleEx('${day.id}','${e.id}')">
@@ -2044,7 +2171,10 @@ function renderExerciseRow(day, e, n, rec, pairNums){
       <span class="pex-chev">${open?'▴':'▾'}</span>
     </button>${detail}`;
 }
-function renderDayCard(program, programId, d, sugg){
+const DAY_COLORS = ['#E0643D','#4FB3A6','#9A8BE0','#E6B84F','#5B9BE0','#D077A8','#7FC48C'];
+function hexA(h, a){ const n = parseInt(h.slice(1),16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
+function renderDayCard(program, programId, d, sugg, di){
+  const dcol = DAY_COLORS[(di||0) % DAY_COLORS.length];
   const rec = lastRecordForDay(programId, d.id);
   const open = !!state.openDays[d.id];
   const totalSets = d.exercises.reduce((a,e)=>a+e.series,0);
@@ -2062,7 +2192,7 @@ function renderDayCard(program, programId, d, sugg){
       return header + renderExerciseRow(d, e, n, rec, pairNums);
     }).join('') + `</div>`;
   }
-  return `<div class="day-card ${open?'open':''}">
+  return `<div class="day-card ${open?'open':''}" style="--dc:${dcol}; --dc-bg:${hexA(dcol,0.17)}; --dc-bg2:${hexA(dcol,0.06)};">
     <button class="day-head" onclick="toggleDay('${d.id}')">
       <span class="day-head-main">
         <span class="day-title">${d.label}</span>
@@ -2105,7 +2235,7 @@ function renderProgramScreen(){
       <p class="prog-meta">${program.days.length} días · ${nEx} ejercicios</p>
       <p class="prog-hint">Abre un día para estudiarlo. El botón para iniciar aparece abajo cuando tienes un día desplegado.</p>
     </div>
-    ${program.days.map(d=>renderDayCard(program, id, d, sugg)).join('')}
+    ${program.days.map((d,i)=>renderDayCard(program, id, d, sugg, i)).join('')}
   </div>
   ${renderStartBar(program)}`;
 }
@@ -2150,35 +2280,19 @@ function renderSession(){
   return renderExec();
 }
 
-/* ---- Botón-contador: un solo elemento que se toca para pausar/reanudar,
-   tiene flechas discretas ‹ › en sus márgenes y se arrastra para retroceder/avanzar. ---- */
-function counterWrap(inner){
-  const s = state.activeSession;
-  const atStart = s.currentStepIndex<=0;
-  const atEnd = s.currentStepIndex>=s.steps.length-1;
-  return `<div class="counter-wrap" data-swipe="1">${inner}
-    <button class="edge-arrow left" aria-label="Paso anterior" onclick="event.stopPropagation(); stepBack()" ${atStart?'disabled':''}>‹</button>
-    <button class="edge-arrow right" aria-label="Paso siguiente" onclick="event.stopPropagation(); stepForward()" ${atEnd?'disabled':''}>›</button>
-  </div>`;
-}
-/* Botón grande de las fases ready/switch/transition. En modo automático, mientras corre la
-   cuenta atrás de 5s, el mismo botón muestra los segundos y al tocarlo pausa o reanuda. */
-function phaseButton(label, sub, fnName, autoVerb){
-  let main = label, click = fnName+'()', cls = '';
-  if(state.autoMode && state.autoAdvanceHandle){
-    main = `${autoVerb} ${state.autoAdvanceRemaining}s`; sub = 'Toca para pausar'; click = 'toggleUnifiedPause()';
-  } else if(state.autoMode && state.autoPausedManually){
-    main = '⏸ Pausado'; sub = 'Toca para reanudar'; click = 'toggleUnifiedPause()'; cls = 'paused';
-  }
-  return counterWrap(`<button class="start-btn confirm-btn ${cls}" onclick="${click}">
-      <div class="sb-label">${main}</div>${sub?`<div class="sb-sub">${sub}</div>`:''}
-    </button>`);
-}
+/* ---- Botón de conteo estándar: un solo tamaño y comportamiento en todas las fases.
+   Tocarlo inicia, pausa o reanuda según la fase. Toda la navegación entre ejercicios
+   vive en el bloque informativo y no altera el conteo en curso. ---- */
 function heroTap(e){
   if(Date.now() < swipeSuppressUntil) return;
   if(e && e.target && e.target.closest && e.target.closest('button,a')) return;
-  if(state.sessionSubview==='rest') toggleRestPause();
-  else if(state.setPhase==='active') toggleSetPause();
+  if(state.sessionSubview==='rest'){ toggleRestPause(); return; }
+  const ph = state.setPhase;
+  if(ph==='active'){ toggleSetPause(); return; }
+  if(state.autoMode && (state.autoAdvanceHandle || state.autoPausedManually)){ toggleUnifiedPause(); return; }
+  if(ph==='ready') beginSet();
+  else if(ph==='switch') continueToOtherSide();
+  else if(ph==='transition') continueTransition();
 }
 /* Gesto de arrastre horizontal sobre el botón-contador (pointer events: dedo o ratón). */
 const SWIPE_MIN_PX = 60;
@@ -2197,6 +2311,7 @@ function swipeFlushRender(){
 }
 function onSwipeDown(e){
   if(e.pointerType==='mouse' && e.button!==0) return;
+  if(e.target && e.target.closest && e.target.closest('textarea,input,select,a')){ swipe = null; return; }
   const t = e.target && e.target.closest ? e.target.closest('[data-swipe]') : null;
   swipe = t ? {x:e.clientX, y:e.clientY, moved:false} : null;
 }
@@ -2222,7 +2337,7 @@ function onSwipeEnd(e){
   if(dir){
     swipeSuppressUntil = Date.now() + 450;
     renderDeferred = false;
-    if(dir==='next') stepForward(); else stepBack();
+    infoNav(dir==='next' ? 1 : -1);
   } else {
     swipeFlushRender();
   }
@@ -2235,29 +2350,19 @@ function onSwipeCancel(){
 /* ============================== PLAN DE LA SESIÓN (hoja inferior) ============================== */
 /* Vive fuera de #app para que el redibujado de cada segundo no reinicie su scroll.
    Los temporizadores siguen corriendo mientras está abierta. */
-function shortTarget(e){
+function shortTarget(e, repsOverride){
   const secs = parseTargetSeconds(e.repsTarget);
-  if(secs!==null) return `${secs} s`;
-  if(isPerSide(e.repsTarget)) return e.repsTarget;
-  return `${e.repsTarget} reps`;
+  if(secs!==null) return `${secs} segs`;
+  if(isPerSide(e.repsTarget)){
+    const base = repsOverride!=null ? repsOverride : ((String(e.repsTarget).match(/\d+(?:\s*-\s*\d+)?/)||[e.repsTarget])[0]).replace(/\s/g,'');
+    return `${base} reps por lado`;
+  }
+  return `${repsOverride!=null? repsOverride : e.repsTarget} reps`;
 }
+function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function loadText(e){ return e.carga>0 ? `${e.carga} ${e.unit||'kg'}` : (e.unit||'Peso corporal'); }
 function sessionTopActions(){
   return `<div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="openSheet('next')">📋 Plan</button><button class="stop-btn" onclick="askStopSession()" aria-label="Detener sesión" title="Detener sesión">⏹</button></div>`;
-}
-function nextStrip(s){
-  const nxt = s.steps[s.currentStepIndex+1];
-  if(!nxt){
-    return `<button class="next-strip last" onclick="openSheet('next')"><span class="ns-label">ÚLTIMA SERIE</span><span class="ns-main">Después termina la sesión</span><span class="ns-go">›</span></button>`;
-  }
-  const ex = exByIdInSession(s, nxt.exerciseId);
-  const cur = currentStep();
-  const same = cur && cur.exerciseId===nxt.exerciseId;
-  return `<button class="next-strip" onclick="openSheet('next')">
-    <span class="ns-label">${same?'SIGUE (MISMO EJERCICIO)':'SIGUE'}</span>
-    <span class="ns-main">${ex.name}</span>
-    <span class="ns-sub">Serie ${nxt.setIndex} de ${nxt.totalSets} · ${shortTarget(ex)} · ${loadText(ex)}</span>
-    <span class="ns-go">›</span></button>`;
 }
 function openSheet(tab){ state.sheetOpen = true; if(tab) state.sheetTab = tab; syncOverlay(true); }
 function closeSheet(){ state.sheetOpen = false; state.stopDialog = false; syncOverlay(true); }
@@ -2404,6 +2509,7 @@ function renderSheetDone(){
       <div class="done-top"><span class="done-name">${ex.name}</span><span class="done-badge ${done?'ok':''}">${done?'✓ Completo':keys.length+' de '+ex.series}</span></div>
       <div class="done-sets">${sets.map((l,i)=>`<span class="done-set">S${keys[i].split('-').pop()} · ${l.carga>0? l.carga+' '+(ex.unit||'kg')+' × ' : ''}${l.reps}${timed?' s':''}</span>`).join('')}</div>
       ${rpe? `<div class="done-rpe">RPE ${rpe.rpe}</div>`:''}
+      ${(s.exNotes||{})[ex.id]? `<div class="done-note">💬 ${esc(s.exNotes[ex.id])}</div>`:''}
     </div>`;
   }).join('');
   return `<div class="stat-grid sheet-stats">
@@ -2450,15 +2556,139 @@ function renderOverlay(){
   return html;
 }
 
+/* ============================== BLOQUE INFORMATIVO NAVEGABLE ============================== */
+/* Muestra un ejercicio cualquiera de la sesión (por defecto el que sigue), con sus datos clave,
+   notas propias y flechas ‹ › (o arrastre) para recorrer los demás. Navegar aquí no toca el conteo. */
+let noteSaveTimer = null;
+function setExNote(exId, v){
+  const s = state.activeSession; if(!s) return;
+  s.exNotes = s.exNotes || {};
+  if(v && v.length) s.exNotes[exId] = v; else delete s.exNotes[exId];
+  clearTimeout(noteSaveTimer);
+  noteSaveTimer = setTimeout(persistActiveSession, 400);
+}
+function infoViewState(s){
+  const list = s.exercisesSnapshot, n = list.length;
+  const inRest = state.sessionSubview==='rest';
+  const nowStep = s.steps[inRest ? s.currentStepIndex+1 : s.currentStepIndex] || null;
+  const nowEx = nowStep ? list.findIndex(e=>e.id===nowStep.exerciseId) : n-1;
+  const curKey = nowStep ? nowStep.exerciseId : 'end';
+  const prep = inRest || state.setPhase==='ready';
+  const defIdx = prep ? nowEx : Math.min(n-1, nowEx+1);
+  let viewIdx;
+  if(state.infoView!=null && state.infoViewCur===curKey){
+    viewIdx = Math.max(0, Math.min(n-1, state.infoView));
+  } else {
+    viewIdx = defIdx;
+  }
+  let rel;
+  if(viewIdx===nowEx){
+    if(inRest) rel = {txt:'A CONTINUACIÓN', cls:'next'};
+    else if(state.setPhase==='ready' && nowStep && nowStep.setIndex===1) rel = {txt:'POR INICIAR', cls:'now'};
+    else rel = {txt:'EN EJECUCIÓN', cls:'now'};
+  } else if(viewIdx>nowEx){
+    rel = {txt: viewIdx===nowEx+1 ? 'A CONTINUACIÓN' : 'MÁS ADELANTE', cls:'next'};
+  } else {
+    rel = {txt:'ANTERIOR', cls:'prev'};
+  }
+  return {viewIdx, nowEx, nowStep, curKey, rel, n, defIdx};
+}
+function infoNav(delta){
+  const s = state.activeSession; if(!s) return;
+  const st = infoViewState(s);
+  const idx = Math.max(0, Math.min(st.n-1, st.viewIdx+delta));
+  if(idx===st.viewIdx) return;
+  state.infoView = idx; state.infoViewCur = st.curKey; state.jumpConfirm = null;
+  render();
+}
+function toggleInfoDetails(exId, open){ state.infoDetails[exId] = open; render(); }
+function infoJump(exId){
+  if(state.setPhase==='active' && state.sessionSubview==='exec' && state.jumpConfirm!==exId){
+    state.jumpConfirm = exId; render(); return;
+  }
+  state.jumpConfirm = null; state.infoView = null;
+  jumpToExercise(exId);
+}
+function renderInfoBlock(s){
+  const st = infoViewState(s);
+  const list = s.exercisesSnapshot;
+  const ex = list[st.viewIdx];
+  const pn = pairNumbersOfSession();
+  const isNow = !!st.nowStep && ex.id===st.nowStep.exerciseId;
+  const inExec = state.sessionSubview==='exec';
+  const live = isNow && inExec;
+  const timed = parseTargetSeconds(ex.repsTarget)!==null;
+  const detailsOpen = state.infoDetails[ex.id]!==undefined
+    ? state.infoDetails[ex.id]
+    : (inExec && state.setPhase==='ready' && isNow);
+  const noteInRpe = inExec && state.setPhase==='logging' && isNow;
+  const draftReps = (live && !timed && state.draft && state.draft.reps!==ex.repsNum) ? state.draft.reps : null;
+  const carga = (live && state.draft) ? state.draft.carga : ex.carga;
+  const loadStr = carga>0 ? `${carga} ${ex.unit||'kg'}` : (ex.unit||'Peso corporal');
+  const keys = Object.keys(s.logs).filter(k=>k.startsWith(ex.id+'-'))
+    .sort((a,b)=> parseInt(a.split('-').pop(),10) - parseInt(b.split('-').pop(),10));
+  const logged = keys.map(k=>{
+    const l = s.logs[k];
+    return `S${k.split('-').pop()} · ${l.carga>0? l.carga+' × ' : ''}${l.reps}${timed?' s':''}`;
+  }).join('   ');
+  const rpe = keys.map(k=>s.logs[k].rpe).find(v=>v!==null && v!==undefined);
+  const partner = ex.pair ? list.find(o=>o.pair===ex.pair && o.id!==ex.id) : null;
+  const pc = ex.pair ? PAIR_COLORS[pn[ex.pair] % PAIR_COLORS.length] : null;
+  const setLine = isNow ? `Serie ${st.nowStep.setIndex} de ${st.nowStep.totalSets}` : `${ex.series} series`;
+  const key = [st.viewIdx, st.nowEx, s.currentStepIndex, state.sessionSubview, state.setPhase, detailsOpen, noteInRpe, state.jumpConfirm===ex.id, keys.length].join('|');
+  const note = (s.exNotes||{})[ex.id] || '';
+  const jump = (!isNow)
+    ? `<button class="ib-jump ${state.jumpConfirm===ex.id?'confirm':''}" onclick="infoJump('${ex.id}')">${state.jumpConfirm===ex.id? 'Confirmar: se detiene el conteo actual' : 'Ir a este ejercicio ▶'}</button>`
+    : '';
+  const back = (st.viewIdx!==st.defIdx)
+    ? `<button class="ib-back" onclick="state.infoView=null; render();">↩ Volver a ${st.defIdx===st.nowEx?'este ejercicio':'A continuación'}</button>` : '';
+  return `<div id="infoSlot" class="info-block rel-${st.rel.cls}" data-keep="${key}" data-swipe="1">
+    <div class="ib-nav">
+      <button class="ib-arrow" onclick="infoNav(-1)" aria-label="Ejercicio anterior" ${st.viewIdx<=0?'disabled':''}>‹</button>
+      <div class="ib-head"><span class="ib-flag">${st.rel.txt}</span><span class="ib-pos">Ejercicio ${st.viewIdx+1} de ${st.n}</span></div>
+      <button class="ib-arrow" onclick="infoNav(1)" aria-label="Ejercicio siguiente" ${st.viewIdx>=st.n-1?'disabled':''}>›</button>
+    </div>
+    <div class="ib-body">
+      <div class="ib-name">${ex.name}${ex.pair? ` <span class="superserie-tag" style="color:${pc};border-color:${pc};">⚡ ${pn[ex.pair]+1}</span>`:''}</div>
+      <div class="ib-set">${setLine}${ex.sub? ' · '+ex.sub : ''}</div>
+      <div class="ib-data"><span class="ib-chip">${shortTarget(ex, draftReps)}</span><span class="ib-chip">${loadStr}</span></div>
+      <div class="ib-line">🏋 ${ex.equipment||'Sin equipo'}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
+      <div class="ib-line dim">Descanso ${ex.rest} s${!timed && ex.tempoSeconds? ` · ritmo ${ex.tempoSeconds} s`:''}${partner? ` · sin pausa con ${partner.name}`:''}</div>
+      ${logged? `<div class="ib-logged">✓ ${logged}${rpe!==undefined? ' · RPE '+rpe:''}</div>`:''}
+      ${(ex.description||ex.note||ex.videoUrl||isPerSide(ex.repsTarget)) ? `<button class="up-more" onclick="toggleInfoDetails('${ex.id}', ${!detailsOpen})">${detailsOpen?'Ocultar detalles ▴':'Más detalles ▾'}</button>` : ''}
+      ${detailsOpen ? `<div class="up-details">
+        ${ex.description? `<p class="exercise-description">${ex.description}</p>`:''}
+        ${isPerSide(ex.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>`:''}
+        ${ex.note? `<p class="exercise-note-inline">${ex.note}</p>`:''}
+        ${ex.videoUrl? `<a class="video-link" href="${ex.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>`:''}
+      </div>` : ''}
+      ${noteInRpe ? '' : `<label class="note-label" for="note-${ex.id}">Mis notas de este ejercicio</label>
+      <textarea id="note-${ex.id}" class="note-field" rows="2" placeholder="Anotar algo importante…" oninput="setExNote('${ex.id}', this.value)">${esc(note)}</textarea>`}
+      ${jump}${back}
+    </div>
+  </div>`;
+}
+function renderRpeBlock(s, step, ex){
+  const note = (s.exNotes||{})[ex.id] || '';
+  return `<div id="rpeSlot" class="rpe-block" data-keep="rpe-${s.currentStepIndex}">
+    <p class="rpe-title">¿Cómo se sintió la serie?</p>
+    <label class="note-label" for="rpe-note">Comentario (opcional): escríbelo antes de elegir</label>
+    <textarea id="rpe-note" class="note-field" rows="3" placeholder="Dolor, sensaciones, ajustes de técnica, cualquier observación…" oninput="setExNote('${ex.id}', this.value)">${esc(note)}</textarea>
+    <div class="rpe-grid">
+      ${RPE_OPTIONS.map(o=>`<button class="rpe-card" onclick="chooseRpe(${o.v})">${o.label}</button>`).join('')}
+    </div>
+  </div>`;
+}
+
 function renderExec(){
   const s = state.activeSession;
   const step = currentStep();
   const ex = exByIdInSession(s, step.exerciseId);
-  const exIndex = s.exercisesSnapshot.findIndex(e=>e.id===ex.id);
   const cargaUnit = ex.unit || 'kg';
   const cargaStep = ex.carga>0 && ex.carga<10 ? 0.5 : (ex.carga>=10?1.25:1);
   const targetSeconds = parseTargetSeconds(ex.repsTarget);
   const isNewExercise = step.setIndex===1;
+  const phase = state.setPhase;
 
   const adjustBlock = state.adjustOpen ? `
     <div class="adjust-panel">
@@ -2480,88 +2710,81 @@ function renderExec(){
       </div>
     </div>` : '';
 
-  let mainBlock = '';
-  if(state.setPhase==='ready'){
-    mainBlock = phaseButton(`Serie ${step.setIndex} de ${step.totalSets}`, '▶ Toca para iniciar', 'beginSet', 'Empieza en');
-  } else if(state.setPhase==='switch'){
-    mainBlock = `
-      <div class="active-hero switch-hero">
-        <div class="h-label">CAMBIA DE LADO</div>
-        <div class="h-count">✓ 1</div>
-        <div class="h-detail">Lado 1 listo. Reacomódate para el lado 2.</div>
-      </div>
-      ${phaseButton('Lado 2', '▶ Toca para continuar', 'continueToOtherSide', 'Continúa en')}`;
-  } else if(state.setPhase==='transition'){
-    const nextStep = s.steps[s.currentStepIndex+1];
-    const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
-    mainBlock = `
-      <div class="active-hero transition-hero">
-        <div class="h-label">SIGUE SIN DESCANSO</div>
-        <div class="h-detail" style="font-size:22px; margin-top:6px;">${nextEx? nextEx.name : ''}</div>
-      </div>
-      ${phaseButton('Continuar', '▶ Toca para seguir', 'continueTransition', 'Continúa en')}`;
-  } else if(state.setPhase==='active'){
-    const targetReps = state.draft.reps || ex.repsNum;
-    const sideLabel = state.sideIndex ? `LADO ${state.sideIndex}` : null;
-    let heroInner;
-    if(targetSeconds!==null){
-      heroInner = `<div class="h-count">${fmtTime(targetSeconds-state.setElapsed)}</div><div class="h-detail">Cuenta regresiva</div>`;
-    } else {
-      const outOfRange = (ex.tempoMin!==undefined && state.currentTempo<ex.tempoMin) || (ex.tempoMax!==undefined && state.currentTempo>ex.tempoMax);
-      let rangeLine = '';
-      if(ex.tempoMin!==undefined && ex.tempoMax!==undefined){
-        rangeLine = outOfRange
-          ? `<div class="tempo-warn">⚠ Fuera del rango recomendado (${ex.tempoMin}–${ex.tempoMax}s)</div>`
-          : `<div class="tempo-ok">Rango recomendado: ${ex.tempoMin}–${ex.tempoMax}s</div>`;
-      }
-      heroInner = `
-        <div class="beat-ring"></div>
-        <div class="h-count">${state.repCount} / ${targetReps}</div>
-        <div class="h-detail">${sideLabel ? sideLabel+' · Repetición' : 'Repetición'}</div>
-        <div class="tempo-row">
-          <button onclick="adjustTempo(-0.5)">−</button>
-          <span class="tempo-val">${state.currentTempo}s / rep</span>
-          <button onclick="adjustTempo(0.5)">+</button>
-        </div>
-        ${rangeLine}`;
-    }
-    mainBlock = `
-      ${counterWrap(`<div class="active-hero tappable ${state.setPaused?'paused':''}" onclick="heroTap(event)">
-        <div class="h-label">${state.setPaused? 'PAUSADO' : 'SERIE '+step.setIndex+' DE '+step.totalSets+(sideLabel?' · '+sideLabel:'')+' EN CURSO'}</div>
-        ${heroInner}
-        <div class="h-weight">${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}</div>
-        <div class="h-hint">${state.setPaused? 'Toca para reanudar' : 'Toca para pausar'}</div>
-      </div>`)}
-      <div class="active-controls">
-        <button class="finish-early" onclick="markSetDone()">Terminar ahora</button>
-      </div>`;
+  const sideLabel = state.sideIndex ? `LADO ${state.sideIndex}` : null;
+  const autoRunning = state.autoMode && !!state.autoAdvanceHandle;
+  const autoPaused = state.autoMode && state.autoPausedManually;
+  const tgtReps = state.draft.reps || ex.repsNum;
+  const setTxt = `SERIE ${step.setIndex} DE ${step.totalSets}`;
+  const autoTail = autoRunning ? ` · EN ${state.autoAdvanceRemaining} s` : '';
+  const autoHint = autoRunning ? 'Toca para pausar' : (autoPaused ? 'Toca para reanudar' : null);
+
+  let hero = '', under = '';
+  if(phase==='logging'){
+    hero = renderRpeBlock(s, step, ex);
   } else {
-    mainBlock = `
-      <div class="set-count">Serie ${step.setIndex} de ${step.totalSets} · lista</div>
-      <p class="rpe-title">¿Cómo se sintió la serie?</p>
-      <div class="rpe-grid">
-        ${RPE_OPTIONS.map(o=>`<button class="rpe-card" onclick="chooseRpe(${o.v})">${o.label}</button>`).join('')}
-      </div>`;
+    let cls = 'ch-work', label = '', big = '', bigCls = '', detail = '', aux = '', hint = '', paused = false;
+    if(phase==='ready'){
+      paused = autoPaused;
+      label = autoPaused ? 'PAUSADO' : setTxt + (autoRunning ? ` · EMPIEZA EN ${state.autoAdvanceRemaining} s` : '');
+      big = targetSeconds!==null ? fmtTime(targetSeconds) : `0 / ${tgtReps}`;
+      detail = targetSeconds!==null ? 'segundos' : (isPerSide(ex.repsTarget) ? 'repeticiones por lado' : 'repeticiones');
+      hint = autoHint || 'Toca para iniciar';
+      under = `<button class="adjust-toggle" onclick="toggleAdjust()">${state.adjustOpen?'Ocultar ajuste':'Ajustar carga o reps'}</button>`;
+    } else if(phase==='switch'){
+      cls = 'ch-pair'; paused = autoPaused;
+      label = autoPaused ? 'PAUSADO' : 'CAMBIO DE LADO' + autoTail;
+      big = 'Lado 2'; bigCls = 'mid';
+      detail = 'El lado 1 está listo';
+      hint = autoHint || 'Toca para continuar';
+    } else if(phase==='transition'){
+      cls = 'ch-pair'; paused = autoPaused;
+      const nextStep = s.steps[s.currentStepIndex+1];
+      const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
+      label = autoPaused ? 'PAUSADO' : 'SIN DESCANSO' + autoTail;
+      big = nextEx ? nextEx.name : ''; bigCls = 'text';
+      detail = 'Sigue la superserie';
+      hint = autoHint || 'Toca para continuar';
+    } else { // active
+      paused = state.setPaused;
+      label = (paused ? 'PAUSADO · ' : '') + setTxt + (sideLabel ? ' · '+sideLabel : '');
+      if(targetSeconds!==null){
+        big = fmtTime(targetSeconds-state.setElapsed);
+        detail = 'cuenta regresiva';
+      } else {
+        const outOfRange = (ex.tempoMin!==undefined && state.currentTempo<ex.tempoMin) || (ex.tempoMax!==undefined && state.currentTempo>ex.tempoMax);
+        let rangeLine = '';
+        if(ex.tempoMin!==undefined && ex.tempoMax!==undefined){
+          rangeLine = outOfRange
+            ? `<div class="tempo-warn">⚠ Fuera del rango (${ex.tempoMin}–${ex.tempoMax} s)</div>`
+            : `<div class="tempo-ok">Rango recomendado: ${ex.tempoMin}–${ex.tempoMax} s</div>`;
+        }
+        big = `${state.repCount} / ${tgtReps}`;
+        detail = isPerSide(ex.repsTarget) ? 'repeticiones por lado' : 'repeticiones';
+        aux = `<div class="tempo-row">
+            <button onclick="adjustTempo(-0.5)">−</button>
+            <span class="tempo-val">${state.currentTempo} s / rep</span>
+            <button onclick="adjustTempo(0.5)">+</button>
+          </div>${rangeLine}`;
+      }
+      hint = paused ? 'Toca para reanudar' : 'Toca para pausar';
+      under = `<button class="finish-early" onclick="markSetDone()">Terminar ahora</button>`;
+    }
+    hero = `<div class="counter-hero ${cls} ${paused?'paused':''} tappable" onclick="heroTap(event)">
+        ${phase==='active' && targetSeconds===null ? '<span class="beat-ring"></span>' : ''}
+        <div class="ch-label">${label}</div>
+        <div class="ch-big ${bigCls}">${big}</div>
+        <div class="ch-detail">${detail}</div>
+        <div class="ch-aux">${aux}</div>
+        <div class="ch-hint">${hint}</div>
+      </div>
+      <div class="ch-under">${under}</div>
+      ${phase==='ready' ? adjustBlock : ''}`;
   }
 
-  const navStrip = `<button class="auto-mode-toggle ${state.autoMode?'active':''}" onclick="toggleAutoMode()">${state.autoMode? '⏹ Salir del modo automático' : '▶▶ Modo automático'}</button>`;
-
-  // Preparación (fase 'ready'): momento de leer con calma, antes de que empiece el conteo.
-  // Una vez iniciada la serie, todo esto pasa a ser secundario y se oculta.
-  const isPrepPhase = state.setPhase==='ready';
-  const secondaryInfo = isPrepPhase ? `
-    ${step.pairedWith ? `<div class="pair-flag"><span class="pf-arrow">⚡</span><span class="pf-text">Superserie: sigue directo a <b>${step.pairedWith}</b></span></div>` : ''}
-    ${ex.sub? `<span class="exercise-tag">${ex.sub}</span>` : ''}
-    ${ex.description? `<p class="exercise-description">${ex.description}</p>` : ''}
-    <div class="equip-chip">🏋 ${ex.equipment? ex.equipment+' · ':''}${ex.carga>0? ex.carga+' '+cargaUnit : (ex.unit||'Peso corporal')}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
-    ${ex.videoUrl ? `<a class="video-link" href="${ex.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>` : ''}
-    ${ex.note ? `<p class="exercise-note-inline">${ex.note}</p>` : ''}
-    ${isPerSide(ex.repsTarget)? `<p class="side-note">↔ Un lado y luego el otro cuentan como UNA serie</p>` : ''}
-    <div>
-      <button class="adjust-toggle" onclick="toggleAdjust()">${state.adjustOpen?'Ocultar ajuste':'Ajustar carga o reps'}</button>
-    </div>
-    ${adjustBlock}
-  ` : '';
+  const curCarga = state.draft.carga;
+  const curLoad = curCarga>0 ? `${curCarga} ${cargaUnit}` : (ex.unit||'Peso corporal');
+  const curReps = (targetSeconds===null && state.draft.reps!==ex.repsNum) ? state.draft.reps : null;
+  const autoToggle = `<button class="auto-mode-toggle ${state.autoMode?'active':''}" onclick="toggleAutoMode()">${state.autoMode? '⏹ Salir del modo automático' : '▶▶ Modo automático'}</button>`;
 
   return `<div class="topbar">
       <h1>${s.dayLabel}</h1>
@@ -2575,13 +2798,12 @@ function renderExec(){
       <span class="block-tag ${blockTagClass(ex.block)}">${blockLabel(ex.block)}</span>
     </div>
     <h2 class="exercise-name">${ex.name}</h2>
-    <p class="exercise-target-line">${phraseRepsTarget(ex)}</p>
+    <p class="exercise-target-line">${shortTarget(ex, curReps)} · ${curLoad}</p>
+    <p class="exercise-equip">🏋 ${ex.equipment||'Sin equipo'}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</p>
 
-    ${mainBlock}
-    ${nextStrip(s)}
-    ${navStrip}
-
-    ${secondaryInfo}
+    ${hero}
+    ${autoToggle}
+    ${renderInfoBlock(s)}
   </div>`;
 }
 /* Always-visible, larger progress scale shared by exec/rest/summary screens. */
@@ -2611,33 +2833,22 @@ function renderRest(){
   const prevStep = s.steps[s.currentStepIndex];
   const warnState = state.restRemaining<=5;
   const nextStep = s.steps[s.currentStepIndex+1];
-  const nextEx = nextStep ? exByIdInSession(s, nextStep.exerciseId) : null;
-  const nextCargaUnit = nextEx ? (nextEx.unit || 'kg') : '';
-  const nextIsNewExercise = nextStep && nextStep.setIndex===1;
   return `<div class="topbar"><h1>${s.dayLabel}</h1>${sessionTopActions()}</div>
   <div class="screen">
     ${renderProgressScale(s)}
-    ${counterWrap(`<div class="rest-hero tappable ${state.restPaused?'paused':''}" onclick="heroTap(event)">
-      <div class="h-label">${state.restPaused?'DESCANSO · PAUSADO':'DESCANSO · '+prevStep.restLabel}</div>
-      <div class="h-timer ${warnState?'warn':''}">${fmtTime(state.restRemaining)}</div>
-      <div class="h-hint">${state.restPaused? 'Toca para reanudar' : 'Toca para pausar'}</div>
-    </div>`)}
-    <div class="rest-actions">
-      <button class="btn secondary small" onclick="adjustRest(-15)">−15s</button>
-      <button class="btn secondary small" onclick="adjustRest(15)">+15s</button>
+    <div class="counter-hero ch-rest ${state.restPaused?'paused':''} tappable" onclick="heroTap(event)">
+      <div class="ch-label">${state.restPaused?'DESCANSO · PAUSADO':'DESCANSO · '+prevStep.restLabel}</div>
+      <div class="ch-big ${warnState?'warn':''}">${fmtTime(state.restRemaining)}</div>
+      <div class="ch-detail">${nextStep? 'Sigue la serie '+nextStep.setIndex+' de '+nextStep.totalSets : ''}</div>
+      <div class="ch-aux"></div>
+      <div class="ch-hint">${state.restPaused? 'Toca para reanudar' : 'Toca para pausar'}</div>
     </div>
-    <button class="finish-early" onclick="skipRest()">Continuar ahora</button>
-
-    ${nextEx ? `<div class="next-up">
-      <div class="next-up-label">${nextIsNewExercise?'A CONTINUACIÓN — NUEVO EJERCICIO':'A CONTINUACIÓN'}</div>
-      <div class="next-up-name">${nextEx.name}</div>
-      ${nextEx.sub? `<span class="exercise-tag">${nextEx.sub}</span>`:''}
-      <p class="exercise-target-line">Serie ${nextStep.setIndex} de ${nextStep.totalSets} · Objetivo: ${phraseRepsTarget(nextEx)}</p>
-      ${nextEx.description? `<p class="exercise-description">${nextEx.description}</p>`:''}
-      <div class="equip-chip">🏋 ${nextEx.equipment? nextEx.equipment+' · ':''}${nextEx.carga>0? nextEx.carga+' '+nextCargaUnit : (nextEx.unit||'Peso corporal')}${nextEx.discConfig? ` <span class="config">(${nextEx.discConfig})</span>`:''}</div>
-      ${nextEx.videoUrl? `<a class="video-link" href="${nextEx.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>` : ''}
-      ${nextEx.note? `<p class="exercise-note-inline">${nextEx.note}</p>`:''}
-    </div>` : `<div class="next-up"><div class="next-up-label">ÚLTIMA SERIE</div><div class="next-up-name">Esta es la última serie de la sesión</div></div>`}
+    <div class="ch-under">
+      <button class="btn secondary small" onclick="adjustRest(-15)">−15 s</button>
+      <button class="btn secondary small" onclick="adjustRest(15)">+15 s</button>
+      <button class="finish-early" onclick="skipRest()">Continuar ahora</button>
+    </div>
+    ${renderInfoBlock(s)}
   </div>`;
 }
 
@@ -2736,7 +2947,107 @@ function renderComplete(){
   </div>`;
 }
 
+/* ============================== SESIONES REGISTRADAS: VER Y COMENTAR ============================== */
+function findRecord(id){ return state.history.find(r=>r.id===id); }
+let recSaveTimer = null;
+function flushRecordSave(){
+  if(recSaveTimer){ clearTimeout(recSaveTimer); recSaveTimer = null; }
+  storeSet('master46_history', state.history);
+  const el = document.getElementById('recSaved'); if(el) el.textContent = '✓ Cambios guardados';
+}
+function saveHistorySoon(){
+  clearTimeout(recSaveTimer);
+  recSaveTimer = setTimeout(flushRecordSave, 500);
+  const el = document.getElementById('recSaved'); if(el) el.textContent = 'Guardando…';
+}
+function setRecordNote(v){ const r = findRecord(state.editRecordId); if(!r) return; r.notes = v; saveHistorySoon(); }
+function setRecordExNote(exId, name, v){
+  const r = findRecord(state.editRecordId); if(!r) return;
+  r.exerciseNotes = r.exerciseNotes || {};
+  if(v && v.trim()) r.exerciseNotes[exId] = {name, text:v}; else delete r.exerciseNotes[exId];
+  saveHistorySoon();
+}
+function openRecordEditor(id){ state.editRecordId = id; state.view = 'progress'; render(); window.scrollTo(0,0); }
+function closeRecordEditor(){ flushRecordSave(); state.editRecordId = null; render(); }
+function recordExercises(r){
+  const map = {}, order = [];
+  Object.keys(r.logs||{}).forEach(k=>{
+    const i = k.lastIndexOf('-');
+    const exId = k.slice(0,i), set = parseInt(k.slice(i+1),10);
+    if(!map[exId]){ map[exId] = {id:exId, name:r.logs[k].name||exId, sets:[]}; order.push(exId); }
+    map[exId].sets.push({set, ...r.logs[k]});
+  });
+  order.forEach(id=>map[id].sets.sort((a,b)=>a.set-b.set));
+  Object.keys(r.exerciseNotes||{}).forEach(id=>{ if(!map[id]){ map[id] = {id, name:r.exerciseNotes[id].name||id, sets:[]}; order.push(id); } });
+  return order.map(id=>map[id]);
+}
+function renderRecordEditor(){
+  const r = findRecord(state.editRecordId);
+  if(!r){ state.editRecordId = null; return renderProgress(); }
+  const d = new Date(r.date);
+  const dateTxt = d.toLocaleDateString('es-CL',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  const exs = recordExercises(r);
+  const incomplete = r.status==='incomplete';
+  const rows = exs.map(e=>{
+    const note = (r.exerciseNotes && r.exerciseNotes[e.id]) ? r.exerciseNotes[e.id].text : '';
+    const rpe = e.sets.map(l=>l.rpe).find(v=>v!==null && v!==undefined);
+    return `<div class="rec-ex">
+      <div class="rec-ex-name">${esc(e.name)}</div>
+      <div class="done-sets">${e.sets.map(l=>`<span class="done-set">S${l.set} · ${l.carga>0? l.carga+' kg × ' : ''}${l.reps}</span>`).join('')}</div>
+      ${rpe!==undefined? `<div class="done-rpe">RPE ${rpe}</div>`:''}
+      <textarea class="note-field" rows="2" placeholder="Notas de este ejercicio…" data-ex="${esc(e.id)}" data-name="${esc(e.name)}" oninput="setRecordExNote(this.dataset.ex, this.dataset.name, this.value)">${esc(note)}</textarea>
+    </div>`;
+  }).join('');
+  return `<div class="topbar"><button class="back-btn" onclick="closeRecordEditor()">‹ Progreso</button><span id="recSaved" class="rec-saved">✓ Cambios guardados</span></div>
+  <div class="screen">
+    <div class="rec-head">
+      <span class="prog-status ${incomplete?'':'st-Realizado'}">${incomplete?'INCOMPLETA':'COMPLETADA'}</span>
+      <h2 class="prog-title">${esc(r.dayLabel||r.day)}</h2>
+      <p class="prog-meta">${dateTxt}</p>
+      <p class="prog-hint">${esc(r.programLabel||'')}</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="num">${Math.round((r.durationSec||0)/60)}</div><div class="lbl">minutos</div></div>
+      <div class="stat-box"><div class="num">${(r.totalVolume||0).toLocaleString('es-CL')}</div><div class="lbl">kg movidos</div></div>
+      <div class="stat-box"><div class="num">${r.avgRpe?r.avgRpe.toFixed(1):'—'}</div><div class="lbl">RPE promedio</div></div>
+      <div class="stat-box"><div class="num">${Object.keys(r.logs||{}).length}</div><div class="lbl">series</div></div>
+    </div>
+    <div class="rec-card">
+      <label class="note-label big" for="rec-notes">Comentario final de la sesión</label>
+      <textarea id="rec-notes" class="note-field" rows="4" placeholder="Cómo se sintió, qué ajustar la próxima vez…" oninput="setRecordNote(this.value)">${esc(r.notes||'')}</textarea>
+    </div>
+    <div class="rec-card">
+      <div class="note-label big">Notas por ejercicio</div>
+      ${rows || `<p class="export-help">Esta sesión no tiene series registradas.</p>`}
+    </div>
+  </div>`;
+}
+function renderHistoryList(){
+  const recs = [...state.history].reverse();
+  if(!recs.length) return '';
+  const shown = recs.slice(0, state.historyShown);
+  const more = recs.length > shown.length;
+  return `<div class="chart-block hist-block">
+    <div class="chart-title">Sesiones registradas</div>
+    <div class="chart-sub">Toca una sesión para ver el detalle y agregar comentarios</div>
+    ${shown.map(r=>{
+      const hasNotes = (r.notes && r.notes.trim()) || (r.exerciseNotes && Object.keys(r.exerciseNotes).length);
+      const inc = r.status==='incomplete';
+      return `<button class="hist-row" onclick="openRecordEditor('${r.id}')">
+        <span class="hist-main">
+          <span class="hist-title">${esc(r.dayLabel||r.day)} <span class="hist-date">${fmtDate(r.date)}</span></span>
+          <span class="hist-sub">${esc(r.programLabel||'')}</span>
+          <span class="hist-meta">${Math.round((r.durationSec||0)/60)} min · ${(r.totalVolume||0).toLocaleString('es-CL')} kg · RPE ${r.avgRpe?r.avgRpe.toFixed(1):'—'}</span>
+        </span>
+        <span class="hist-side"><span class="day-chip ${inc?'':'done'}">${inc?'Incompleta':'✓ Completa'}</span>${hasNotes?'<span class="hist-note">💬</span>':'<span class="hist-add">＋ nota</span>'}</span>
+      </button>`;
+    }).join('')}
+    ${more? `<button class="explore-toggle" onclick="state.historyShown+=10; render();">Ver más sesiones ▾</button>`:''}
+  </div>`;
+}
+
 function renderProgress(){
+  if(state.editRecordId) return renderRecordEditor();
   const h = state.history;
   if(h.length===0){
     return `<div class="topbar"><h1>PROGRESO</h1></div>
@@ -2775,6 +3086,8 @@ function renderProgress(){
       <div class="stat-box"><div class="num">${h.length}</div><div class="lbl">sesiones registradas</div></div>
       <div class="stat-box"><div class="num">${fmtDate(h[h.length-1].date)}</div><div class="lbl">última sesión</div></div>
     </div>
+
+    ${renderHistoryList()}
 
     <div class="chart-block">
       <div class="chart-title">Volumen total por sesión</div>
@@ -3016,6 +3329,8 @@ window.deleteHistoryRecord=deleteHistoryRecord;
 window.openProgramScreen=openProgramScreen; window.toggleDay=toggleDay; window.toggleEx=toggleEx; window.askStart=askStart; window.cancelStart=cancelStart;
 window.openSheet=openSheet; window.closeSheet=closeSheet; window.setSheetTab=setSheetTab; window.toggleSheetEx=toggleSheetEx; window.sheetToSummary=sheetToSummary;
 window.askStopSession=askStopSession; window.cancelStop=cancelStop; window.stopSession=stopSession; window.toggleSettingsBlock=toggleSettingsBlock;
+window.infoNav=infoNav; window.infoJump=infoJump; window.toggleInfoDetails=toggleInfoDetails; window.setExNote=setExNote;
+window.openRecordEditor=openRecordEditor; window.closeRecordEditor=closeRecordEditor; window.setRecordNote=setRecordNote; window.setRecordExNote=setRecordExNote;
 window.heroTap=heroTap; window.swipeDirection=swipeDirection;
 window.toggleAutoMode=toggleAutoMode; window.toggleUnifiedPause=toggleUnifiedPause;
 
