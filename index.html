@@ -739,6 +739,33 @@
   .rec-ex:first-of-type{ border-top:none; }
   .rec-ex-name{ font-size:18px; font-weight:800; margin-bottom:6px; }
   .rec-ex .note-field{ margin-top:8px; }
+
+  /* ---- v2.4: acciones estándar ---- */
+  .tb-actions{ display:flex; gap:6px; align-items:center; }
+  .tb-btn{ min-width:44px; height:40px; padding:0 12px; border-radius:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font-weight:700; font-size:14px; font-family:inherit; cursor:pointer; }
+  .tb-btn.auto.on{ background:var(--pair-dim); border-color:var(--pair); color:#fff; box-shadow:0 0 0 2px rgba(109,95,168,.35); }
+  .tb-btn.menu{ font-size:18px; padding:0 13px; }
+  .act-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:0 0 12px 0; }
+  .act-row.c2{ grid-template-columns:1fr 1fr; align-items:center; margin:2px 0 12px; }
+  .act-btn{ min-height:52px; padding:6px 4px; border-radius:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font-size:13px; font-weight:700; font-family:inherit; line-height:1.15; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; cursor:pointer; }
+  .act-btn .ai{ font-size:16px; line-height:1; opacity:.9; }
+  .act-btn.go{ background:var(--accent); border-color:var(--accent-hi); color:#fff; }
+  .act-btn.on{ border-color:var(--text-dim); background:var(--surface); }
+  .act-btn:disabled{ opacity:.32; cursor:default; }
+  .act-row.c2 .act-btn{ flex-direction:row; gap:8px; min-height:48px; font-size:14px; }
+  .act-note{ font-size:12px; color:var(--text-dim); line-height:1.3; padding:0 4px; }
+  .act-dock{ position:fixed; left:50%; transform:translateX(-50%); width:100%; max-width:480px; bottom:calc(66px + env(safe-area-inset-bottom)); padding:10px 18px 8px; z-index:30; background:linear-gradient(180deg,rgba(20,24,27,0) 0%, rgba(20,24,27,.96) 28%, #14181B 100%); }
+  .act-dock .act-row{ margin:0; }
+  .dock-spacer{ height:84px; flex-shrink:0; }
+  .menu-card{ max-height:86vh; overflow:auto; }
+  .menu-item{ display:flex; width:100%; gap:12px; align-items:center; text-align:left; background:var(--surface-2); border:1px solid var(--line); color:var(--text); border-radius:12px; padding:11px 12px; margin:0 0 8px; font-family:inherit; cursor:pointer; }
+  .menu-item .mi-i{ font-size:20px; width:28px; text-align:center; }
+  .menu-item .mi-t{ display:flex; flex-direction:column; gap:2px; }
+  .menu-item b{ font-size:15px; }
+  .menu-item small{ font-size:12px; color:var(--text-dim); }
+  .menu-item.danger b{ color:#E0807A; }
+  .menu-item:disabled{ opacity:.35; }
+  .menu-close{ width:100%; margin-top:2px; }
 </style>
 </head>
 <body>
@@ -786,7 +813,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "2.3.0";
+const APP_VERSION = "2.4.0";
 const APP_BUILD_DATE = "2026-10-28";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -1299,7 +1326,7 @@ let state = {
   pendingDeleteId: null,
   scheduleSectionOpen: false,
   settingsOpen:{},
-  sheetOpen:false, sheetTab:'next', sheetOpenEx:{}, stopDialog:false,
+  sheetOpen:false, sheetTab:'next', sheetOpenEx:{}, stopDialog:false, menuDialog:null,
   sessionLoaded:false,
   infoView:null, infoViewCur:null, infoDetails:{}, jumpConfirm:null,
   editRecordId:null, historyShown:8
@@ -1436,7 +1463,7 @@ function startSession(dayId){
     steps, currentStepIndex:0, logs:{}, exNotes:{}, startTime: Date.now()
   };
   state.sessionSubview='exec';
-  state.sessionLoaded = true; state.stopDialog=false; state.sheetOpen=false;
+  state.sessionLoaded = true; state.stopDialog=false; state.menuDialog=null; state.sheetOpen=false;
   state.infoView=null; state.infoDetails={}; state.jumpConfirm=null;
   state.confirmStartDay=null;
   resetStepUiFlags();
@@ -1475,8 +1502,8 @@ function resumeSession(){
   render();
 }
 /* Detener: congela la sesión (series hechas, paso actual y tiempo) para continuar en otro momento. */
-function askStopSession(){ state.stopDialog = true; syncOverlay(true); }
-function cancelStop(){ state.stopDialog = false; syncOverlay(true); }
+function askStopSession(){ state.stopDialog = true; state.menuDialog = null; syncOverlay(true); }
+function cancelStop(){ state.stopDialog = false; state.menuDialog=null; syncOverlay(true); }
 function stopSession(){
   const s = state.activeSession;
   if(!s) return;
@@ -1490,12 +1517,41 @@ function stopSession(){
   s.resumePhase = wasLogging ? 'logging' : null;
   s.stoppedAt = Date.now();
   persistActiveSession();
-  state.stopDialog = false; state.sheetOpen = false;
+  state.stopDialog = false; state.menuDialog=null; state.sheetOpen = false;
   state.sessionLoaded = false;
   state.sessionSubview = 'exec';
-  state.view = 'home'; state.homeScreen = 'main';
+  if(state.view==='session'){ state.homeScreen = 'main'; }
+  state.view = 'home';
   render();
 }
+function restartSession(){
+  const s = state.activeSession; if(!s) return;
+  clearAnyRunningTimers(); state.autoMode = false;
+  s.logs = {}; s.currentStepIndex = 0; s.startTime = Date.now(); s.pausedMs = 0; s.stoppedAt = null;
+  s.restEndAt = null; state.restEndAt = null; s.resumePhase = null;
+  state.sessionSubview = 'exec'; state.infoView = null; state.jumpConfirm = null;
+  resetStepUiFlags(); loadDraftForCurrentStep();
+  state.menuDialog = null; state.stopDialog = false; state.sheetOpen = false;
+  persistActiveSession(); render(); syncOverlay(true);
+}
+function finishNow(){
+  const s = state.activeSession; if(!s) return;
+  if(Object.keys(s.logs||{}).length===0){ discardFromMenu(); return; }
+  clearAnyRunningTimers(); state.autoMode = false;
+  s.restEndAt = null; state.restEndAt = null;
+  state.sessionSubview = 'complete';
+  state.menuDialog = null; state.stopDialog = false; state.sheetOpen = false;
+  render(); syncOverlay(true);
+}
+function discardFromMenu(){
+  state.menuDialog = null; state.stopDialog = false; state.sheetOpen = false;
+  state.view = 'home'; state.homeScreen = 'main';
+  discardSession(); syncOverlay(true);
+}
+function openMenu(){ state.menuDialog = 'menu'; syncOverlay(true); }
+function askMenu(kind){ state.menuDialog = kind; syncOverlay(true); }
+function closeMenu(){ state.menuDialog = null; state.stopDialog = false; syncOverlay(true); }
+function pauseFromMenu(){ state.menuDialog = null; toggleUnifiedPause(); syncOverlay(true); }
 function discardSession(){
   releaseWakeLock();
   clearAnyRunningTimers();
@@ -1520,7 +1576,7 @@ function discardSession(){
     storeSet('master46_history', state.history);
   }
   state.activeSession=null;
-  state.sessionLoaded=false; state.sheetOpen=false; state.stopDialog=false;
+  state.sessionLoaded=false; state.sheetOpen=false; state.stopDialog=false; state.menuDialog=null;
   storeDelete('master46_active_session');
   render();
 }
@@ -1899,7 +1955,7 @@ function finalizeSession(){
   storeSet('master46_history', state.history);
   storeDelete('master46_active_session');
   state.activeSession=null;
-  state.sessionLoaded=false; state.sheetOpen=false; state.stopDialog=false;
+  state.sessionLoaded=false; state.sheetOpen=false; state.stopDialog=false; state.menuDialog=null;
   state.savedNotesDraft='';
   state.view='home';
   // volver al programa con el día recién hecho desplegado
@@ -2173,6 +2229,20 @@ function renderExerciseRow(day, e, n, rec, pairNums){
 }
 const DAY_COLORS = ['#E0643D','#4FB3A6','#9A8BE0','#E6B84F','#5B9BE0','#D077A8','#7FC48C'];
 function hexA(h, a){ const n = parseInt(h.slice(1),16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
+function renderDayActions(d, programId){
+  const a = state.activeSession;
+  if(a){
+    if(a.day===d.id && a.programId===programId){
+      return `<div class="act-row c2"><button class="act-btn go" onclick="resumeSession()"><span class="ai">▶</span>${a.stoppedAt?'Reanudar sesión':'Ir a la sesión'}</button>
+        <button class="act-btn" ${a.stoppedAt?'disabled':''} onclick="stopSession()"><span class="ai">💤</span>Suspender</button></div>`;
+    }
+    return `<div class="act-row c2"><button class="act-btn go" disabled><span class="ai">▶</span>Ejecutar ahora</button><span class="act-note">Hay otra sesión abierta (${a.dayLabel}). Suspéndela o finalízala desde la pestaña Sesión.</span></div>`;
+  }
+  if(state.confirmStartDay===d.id){
+    return `<div class="act-row c2"><button class="act-btn" onclick="cancelStart()">Cancelar</button><button class="act-btn go" onclick="startSession('${d.id}')"><span class="ai">▶</span>Sí, iniciar</button></div>`;
+  }
+  return `<div class="act-row c2"><button class="act-btn go" onclick="askStart('${d.id}')"><span class="ai">▶</span>Ejecutar ahora</button><span class="act-note">${d.exercises.length} ejercicios · ${d.exercises.reduce((x,e)=>x+e.series,0)} series</span></div>`;
+}
 function renderDayCard(program, programId, d, sugg, di){
   const dcol = DAY_COLORS[(di||0) % DAY_COLORS.length];
   const rec = lastRecordForDay(programId, d.id);
@@ -2185,7 +2255,7 @@ function renderDayCard(program, programId, d, sugg, di){
   let body = '';
   if(open){
     let lastBlock = null, n = 0;
-    body = `<div class="day-body">` + d.exercises.map(e=>{
+    body = `<div class="day-body">` + renderDayActions(d, programId) + d.exercises.map(e=>{
       n++;
       let header = '';
       if(e.block!==lastBlock){ header = `<div class="explore-block-header ${blockTagClass(e.block)}">${blockLabel(e.block)}</div>`; lastBlock = e.block; }
@@ -2362,10 +2432,32 @@ function shortTarget(e, repsOverride){
 function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function loadText(e){ return e.carga>0 ? `${e.carga} ${e.unit||'kg'}` : (e.unit||'Peso corporal'); }
 function sessionTopActions(){
-  return `<div style="display:flex; gap:6px; align-items:center;">${soundToggleButton()}<button class="summary-link" onclick="openSheet('next')">📋 Plan</button><button class="stop-btn" onclick="askStopSession()" aria-label="Detener sesión" title="Detener sesión">⏹</button></div>`;
+  return `<div class="tb-actions">${soundToggleButton()}
+    <button class="tb-btn auto ${state.autoMode?'on':''}" onclick="toggleAutoMode()" aria-pressed="${state.autoMode}" title="Modo automático">${state.autoMode?'⏹':'▶▶'} Auto</button>
+    <button class="tb-btn menu" onclick="openMenu()" aria-label="Controles de la sesión" title="Detener, suspender, reiniciar o finalizar">☰</button></div>`;
+}
+/* Fila estándar de acciones: siempre 4 casillas en el mismo lugar; las que no aplican quedan atenuadas. */
+function renderActDock(){ return `<div class="act-dock">${renderActRow()}</div><div class="dock-spacer"></div>`; }
+function renderActRow(){
+  const rest = state.sessionSubview==='rest';
+  const ph = state.setPhase;
+  const canAdjust = !rest && ph==='ready';
+  const canRest = rest;
+  let goLabel = 'Continuar', goFn = null;
+  if(rest){ goLabel = 'Continuar ahora'; goFn = 'skipRest()'; }
+  else if(ph==='active'){ goLabel = 'Terminar ahora'; goFn = 'markSetDone()'; }
+  else if(ph==='switch'){ goLabel = 'Continuar ahora'; goFn = 'continueToOtherSide()'; }
+  else if(ph==='transition'){ goLabel = 'Continuar ahora'; goFn = 'continueTransition()'; }
+  else if(ph==='ready'){ goLabel = 'Iniciar ahora'; goFn = 'beginSet()'; }
+  return `<div class="act-row">
+    <button class="act-btn ${state.adjustOpen&&canAdjust?'on':''}" ${canAdjust?'':'disabled'} onclick="toggleAdjust()"><span class="ai">⚙</span>${state.adjustOpen&&canAdjust?'Cerrar':'Ajustar'}</button>
+    <button class="act-btn" ${canRest?'':'disabled'} onclick="adjustRest(-15)"><span class="ai">−</span>15 s</button>
+    <button class="act-btn" ${canRest?'':'disabled'} onclick="adjustRest(15)"><span class="ai">+</span>15 s</button>
+    <button class="act-btn go" ${goFn?'':'disabled'} ${goFn?`onclick="${goFn}"`:''}><span class="ai">▶</span>${goLabel}</button>
+  </div>`;
 }
 function openSheet(tab){ state.sheetOpen = true; if(tab) state.sheetTab = tab; syncOverlay(true); }
-function closeSheet(){ state.sheetOpen = false; state.stopDialog = false; syncOverlay(true); }
+function closeSheet(){ state.sheetOpen = false; state.stopDialog = false; state.menuDialog=null; syncOverlay(true); }
 function setSheetTab(t){ state.sheetTab = t; syncOverlay(true); }
 function toggleSheetEx(k){ if(state.sheetOpenEx[k]) delete state.sheetOpenEx[k]; else state.sheetOpenEx[k] = true; syncOverlay(true); }
 function sheetToSummary(){ state.sheetOpen = false; syncOverlay(true); viewSummary(); }
@@ -2377,15 +2469,15 @@ let lastOverlaySig = '';
 function syncOverlay(force){
   const root = document.getElementById('sheet');
   if(!root) return;
-  const want = overlayVisible() && (state.sheetOpen || state.stopDialog);
+  const want = overlayVisible() && (state.sheetOpen || state.stopDialog || state.menuDialog);
   if(!want){
-    if(state.sheetOpen || state.stopDialog){ state.sheetOpen = false; state.stopDialog = false; }
+    if(state.sheetOpen || state.stopDialog || state.menuDialog){ state.sheetOpen = false; state.stopDialog = false; state.menuDialog = null; }
     if(root.innerHTML) root.innerHTML = '';
     lastOverlaySig = '';
     return;
   }
   const s = state.activeSession;
-  const sig = [state.sheetOpen, state.sheetTab, state.stopDialog, s.currentStepIndex, Object.keys(s.logs).length, state.sessionSubview, state.setPhase, JSON.stringify(state.sheetOpenEx)].join('|');
+  const sig = [state.menuDialog, state.sheetOpen, state.sheetTab, state.stopDialog, s.currentStepIndex, Object.keys(s.logs).length, state.sessionSubview, state.setPhase, JSON.stringify(state.sheetOpenEx)].join('|');
   if(!force && sig===lastOverlaySig){ updateSheetClock(); return; }
   const old = root.querySelector('.sheet-scroll');
   const top = old ? old.scrollTop : 0;
@@ -2521,6 +2613,30 @@ function renderSheetDone(){
 function renderOverlay(){
   const s = state.activeSession;
   let html = '';
+  if(state.menuDialog){
+    const m = state.menuDialog;
+    const rest = state.sessionSubview==='rest';
+    const pausable = rest || state.setPhase==='active' || !!state.autoAdvanceHandle || !!state.autoPausedManually;
+    const isPaused = rest ? state.restPaused : (state.setPhase==='active' ? state.setPaused : !!state.autoPausedManually);
+    const hasLogs = Object.keys(s.logs||{}).length>0;
+    const confirm = (title, txt, okLabel, okFn)=>`<div class="dialog-backdrop" onclick="closeMenu()"></div>
+      <div class="dialog-card" role="alertdialog" aria-label="${title}"><h3>${title}</h3><p>${txt}</p>
+      <div class="dialog-actions"><button class="btn secondary" onclick="openMenu()">Volver</button><button class="btn" onclick="${okFn}">${okLabel}</button></div></div>`;
+    if(m==='restart') html += confirm('¿Reiniciar la sesión?','Se borran las series registradas en esta sesión y vuelves al primer ejercicio. Tus notas se conservan.','Reiniciar','restartSession()');
+    else if(m==='finish') html += confirm('¿Finalizar ahora?', hasLogs ? 'Se cierra la sesión con las series que ya hiciste y pasas a escribir los comentarios finales.' : 'Aún no hay series registradas, así que la sesión se descartará.','Finalizar','finishNow()');
+    else if(m==='discard') html += confirm('¿Descartar la sesión?', hasLogs ? 'Se abandona la sesión. Lo hecho queda en el calendario como sesión incompleta.' : 'Se abandona la sesión sin guardar nada.','Descartar','discardFromMenu()');
+    else html += `<div class="dialog-backdrop" onclick="closeMenu()"></div>
+      <div class="dialog-card menu-card" role="dialog" aria-label="Controles de la sesión">
+        <h3>${s.dayLabel}</h3>
+        <button class="menu-item" ${pausable?'':'disabled'} onclick="pauseFromMenu()"><span class="mi-i">${isPaused?'▶':'⏸'}</span><span class="mi-t"><b>${isPaused?'Reanudar conteo':'Pausar conteo'}</b><small>Detiene o reanuda el contador actual</small></span></button>
+        <button class="menu-item" onclick="askStopSession()"><span class="mi-i">💤</span><span class="mi-t"><b>Suspender y salir</b><small>Guarda el punto exacto; sigues después desde Inicio</small></span></button>
+        <button class="menu-item" onclick="askMenu('restart')"><span class="mi-i">↺</span><span class="mi-t"><b>Reiniciar sesión</b><small>Vuelve al primer ejercicio y borra las series</small></span></button>
+        <button class="menu-item" onclick="askMenu('finish')"><span class="mi-i">✔</span><span class="mi-t"><b>Finalizar ahora</b><small>Cierra con lo hecho y pasa a comentarios</small></span></button>
+        <button class="menu-item danger" onclick="askMenu('discard')"><span class="mi-i">🗑</span><span class="mi-t"><b>Descartar sesión</b><small>Abandonar sin terminar</small></span></button>
+        <button class="menu-item" onclick="state.menuDialog=null; openSheet('next')"><span class="mi-i">📋</span><span class="mi-t"><b>Plan y resumen completo</b><small>Todos los ejercicios de la sesión</small></span></button>
+        <button class="btn secondary menu-close" onclick="closeMenu()">Cerrar</button>
+      </div>`;
+  }
   if(state.sheetOpen){
     const tab = state.sheetTab;
     const body = tab==='now' ? renderSheetNow() : (tab==='done' ? renderSheetDone() : renderSheetNext());
@@ -2718,7 +2834,7 @@ function renderExec(){
   const autoTail = autoRunning ? ` · EN ${state.autoAdvanceRemaining} s` : '';
   const autoHint = autoRunning ? 'Toca para pausar' : (autoPaused ? 'Toca para reanudar' : null);
 
-  let hero = '', under = '';
+  let hero = '';
   if(phase==='logging'){
     hero = renderRpeBlock(s, step, ex);
   } else {
@@ -2729,7 +2845,6 @@ function renderExec(){
       big = targetSeconds!==null ? fmtTime(targetSeconds) : `0 / ${tgtReps}`;
       detail = targetSeconds!==null ? 'segundos' : (isPerSide(ex.repsTarget) ? 'repeticiones por lado' : 'repeticiones');
       hint = autoHint || 'Toca para iniciar';
-      under = `<button class="adjust-toggle" onclick="toggleAdjust()">${state.adjustOpen?'Ocultar ajuste':'Ajustar carga o reps'}</button>`;
     } else if(phase==='switch'){
       cls = 'ch-pair'; paused = autoPaused;
       label = autoPaused ? 'PAUSADO' : 'CAMBIO DE LADO' + autoTail;
@@ -2767,7 +2882,6 @@ function renderExec(){
           </div>${rangeLine}`;
       }
       hint = paused ? 'Toca para reanudar' : 'Toca para pausar';
-      under = `<button class="finish-early" onclick="markSetDone()">Terminar ahora</button>`;
     }
     hero = `<div class="counter-hero ${cls} ${paused?'paused':''} tappable" onclick="heroTap(event)">
         ${phase==='active' && targetSeconds===null ? '<span class="beat-ring"></span>' : ''}
@@ -2776,15 +2890,12 @@ function renderExec(){
         <div class="ch-detail">${detail}</div>
         <div class="ch-aux">${aux}</div>
         <div class="ch-hint">${hint}</div>
-      </div>
-      <div class="ch-under">${under}</div>
-      ${phase==='ready' ? adjustBlock : ''}`;
+      </div>`;
   }
 
   const curCarga = state.draft.carga;
   const curLoad = curCarga>0 ? `${curCarga} ${cargaUnit}` : (ex.unit||'Peso corporal');
   const curReps = (targetSeconds===null && state.draft.reps!==ex.repsNum) ? state.draft.reps : null;
-  const autoToggle = `<button class="auto-mode-toggle ${state.autoMode?'active':''}" onclick="toggleAutoMode()">${state.autoMode? '⏹ Salir del modo automático' : '▶▶ Modo automático'}</button>`;
 
   return `<div class="topbar">
       <h1>${s.dayLabel}</h1>
@@ -2802,8 +2913,9 @@ function renderExec(){
     <p class="exercise-equip">🏋 ${ex.equipment||'Sin equipo'}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</p>
 
     ${hero}
-    ${autoToggle}
+    ${phase==='ready' ? adjustBlock : ''}
     ${renderInfoBlock(s)}
+    ${renderActDock()}
   </div>`;
 }
 /* Always-visible, larger progress scale shared by exec/rest/summary screens. */
@@ -2843,12 +2955,8 @@ function renderRest(){
       <div class="ch-aux"></div>
       <div class="ch-hint">${state.restPaused? 'Toca para reanudar' : 'Toca para pausar'}</div>
     </div>
-    <div class="ch-under">
-      <button class="btn secondary small" onclick="adjustRest(-15)">−15 s</button>
-      <button class="btn secondary small" onclick="adjustRest(15)">+15 s</button>
-      <button class="finish-early" onclick="skipRest()">Continuar ahora</button>
-    </div>
     ${renderInfoBlock(s)}
+    ${renderActDock()}
   </div>`;
 }
 
@@ -3328,7 +3436,7 @@ window.copyGeneratorPrompt=copyGeneratorPrompt;
 window.deleteHistoryRecord=deleteHistoryRecord;
 window.openProgramScreen=openProgramScreen; window.toggleDay=toggleDay; window.toggleEx=toggleEx; window.askStart=askStart; window.cancelStart=cancelStart;
 window.openSheet=openSheet; window.closeSheet=closeSheet; window.setSheetTab=setSheetTab; window.toggleSheetEx=toggleSheetEx; window.sheetToSummary=sheetToSummary;
-window.askStopSession=askStopSession; window.cancelStop=cancelStop; window.stopSession=stopSession; window.toggleSettingsBlock=toggleSettingsBlock;
+window.openMenu=openMenu; window.askMenu=askMenu; window.closeMenu=closeMenu; window.pauseFromMenu=pauseFromMenu; window.restartSession=restartSession; window.finishNow=finishNow; window.discardFromMenu=discardFromMenu; window.askStopSession=askStopSession; window.cancelStop=cancelStop; window.stopSession=stopSession; window.toggleSettingsBlock=toggleSettingsBlock;
 window.infoNav=infoNav; window.infoJump=infoJump; window.toggleInfoDetails=toggleInfoDetails; window.setExNote=setExNote;
 window.openRecordEditor=openRecordEditor; window.closeRecordEditor=closeRecordEditor; window.setRecordNote=setRecordNote; window.setRecordExNote=setRecordExNote;
 window.heroTap=heroTap; window.swipeDirection=swipeDirection;
