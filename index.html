@@ -821,6 +821,8 @@
   .up-more{ font-size:15px; }
   .note-label{ font-size:14px; color:var(--text-dim); font-weight:700; }
 .pex-card .superserie-tag{ align-self:flex-start; }
+  .counter-hero{ -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; touch-action:manipulation; position:relative; }
+  .ch-auto{ position:absolute; top:12px; left:14px; font-size:11px; font-weight:800; letter-spacing:.1em; padding:3px 9px; border-radius:999px; background:rgba(255,255,255,.2); color:#fff; border:1px solid rgba(255,255,255,.35); }
 </style>
 </head>
 <body>
@@ -868,7 +870,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "2.5.0";
+const APP_VERSION = "2.6.0";
 const APP_BUILD_DATE = "2026-10-28";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -2411,6 +2413,34 @@ function heroTap(e){
   else if(ph==='switch') continueToOtherSide();
   else if(ph==='transition') continueTransition();
 }
+/* Toque sostenido sobre el contador: activa (o desactiva) el modo automático y arranca el conteo. */
+const HOLD_MS = 550;
+let holdTimer = null, holdStart = null;
+function longPressHero(){
+  swipeSuppressUntil = Date.now() + 600;
+  try{ if(navigator.vibrate) navigator.vibrate(45); }catch(e){}
+  if(state.autoMode){ toggleAutoMode(); return; }
+  state.autoMode = true;
+  if(state.sessionSubview==='rest'){ render(); return; }
+  const ph = state.setPhase;
+  if(ph==='ready') beginSet();
+  else if(ph==='switch') continueToOtherSide();
+  else if(ph==='transition') continueTransition();
+  else render();
+}
+function cancelHold(){ if(holdTimer){ clearTimeout(holdTimer); holdTimer = null; } holdStart = null; }
+document.addEventListener('pointerdown', e=>{
+  const h = e.target && e.target.closest ? e.target.closest('.counter-hero') : null;
+  cancelHold();
+  if(!h || e.target.closest('button,a')) return;
+  holdStart = {x:e.clientX, y:e.clientY};
+  holdTimer = setTimeout(()=>{ holdTimer = null; holdStart = null; longPressHero(); }, HOLD_MS);
+});
+document.addEventListener('pointermove', e=>{
+  if(holdStart && Math.hypot(e.clientX-holdStart.x, e.clientY-holdStart.y) > 14) cancelHold();
+});
+['pointerup','pointercancel'].forEach(t=>document.addEventListener(t, cancelHold));
+document.addEventListener('contextmenu', e=>{ if(e.target.closest && e.target.closest('.counter-hero')) e.preventDefault(); });
 /* Gesto de arrastre horizontal sobre el botón-contador (pointer events: dedo o ratón). */
 const SWIPE_MIN_PX = 60;
 let swipe = null, swipeSuppressUntil = 0, renderDeferred = false;
@@ -2480,7 +2510,6 @@ function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,
 function loadText(e){ return e.carga>0 ? `${e.carga} ${e.unit||'kg'}` : (e.unit||'Peso corporal'); }
 function sessionTopActions(){
   return `<div class="tb-actions">${soundToggleButton()}
-    <button class="tb-btn auto ${state.autoMode?'on':''}" onclick="toggleAutoMode()" aria-pressed="${state.autoMode}" title="Modo automático">${state.autoMode?'⏹':'▶▶'} Auto</button>
     <button class="tb-btn menu" onclick="openMenu()" aria-label="Controles de la sesión" title="Detener, suspender, reiniciar o finalizar">☰</button></div>`;
 }
 /* Fila estándar de acciones: siempre 4 casillas en el mismo lugar; las que no aplican quedan atenuadas. */
@@ -2877,7 +2906,7 @@ function renderExec(){
       label = autoPaused ? 'PAUSADO' : setTxt + (autoRunning ? ` · EMPIEZA EN ${state.autoAdvanceRemaining} s` : '');
       big = targetSeconds!==null ? fmtTime(targetSeconds) : `0 / ${tgtReps}`;
       detail = targetSeconds!==null ? 'segundos' : (isPerSide(ex.repsTarget) ? 'repeticiones por lado' : 'repeticiones');
-      hint = autoHint || 'Toca para iniciar';
+      hint = autoHint || 'Toca para iniciar · mantén para modo Auto';
     } else if(phase==='switch'){
       cls = 'ch-pair'; paused = autoPaused;
       label = autoPaused ? 'PAUSADO' : 'CAMBIO DE LADO' + autoTail;
@@ -2918,6 +2947,7 @@ function renderExec(){
     }
     hero = `<div class="counter-hero ${cls} ${paused?'paused':''} tappable" onclick="heroTap(event)">
         ${phase==='active' && targetSeconds===null ? '<span class="beat-ring"></span>' : ''}
+        ${state.autoMode? '<span class="ch-auto" title="Modo automático (mantén pulsado para salir)">AUTO</span>' : ''}
         <div class="ch-label">${label}</div>
         <div class="ch-big ${bigCls}">${big}</div>
         <div class="ch-detail">${detail}</div>
@@ -2981,6 +3011,7 @@ function renderRest(){
   <div class="screen">
     ${renderProgressScale(s)}
     <div class="counter-hero ch-rest ${state.restPaused?'paused':''} tappable" onclick="heroTap(event)">
+      ${state.autoMode? '<span class="ch-auto" title="Modo automático (mantén pulsado para salir)">AUTO</span>' : ''}
       <div class="ch-label">${state.restPaused?'DESCANSO · PAUSADO':'DESCANSO · '+prevStep.restLabel}</div>
       <div class="ch-big ${warnState?'warn':''}">${fmtTime(state.restRemaining)}</div>
       <div class="ch-detail">${nextStep? 'Sigue la serie '+nextStep.setIndex+' de '+nextStep.totalSets : ''}</div>
