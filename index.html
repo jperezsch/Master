@@ -766,6 +766,61 @@
   .menu-item.danger b{ color:#E0807A; }
   .menu-item:disabled{ opacity:.35; }
   .menu-close{ width:100%; margin-top:2px; }
+
+  /* ---- v2.5: legibilidad y diferenciación ---- */
+  :root{ --text-dim:#B3BABF; --line:#3A4247; }
+  body{ font-size:17px; line-height:1.45; }
+  .act-row{ grid-template-columns:1fr 1fr 2.2fr; }
+  .act-btn{ min-height:56px; font-size:14px; }
+  .act-btn.go{ font-size:16px; }
+  /* Inicio: ejercicios */
+  .day-body{ padding:6px 12px 14px; }
+  .pex-card{ --bc:var(--text-dim); background:var(--surface); border:1px solid var(--line); border-left:7px solid var(--bc); border-radius:14px; margin:12px 0 0; box-shadow:0 2px 8px rgba(0,0,0,.28); overflow:hidden; }
+  .pex-card.blkP{ --bc:var(--good); } .pex-card.blkA{ --bc:var(--accent-hi); } .pex-card.blkB{ --bc:#4FB3A6; } .pex-card.blkC{ --bc:var(--warn); }
+  .pex-card.open{ background:#232A2F; box-shadow:0 0 0 2px var(--bc), 0 6px 18px rgba(0,0,0,.4); }
+  .pex-card .pex{ background:none; border:none; margin:0; padding:14px 14px 14px 12px; border-radius:0; align-items:center; }
+  .pex-card .pex-num{ width:34px; height:34px; font-size:16px; background:var(--bc); color:#10181a; border-radius:10px; margin:0; }
+  .pex-card .pex-main{ gap:8px; }
+  .pex-card .pex-name{ font-size:19px; line-height:1.25; }
+  .pex-pills{ display:flex; flex-wrap:wrap; gap:6px; }
+  .pill{ font-size:14px; font-weight:700; color:var(--text); background:rgba(255,255,255,.07); border:1px solid var(--line); border-radius:999px; padding:3px 11px; }
+  .pill.strong{ background:rgba(255,255,255,.14); border-color:transparent; }
+  .pex-card .pex-last{ font-size:14px; }
+  .pex-card .pex-chev{ font-size:18px; align-self:center; }
+  .pex-card .pex-detail{ margin:0 12px 12px; padding:14px; background:rgba(0,0,0,.32); border:1px dashed var(--line); border-radius:12px; }
+  .pd-title{ font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
+  .explore-block-header{ font-size:14px; padding:16px 2px 6px; margin-top:8px; border-bottom:2px solid currentColor; }
+  /* Sesión: bloque informativo */
+  .ib-sub{ font-size:14px; color:var(--text-dim); margin:-4px 0 10px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; }
+  .ib-tiles{ display:grid; grid-template-columns:1fr 1.7fr; gap:10px; margin:6px 0 10px; }
+  .ib-tile{ background:rgba(255,255,255,.07); border-radius:14px; padding:10px 12px 12px; display:flex; flex-direction:column; gap:2px; }
+  .ib-tl{ font-size:12px; font-weight:800; letter-spacing:.08em; color:var(--text-dim); }
+  .ib-tv{ font-size:34px; font-weight:800; line-height:1.1; display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  .ib-tv small{ font-size:15px; font-weight:700; color:var(--text-dim); margin-left:3px; }
+  .ib-tv.rep{ justify-content:space-between; }
+  .ib-tvn{ flex:1; text-align:center; }
+  .ib-step{ width:38px; height:38px; flex:0 0 auto; border-radius:50%; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font-size:20px; font-weight:700; line-height:1; cursor:pointer; font-family:inherit; padding:0; }
+  .ib-step:active{ background:var(--accent); }
+  .ib-line.load{ display:flex; align-items:center; flex-wrap:wrap; gap:10px; font-size:16px; margin-bottom:6px; }
+  .ib-load{ font-weight:800; font-size:18px; }
+  .ib-steps{ display:inline-flex; gap:6px; }
+  .ib-steps .ib-step{ width:34px; height:34px; font-size:18px; }
+  .ib-eq{ color:var(--text-dim); font-size:15px; }
+
+  .ib-tv.base{ justify-content:flex-start; align-items:baseline; gap:6px; }
+  .ib-tu{ font-size:14px; font-weight:700; color:var(--text-dim); text-align:center; }
+  .ib-tile:not(.wide) .ib-tu{ text-align:left; }
+
+  .topbar h1{ font-size:22px; letter-spacing:.01em; color:var(--text); }
+  .ib-name{ margin-bottom:4px; }
+  .ib-sub{ margin:2px 0 10px; }
+  .ib-line.dim{ font-size:15px; }
+  .exercise-name{ letter-spacing:-.01em; }
+  .exercise-target-line{ font-size:19px; color:var(--text); font-weight:700; }
+  .info-block{ box-shadow:0 6px 20px rgba(0,0,0,.35); }
+  .up-more{ font-size:15px; }
+  .note-label{ font-size:14px; color:var(--text-dim); font-weight:700; }
+.pex-card .superserie-tag{ align-self:flex-start; }
 </style>
 </head>
 <body>
@@ -813,7 +868,7 @@ const DEFAULT_PROGRAM = {
 };
 let PROGRAMS = { default: DEFAULT_PROGRAM };
 const SET_EXEC_SECONDS = 30;
-const APP_VERSION = "2.4.0";
+const APP_VERSION = "2.5.0";
 const APP_BUILD_DATE = "2026-10-28";
 
 /* ============================== GENERATOR PROMPT ============================== */
@@ -2012,7 +2067,7 @@ function render(){
   // Si se está escribiendo en un campo protegido (data-keep), se actualiza todo menos ese bloque,
   // para que el conteo siga avanzando sin quitar el foco ni el teclado.
   const ae = document.activeElement;
-  const keepEl = ae && ae.closest ? ae.closest('[data-keep]') : null;
+  const keepEl = ae && ae.matches && ae.matches('textarea,input') && ae.closest ? ae.closest('[data-keep]') : null;
   if(!(keepEl && patchApp(app, html))) app.innerHTML = html;
   syncOverlay(false);
 }
@@ -2172,10 +2227,9 @@ function programLastDate(programId){
 function openProgramScreen(){ state.homeScreen='program'; render(); window.scrollTo(0,0); }
 function toggleDay(dayId){
   if(state.openDays[dayId]){
-    delete state.openDays[dayId];
-    if(state.focusDayId===dayId) state.focusDayId = Object.keys(state.openDays).pop() || null;
+    state.openDays = {}; state.openEx = {}; state.focusDayId = null;
   } else {
-    state.openDays[dayId] = true; state.focusDayId = dayId;
+    state.openDays = {[dayId]:true}; state.openEx = {}; state.focusDayId = dayId;
   }
   state.confirmStartDay = null;
   render();
@@ -2206,7 +2260,7 @@ function renderExerciseRow(day, e, n, rec, pairNums){
   const pc = e.pair ? PAIR_COLORS[pairNums[e.pair] % PAIR_COLORS.length] : null;
   const pairTag = e.pair ? `<span class="superserie-tag" style="color:${pc};border-color:${pc};">⚡ Superserie ${pairNums[e.pair]+1}</span>` : '';
   const partner = e.pair ? day.exercises.find(o=>o.pair===e.pair && o.id!==e.id) : null;
-  const detail = open ? `<div class="pex-detail">
+  const detail = open ? `<div class="pex-detail"><div class="pd-title">Detalles del ejercicio</div>
       ${e.sub? `<span class="exercise-tag">${e.sub}</span>`:''}
       ${e.description? `<p class="exercise-description">${e.description}</p>`:''}
       <div class="equip-chip">🏋 ${e.equipment? e.equipment+' · ':''}${e.carga>0? e.carga+' '+(e.unit||'kg') : (e.unit||'Peso corporal')}${e.discConfig? ` <span class="config">(${e.discConfig})</span>`:''}</div>
@@ -2217,32 +2271,25 @@ function renderExerciseRow(day, e, n, rec, pairNums){
       ${last? `<div class="pex-lastbox"><b>Última vez</b> (${fmtDate(rec.date)}): ${last}<button class="link-btn" onclick="openRecordEditor('${rec.id}')">Ver sesión y comentarios ›</button></div>`:''}
       ${e.videoUrl? `<a class="video-link" href="${e.videoUrl}" target="_blank" rel="noopener">▶ Ver técnica en video</a>`:''}
     </div>` : '';
-  return `<button class="pex ${open?'open':''}" onclick="toggleEx('${day.id}','${e.id}')">
+  const loadPill = e.carga>0 ? `${e.carga} ${e.unit||'kg'}` : '';
+  const eqTxt = e.equipment || '';
+  const bodyOnly = !loadPill && (!eqTxt || /peso corporal/i.test(eqTxt));
+  const pills = `<span class="pex-pills"><span class="pill strong">${e.series} × ${e.repsTarget}</span>${loadPill? `<span class="pill">${loadPill}</span>`:''}${bodyOnly? `<span class="pill">Peso corporal</span>` : (eqTxt && !/peso corporal/i.test(eqTxt)? `<span class="pill">${eqTxt}</span>`:'')}</span>`;
+  return `<div class="pex-card ${blockTagClass(e.block)} ${open?'open':''}">
+    <button class="pex ${open?'open':''}" onclick="toggleEx('${day.id}','${e.id}')">
       <span class="pex-num">${n}</span>
       <span class="pex-main">
-        <span class="pex-name">${e.name}${pairTag}</span>
-        <span class="pex-t">${e.series} × ${e.repsTarget}${e.carga>0?' · '+e.carga+' '+(e.unit||'kg'):''}${e.equipment?' · '+e.equipment:''}</span>
+        <span class="pex-name">${e.name}</span>
+        ${pairTag}
+        ${pills}
         ${last? `<span class="pex-last">✓ Última vez: ${last}</span>`:''}
       </span>
       <span class="pex-chev">${open?'▴':'▾'}</span>
-    </button>${detail}`;
+    </button>${detail}
+  </div>`;
 }
 const DAY_COLORS = ['#E0643D','#4FB3A6','#9A8BE0','#E6B84F','#5B9BE0','#D077A8','#7FC48C'];
 function hexA(h, a){ const n = parseInt(h.slice(1),16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
-function renderDayActions(d, programId){
-  const a = state.activeSession;
-  if(a){
-    if(a.day===d.id && a.programId===programId){
-      return `<div class="act-row c2"><button class="act-btn go" onclick="resumeSession()"><span class="ai">▶</span>${a.stoppedAt?'Reanudar sesión':'Ir a la sesión'}</button>
-        <button class="act-btn" ${a.stoppedAt?'disabled':''} onclick="stopSession()"><span class="ai">💤</span>Suspender</button></div>`;
-    }
-    return `<div class="act-row c2"><button class="act-btn go" disabled><span class="ai">▶</span>Ejecutar ahora</button><span class="act-note">Hay otra sesión abierta (${a.dayLabel}). Suspéndela o finalízala desde la pestaña Sesión.</span></div>`;
-  }
-  if(state.confirmStartDay===d.id){
-    return `<div class="act-row c2"><button class="act-btn" onclick="cancelStart()">Cancelar</button><button class="act-btn go" onclick="startSession('${d.id}')"><span class="ai">▶</span>Sí, iniciar</button></div>`;
-  }
-  return `<div class="act-row c2"><button class="act-btn go" onclick="askStart('${d.id}')"><span class="ai">▶</span>Ejecutar ahora</button><span class="act-note">${d.exercises.length} ejercicios · ${d.exercises.reduce((x,e)=>x+e.series,0)} series</span></div>`;
-}
 function renderDayCard(program, programId, d, sugg, di){
   const dcol = DAY_COLORS[(di||0) % DAY_COLORS.length];
   const rec = lastRecordForDay(programId, d.id);
@@ -2255,7 +2302,7 @@ function renderDayCard(program, programId, d, sugg, di){
   let body = '';
   if(open){
     let lastBlock = null, n = 0;
-    body = `<div class="day-body">` + renderDayActions(d, programId) + d.exercises.map(e=>{
+    body = `<div class="day-body">` + d.exercises.map(e=>{
       n++;
       let header = '';
       if(e.block!==lastBlock){ header = `<div class="explore-block-header ${blockTagClass(e.block)}">${blockLabel(e.block)}</div>`; lastBlock = e.block; }
@@ -2441,8 +2488,6 @@ function renderActDock(){ return `<div class="act-dock">${renderActRow()}</div><
 function renderActRow(){
   const rest = state.sessionSubview==='rest';
   const ph = state.setPhase;
-  const canAdjust = !rest && ph==='ready';
-  const canRest = rest;
   let goLabel = 'Continuar', goFn = null;
   if(rest){ goLabel = 'Continuar ahora'; goFn = 'skipRest()'; }
   else if(ph==='active'){ goLabel = 'Terminar ahora'; goFn = 'markSetDone()'; }
@@ -2450,9 +2495,8 @@ function renderActRow(){
   else if(ph==='transition'){ goLabel = 'Continuar ahora'; goFn = 'continueTransition()'; }
   else if(ph==='ready'){ goLabel = 'Iniciar ahora'; goFn = 'beginSet()'; }
   return `<div class="act-row">
-    <button class="act-btn ${state.adjustOpen&&canAdjust?'on':''}" ${canAdjust?'':'disabled'} onclick="toggleAdjust()"><span class="ai">⚙</span>${state.adjustOpen&&canAdjust?'Cerrar':'Ajustar'}</button>
-    <button class="act-btn" ${canRest?'':'disabled'} onclick="adjustRest(-15)"><span class="ai">−</span>15 s</button>
-    <button class="act-btn" ${canRest?'':'disabled'} onclick="adjustRest(15)"><span class="ai">+</span>15 s</button>
+    <button class="act-btn" ${rest?'':'disabled'} onclick="adjustRest(-15)"><span class="ai">−</span>15 s</button>
+    <button class="act-btn" ${rest?'':'disabled'} onclick="adjustRest(15)"><span class="ai">+</span>15 s</button>
     <button class="act-btn go" ${goFn?'':'disabled'} ${goFn?`onclick="${goFn}"`:''}><span class="ai">▶</span>${goLabel}</button>
   </div>`;
 }
@@ -2741,6 +2785,10 @@ function renderInfoBlock(s){
   const draftReps = (live && !timed && state.draft && state.draft.reps!==ex.repsNum) ? state.draft.reps : null;
   const carga = (live && state.draft) ? state.draft.carga : ex.carga;
   const loadStr = carga>0 ? `${carga} ${ex.unit||'kg'}` : (ex.unit||'Peso corporal');
+  const cargaStep = ex.carga>0 && ex.carga<10 ? 0.5 : (ex.carga>=10?1.25:1);
+  const eqRaw = ex.equipment||'';
+  const eqShow = eqRaw && !/peso corporal/i.test(eqRaw) && eqRaw.toLowerCase()!==loadStr.toLowerCase();
+  const step = (field, d, lbl)=>`<button class="ib-step" onclick="adjustDraft('${field}',${d})" aria-label="${lbl}">${d<0?'−':'+'}</button>`;
   const keys = Object.keys(s.logs).filter(k=>k.startsWith(ex.id+'-'))
     .sort((a,b)=> parseInt(a.split('-').pop(),10) - parseInt(b.split('-').pop(),10));
   const logged = keys.map(k=>{
@@ -2766,9 +2814,14 @@ function renderInfoBlock(s){
     </div>
     <div class="ib-body">
       <div class="ib-name">${ex.name}${ex.pair? ` <span class="superserie-tag" style="color:${pc};border-color:${pc};">⚡ ${pn[ex.pair]+1}</span>`:''}</div>
-      <div class="ib-set">${setLine}${ex.sub? ' · '+ex.sub : ''}</div>
-      <div class="ib-data"><span class="ib-chip">${shortTarget(ex, draftReps)}</span><span class="ib-chip">${loadStr}</span></div>
-      <div class="ib-line">🏋 ${ex.equipment||'Sin equipo'}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</div>
+      ${ex.sub? `<div class="ib-sub">${ex.sub}</div>`:''}
+      <div class="ib-tiles">
+        <div class="ib-tile"><span class="ib-tl">${isNow?'SERIE':'SERIES'}</span><span class="ib-tv base">${isNow? `${st.nowStep.setIndex}<small>de ${st.nowStep.totalSets}</small>` : ex.series}</span><span class="ib-tu">&nbsp;</span></div>
+        <div class="ib-tile wide"><span class="ib-tl">${timed?'TIEMPO':'REPETICIONES'}</span>
+          <span class="ib-tv rep">${live && !timed ? step('reps',-1,'Menos repeticiones') : ''}<span class="ib-tvn">${shortTarget(ex, draftReps).replace(/ reps?( por lado)?$/, '').replace(/ segs$/, '')}</span>${live && !timed ? step('reps',1,'Más repeticiones') : ''}</span>
+          <span class="ib-tu">${timed?'segundos':(isPerSide(ex.repsTarget)?'por lado':'\u00a0')}</span></div>
+      </div>
+      <div class="ib-line load"><span class="ib-load">${loadStr}</span>${live ? `<span class="ib-steps">${step('carga',-cargaStep,'Menos carga')}${step('carga',cargaStep,'Más carga')}</span>`:''}${eqShow? `<span class="ib-eq">· ${eqRaw}${ex.discConfig? ` (${ex.discConfig})`:''}</span>`:''}</div>
       <div class="ib-line dim">Descanso ${ex.rest} s${!timed && ex.tempoSeconds? ` · ritmo ${ex.tempoSeconds} s`:''}${partner? ` · sin pausa con ${partner.name}`:''}</div>
       ${logged? `<div class="ib-logged">✓ ${logged}${rpe!==undefined? ' · RPE '+rpe:''}</div>`:''}
       ${(ex.description||ex.note||ex.videoUrl||isPerSide(ex.repsTarget)) ? `<button class="up-more" onclick="toggleInfoDetails('${ex.id}', ${!detailsOpen})">${detailsOpen?'Ocultar detalles ▴':'Más detalles ▾'}</button>` : ''}
@@ -2805,26 +2858,6 @@ function renderExec(){
   const targetSeconds = parseTargetSeconds(ex.repsTarget);
   const isNewExercise = step.setIndex===1;
   const phase = state.setPhase;
-
-  const adjustBlock = state.adjustOpen ? `
-    <div class="adjust-panel">
-      <div class="field-block">
-        <div class="field-label">Carga (${cargaUnit})</div>
-        <div class="stepper">
-          <button onclick="adjustDraft('carga',-${cargaStep})">−</button>
-          <span class="val">${state.draft.carga}</span>
-          <button onclick="adjustDraft('carga',${cargaStep})">+</button>
-        </div>
-      </div>
-      <div class="field-block">
-        <div class="field-label">Reps</div>
-        <div class="stepper">
-          <button onclick="adjustDraft('reps',-1)">−</button>
-          <span class="val">${state.draft.reps}</span>
-          <button onclick="adjustDraft('reps',1)">+</button>
-        </div>
-      </div>
-    </div>` : '';
 
   const sideLabel = state.sideIndex ? `LADO ${state.sideIndex}` : null;
   const autoRunning = state.autoMode && !!state.autoAdvanceHandle;
@@ -2910,10 +2943,9 @@ function renderExec(){
     </div>
     <h2 class="exercise-name">${ex.name}</h2>
     <p class="exercise-target-line">${shortTarget(ex, curReps)} · ${curLoad}</p>
-    <p class="exercise-equip">🏋 ${ex.equipment||'Sin equipo'}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</p>
+    ${(()=>{ const eq = ex.equipment||''; const dup = !eq || /peso corporal/i.test(eq) || eq.toLowerCase()===curLoad.toLowerCase(); return dup? '' : `<p class="exercise-equip">🏋 ${eq}${ex.discConfig? ` <span class="config">(${ex.discConfig})</span>`:''}</p>`; })()}
 
     ${hero}
-    ${phase==='ready' ? adjustBlock : ''}
     ${renderInfoBlock(s)}
     ${renderActDock()}
   </div>`;
